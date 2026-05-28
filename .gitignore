@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+.python-version
+
+# Project artifacts
+downloads/
+state/
+logs/
+*.log
+
+# HAR files (can contain sensitive headers / signatures)
+discovery/*.har
+discovery/har-summary.json
+har-summary.json
+
+# Auth / session cookies
+.auth/
+
+# Local Claude Code settings
+.claude/
+
+# Browser profile (if we ever fall back to dedicated profile)
+.browser-profile/
+
+# IDE
+.vscode/
+.idea/
+*.swp

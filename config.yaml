@@ -1,0 +1,86 @@
+# clear-ola configuration.
+# Edit this file to point at your Clear workspace and the PANs/FYs you want to download.
+# Secrets (cookies) come from your manual Cookie-Editor export, never from this file.
+
+# Your Clear workspace UUID. Found in the URL after login:
+#   https://app.clear.in/?workspaceId=<THIS_UUID>
+workspace_id: "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+
+# Chrome profile (kept for reference; the script reads cookies from
+# .auth/clear-cookies.json by default).
+chrome_profile: "Profile 10"
+
+# Polite delays between API calls / between polls. Tweak if Clear complains.
+poll_seconds_pull: 10            # poll cadence for pull/v3/status
+poll_seconds_export: 5           # poll cadence for export/download/<id>
+poll_timeout_pull_seconds: 1800  # 30 min max per pull (fresh data prep)
+poll_timeout_export_seconds: 900 # 15 min max per export (Excel generation)
+inter_call_delay_seconds: 1.0    # short pause between sequential calls
+
+# Which reports to download. v1 supports only "GSTR-2A".
+reports:
+  - "GSTR-2A"
+
+# ---- Global FYs ----
+# Applied to EVERY PAN below unless that PAN has its own `fys:` override.
+# Late-registered GSTINs / FYs where a PAN didn't yet exist are handled
+# automatically: Clear returns NOT_APPLICABLE for those, we skip them, and
+# the combo is recorded in the manifest as `no_data` (not a failure).
+fys:
+  - "2017-18"
+  - "2018-19"
+  - "2019-20"
+  - "2020-21"
+  - "2021-22"
+  - "2022-23"
+  - "2023-24"
+  - "2024-25"
+  - "2025-26"
+  - "2026-27"  # current FY — automatically truncated to today's month at runtime
+
+# ---- PANs to process ----
+# Just list the PAN. `business_name` is optional — if you omit it, the script
+# fills it in from Clear's user_gstins API at the start of every run. If you
+# provide one and it doesn't match Clear, the script silently uses Clear's
+# authoritative value (the export trigger requires an exact match).
+#
+# To discover the PANs in your workspace:
+#     python -m clear_ola pans
+#
+# To restrict a single PAN to a subset of FYs, add `fys:` under it; otherwise
+# the global list above applies.
+pans:
+  - pan: "AAGCP5410J"
+  - pan: "AAKCA2311H"
+  - pan: "AAACZ3092L"
+  - pan: "AAATO5745J"
+  - pan: "AABTO0143M"
+  - pan: "AACCO4289J"
+  - pan: "AACCO4484B"
+  - pan: "AACCO9189P"
+  - pan: "AADCO3578R"
+  - pan: "AADCO6589L"
+  - pan: "AADCO8292L"
+  - pan: "AAECB1261D"
+  - pan: "AAGCG6213L"
+  - pan: "AAJCA1389G"
+  - pan: "AAKCK1411A"
+  - pan: "AAKCK8748G"
+  - pan: "AALCK3552H"
+  - pan: "AALCK6549C"
+  - pan: "AALCK9000E"
+
+
+
+  # Example with a per-PAN FY override (uncomment + edit if you ever need it):
+  # - pan: "AAACS1234X"
+  #   fys:
+  #     - "2024-25"
+  #     - "2025-26"
+
+# Where to save the .xlsx.zip files. Files land at:
+#   <downloads_dir>/<PAN>/FY-<FY>/<REPORT>/<filename>
+downloads_dir: "downloads"
+
+# SQLite manifest for resumable runs.
+state_dir: "state"

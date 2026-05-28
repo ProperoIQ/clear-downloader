@@ -1,0 +1,135 @@
+{
+  "method": "GET",
+  "url": "https://app.clear.in/api/clear/data-browser/public/export/download/6a0dabf1a73ff906f7ba7896",
+  "request_headers": [
+    {
+      "name": ":authority",
+      "value": "app.clear.in"
+    },
+    {
+      "name": ":method",
+      "value": "GET"
+    },
+    {
+      "name": ":path",
+      "value": "/api/clear/data-browser/public/export/download/6a0dabf1a73ff906f7ba7896"
+    },
+    {
+      "name": ":scheme",
+      "value": "https"
+    },
+    {
+      "name": "accept",
+      "value": "application/json, text/plain, */*"
+    },
+    {
+      "name": "accept-encoding",
+      "value": "gzip, deflate, br, zstd"
+    },
+    {
+      "name": "accept-language",
+      "value": "en-GB,en-US;q=0.9,en;q=0.8"
+    },
+    {
+      "name": "baggage",
+      "value": "sentry-environment=production,sentry-release=2491700ff48240c3949e8461815031a6f5d3c477,sentry-public_key=607fd3b42fc9b74117f75a6900f89b00,sentry-trace_id=1a7c0558704a477b90ec088335e2b00b,sentry-sample_rate=1,sentry-sampled=true"
+    },
+    {
+      "name": "cache-control",
+      "value": "no-cache"
+    },
+    {
+      "name": "pragma",
+      "value": "no-cache"
+    },
+    {
+      "name": "priority",
+      "value": "u=1, i"
+    },
+    {
+      "name": "referer",
+      "value": "https://app.clear.in/gst/reports/v2?reportType=panMm2a&activeBusiness=PISCES%20ESERVICES%20PRIVATE%20LIMITED&startDate=2025-04-01&endDate=2026-03-31&pan=AAGCP5410J&panNodeId=8b26df83-cf60-4963-8e4d-e5d7790ee2aa&timePeriodType=FISCAL_YEAR&localStorageKey=OGIyNmRmODMtY2Y2MC00OTYzLThlNGQtZTVkNzc5MGVlMmFhXzE3NzkyODA1NTc2NzI%3D&section=REPORT_VIEW&jobId=6a0dab711c9ab93806328bdb"
+    },
+    {
+      "name": "sec-ch-ua",
+      "value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+    },
+    {
+      "name": "sec-ch-ua-mobile",
+      "value": "?0"
+    },
+    {
+      "name": "sec-ch-ua-platform",
+      "value": "\"Windows\""
+    },
+    {
+      "name": "sec-fetch-dest",
+      "value": "empty"
+    },
+    {
+      "name": "sec-fetch-mode",
+      "value": "cors"
+    },
+    {
+      "name": "sec-fetch-site",
+      "value": "same-origin"
+    },
+    {
+      "name": "sentry-trace",
+      "value": "2cabd9ac39994594b219d6f7a3bdcf8b-a7b0b381051e62de-1"
+    },
+    {
+      "name": "user-agent",
+      "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+    },
+    {
+      "name": "x-cleartax-country",
+      "value": "in"
+    },
+    {
+      "name": "x-cleartax-orgunit",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    },
+    {
+      "name": "x-cleartax-product",
+      "value": "GST"
+    },
+    {
+      "name": "x-cleartax-source",
+      "value": "APPCLEAR"
+    },
+    {
+      "name": "x-organisation-id",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    },
+    {
+      "name": "x-request-id",
+      "value": "11qGN8PsElqYDDaC0atPn"
+    },
+    {
+      "name": "x-tenant-name",
+      "value": "GST_REPORTS"
+    },
+    {
+      "name": "x-workspace-id",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    }
+  ],
+  "request_body": "",
+  "response_status": 200,
+  "response_content_type": "application/json",
+  "response_body": "{\"fileName\":\"PAN_MM2A_Document_AAGCP5410J_042025-032026.xlsx.zip\",\"preSignedUrl\":\"https://app.clear.in/storage/v1/ap-south-1/einvoice-backend-prod/a8a3363c-b12b-4e7d-bd00-f81aafd07a89/GST_REPORTS/invoice_cdn_line/PAN_MM2A_Document_AAGCP5410J_042025-032026.xlsx.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260520T124303Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86399&X-Amz-Credential=AKIATGEOL5AH3KXRBVEG%2F20260520%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=4c1f8714cdb971c5b288d1c691f0312ce6d8278f349b92a6b264942a2195d446\",\"preSignedUrlType\":\"AUTHENTICATED\",\"taskStatus\":\"SUCCESS\",\"headPreSignedUrl\":\"https://app.clear.in/storage/v1/ap-south-1/einvoice-backend-prod/a8a3363c-b12b-4e7d-bd00-f81aafd07a89/GST_REPORTS/invoice_cdn_line/PAN_MM2A_Document_AAGCP5410J_042025-032026.xlsx.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260520T124303Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=AKIATGEOL5AH3KXRBVEG%2F20260520%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=9c2c3e27f24626ada0bb2197b979f599ed487f5006f3780077e710d39e0e63bd\",\"preSignedUrls\":[\"https://app.clear.in/storage/v1/ap-south-1/einvoice-backend-prod/a8a3363c-b12b-4e7d-bd00-f81aafd07a89/GST_REPORTS/invoice_cdn_line/PAN_MM2A_Document_AAGCP5410J_042025-032026.xlsx.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260520T124303Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86399&X-Amz-Credential=AKIATGEOL5AH3KXRBVEG%2F20260520%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=4c1f8714cdb971c5b288d1c691f0312ce6d8278f349b92a6b264942a2195d446\"],\"headPreSignedUrls\":[\"https://app.clear.in/storage/v1/ap-south-1/einvoice-backend-prod/a8a3363c-b12b-4e7d-bd00-f81aafd07a89/GST_REPORTS/invoice_cdn_line/PAN_MM2A_Document_AAGCP5410J_042025-032026.xlsx.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260520T124303Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=AKIATGEOL5AH3KXRBVEG%2F20260520%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=9c2c3e27f24626ada0bb2197b979f599ed487f5006f3780077e710d39e0e63bd\"]}",
+  "response_body_parsed": {
+    "fileName": "PAN_MM2A_Document_AAGCP5410J_042025-032026.xlsx.zip",
+    "preSignedUrl": "https://app.clear.in/storage/v1/ap-south-1/einvoice-backend-prod/a8a3363c-b12b-4e7d-bd00-f81aafd07a89/GST_REPORTS/invoice_cdn_line/PAN_MM2A_Document_AAGCP5410J_042025-032026.xlsx.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260520T124303Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86399&X-Amz-Credential=AKIATGEOL5AH3KXRBVEG%2F20260520%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=4c1f8714cdb971c5b288d1c691f0312ce6d8278f349b92a6b264942a2195d446",
+    "preSignedUrlType": "AUTHENTICATED",
+    "taskStatus": "SUCCESS",
+    "headPreSignedUrl": "https://app.clear.in/storage/v1/ap-south-1/einvoice-backend-prod/a8a3363c-b12b-4e7d-bd00-f81aafd07a89/GST_REPORTS/invoice_cdn_line/PAN_MM2A_Document_AAGCP5410J_042025-032026.xlsx.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260520T124303Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=AKIATGEOL5AH3KXRBVEG%2F20260520%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=9c2c3e27f24626ada0bb2197b979f599ed487f5006f3780077e710d39e0e63bd",
+    "preSignedUrls": [
+      "https://app.clear.in/storage/v1/ap-south-1/einvoice-backend-prod/a8a3363c-b12b-4e7d-bd00-f81aafd07a89/GST_REPORTS/invoice_cdn_line/PAN_MM2A_Document_AAGCP5410J_042025-032026.xlsx.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260520T124303Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86399&X-Amz-Credential=AKIATGEOL5AH3KXRBVEG%2F20260520%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=4c1f8714cdb971c5b288d1c691f0312ce6d8278f349b92a6b264942a2195d446"
+    ],
+    "headPreSignedUrls": [
+      "https://app.clear.in/storage/v1/ap-south-1/einvoice-backend-prod/a8a3363c-b12b-4e7d-bd00-f81aafd07a89/GST_REPORTS/invoice_cdn_line/PAN_MM2A_Document_AAGCP5410J_042025-032026.xlsx.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260520T124303Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=AKIATGEOL5AH3KXRBVEG%2F20260520%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=9c2c3e27f24626ada0bb2197b979f599ed487f5006f3780077e710d39e0e63bd"
+    ]
+  }
+}

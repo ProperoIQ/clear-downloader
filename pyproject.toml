@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "clear-ola"
+version = "0.1.0"
+description = "Download ClearGST reports (GSTR-2A first) for multiple PANs and FYs via Clear's authenticated APIs."
+requires-python = ">=3.10"
+authors = [{name = "Lokash Chellaiya"}]
+readme = "README.md"
+dependencies = [
+    "requests>=2.32",
+    "browser-cookie3>=0.20",
+    "click>=8.1",
+    "PyYAML>=6.0",
+    "loguru>=0.7",
+    "openpyxl>=3.1",
+]
+
+[project.scripts]
+clear-ola = "clear_ola.cli:cli"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"clear_ola.flows" = ["*.json"]

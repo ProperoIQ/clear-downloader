@@ -1,0 +1,1954 @@
+{
+  "method": "POST",
+  "url": "https://app.clear.in/api/data-pull/public/pull/prefetchStatus",
+  "request_headers": [
+    {
+      "name": ":authority",
+      "value": "app.clear.in"
+    },
+    {
+      "name": ":method",
+      "value": "POST"
+    },
+    {
+      "name": ":path",
+      "value": "/api/data-pull/public/pull/prefetchStatus"
+    },
+    {
+      "name": ":scheme",
+      "value": "https"
+    },
+    {
+      "name": "accept",
+      "value": "application/json, text/plain, */*"
+    },
+    {
+      "name": "accept-encoding",
+      "value": "gzip, deflate, br, zstd"
+    },
+    {
+      "name": "accept-language",
+      "value": "en-GB,en-US;q=0.9,en;q=0.8"
+    },
+    {
+      "name": "baggage",
+      "value": "sentry-environment=production,sentry-release=2491700ff48240c3949e8461815031a6f5d3c477,sentry-public_key=607fd3b42fc9b74117f75a6900f89b00,sentry-trace_id=4d4e69699904458090a2a52c9ff44ceb,sentry-sample_rate=1,sentry-sampled=true"
+    },
+    {
+      "name": "cache-control",
+      "value": "no-cache"
+    },
+    {
+      "name": "content-length",
+      "value": "465"
+    },
+    {
+      "name": "content-type",
+      "value": "application/json"
+    },
+    {
+      "name": "origin",
+      "value": "https://app.clear.in"
+    },
+    {
+      "name": "pragma",
+      "value": "no-cache"
+    },
+    {
+      "name": "priority",
+      "value": "u=1, i"
+    },
+    {
+      "name": "referer",
+      "value": "https://app.clear.in/gst/reports/v2?reportType=panMm2a&activeBusiness=PISCES%20ESERVICES%20PRIVATE%20LIMITED&startDate=2025-04-01&endDate=2026-03-31&pan=AAGCP5410J&panNodeId=8b26df83-cf60-4963-8e4d-e5d7790ee2aa&timePeriodType=FISCAL_YEAR&localStorageKey=OGIyNmRmODMtY2Y2MC00OTYzLThlNGQtZTVkNzc5MGVlMmFhXzE3NzkyODA1NTc2NzI%3D"
+    },
+    {
+      "name": "sec-ch-ua",
+      "value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+    },
+    {
+      "name": "sec-ch-ua-mobile",
+      "value": "?0"
+    },
+    {
+      "name": "sec-ch-ua-platform",
+      "value": "\"Windows\""
+    },
+    {
+      "name": "sec-fetch-dest",
+      "value": "empty"
+    },
+    {
+      "name": "sec-fetch-mode",
+      "value": "cors"
+    },
+    {
+      "name": "sec-fetch-site",
+      "value": "same-origin"
+    },
+    {
+      "name": "sentry-trace",
+      "value": "4d4e69699904458090a2a52c9ff44ceb-a153829205740784-1"
+    },
+    {
+      "name": "tenant",
+      "value": "GSTR2A_REPORTS"
+    },
+    {
+      "name": "user-agent",
+      "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+    },
+    {
+      "name": "x-clear-node-id",
+      "value": "01cbd28b-126b-46ed-bc85-b8aa5eb2fe83,eb29a58f-3cd5-49d3-b00b-053e14d3cc21,deac3f27-1a00-4810-ad38-2ef1a28aaea0,6a4f6153-f035-4c4e-adbe-956dc8b07ae4,bd0bc2d4-4f45-4b82-b332-898ba137204f,7e1f2be2-f48e-4f8a-91de-f9a25d94c100,c580313d-1e1d-405a-93c4-041ab29764e8,b64933f5-5ea7-4a6d-a847-f49ae1383f46"
+    },
+    {
+      "name": "x-clear-node-type",
+      "value": "GSTIN"
+    },
+    {
+      "name": "x-cleartax-country",
+      "value": "in"
+    },
+    {
+      "name": "x-cleartax-orgunit",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    },
+    {
+      "name": "x-cleartax-product",
+      "value": "GST"
+    },
+    {
+      "name": "x-cleartax-source",
+      "value": "APPCLEAR"
+    },
+    {
+      "name": "x-organisation-id",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    },
+    {
+      "name": "x-workspace-id",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    }
+  ],
+  "request_body": "{\"nodeIds\":[\"01cbd28b-126b-46ed-bc85-b8aa5eb2fe83\",\"eb29a58f-3cd5-49d3-b00b-053e14d3cc21\",\"deac3f27-1a00-4810-ad38-2ef1a28aaea0\",\"6a4f6153-f035-4c4e-adbe-956dc8b07ae4\",\"bd0bc2d4-4f45-4b82-b332-898ba137204f\",\"7e1f2be2-f48e-4f8a-91de-f9a25d94c100\",\"c580313d-1e1d-405a-93c4-041ab29764e8\",\"b64933f5-5ea7-4a6d-a847-f49ae1383f46\"],\"nodeType\":\"GSTIN\",\"startRange\":\"01-04-2025\",\"endRange\":\"31-03-2026\",\"pullType\":\"OPTIMIZED_PULL\",\"tenant\":\"GSTR2A_REPORTS\",\"dataSources\":[]}",
+  "response_status": 200,
+  "response_content_type": "application/json",
+  "response_body": "{\"prefetchUXNodeLevelResponseList\":[{\"nodeId\":\"01cbd28b-126b-46ed-bc85-b8aa5eb2fe83\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeIdValue\":\"06AAGCP5410J1ZI\",\"stateCode\":\"06\",\"parentNodeIdValue\":\"AAGCP5410J\",\"parentNodeIdName\":\"PISCES ESERVICES PRIVATE LIMITED\",\"stateName\":\"HARYANA\",\"nodeIdEntityName\":\"haryana\",\"nodeType\":\"GSTIN\",\"parentNodeType\":\"PAN\",\"aggregatedNodeLevelPrefetchUXStatus\":\"COMPLETE\",\"dataSourceDownloadDetails\":[{\"GSTR2A\":[{\"012026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,50,41000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"022026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,50,41000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"112025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,50,41000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"122025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,50,41000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"042025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,50,41000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"102025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,50,41000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"092025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,50,41000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"032026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,50,41000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"052025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,50,41000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"082025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,50,41000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"062025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,50,41000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"072025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,50,41000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}}]}]},{\"nodeId\":\"bd0bc2d4-4f45-4b82-b332-898ba137204f\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeIdValue\":\"36AAGCP5410J1ZF\",\"stateCode\":\"36\",\"parentNodeIdValue\":\"AAGCP5410J\",\"parentNodeIdName\":\"PISCES ESERVICES PRIVATE LIMITED\",\"stateName\":\"TELANGANA\",\"nodeIdEntityName\":\"Telangana\",\"nodeType\":\"GSTIN\",\"parentNodeType\":\"PAN\",\"aggregatedNodeLevelPrefetchUXStatus\":\"COMPLETE\",\"dataSourceDownloadDetails\":[{\"GSTR2A\":[{\"012026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,720000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"022026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,720000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"112025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,720000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"122025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,720000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"042025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,720000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"102025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,720000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"092025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,720000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"032026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,720000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"052025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,720000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"082025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,720000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"062025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,720000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"072025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,720000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}}]}]},{\"nodeId\":\"eb29a58f-3cd5-49d3-b00b-053e14d3cc21\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeIdValue\":\"33AAGCP5410J1ZL\",\"stateCode\":\"33\",\"parentNodeIdValue\":\"AAGCP5410J\",\"parentNodeIdName\":\"PISCES ESERVICES PRIVATE LIMITED\",\"stateName\":\"TAMIL NADU\",\"nodeIdEntityName\":\"Tamil Nadu\",\"nodeType\":\"GSTIN\",\"parentNodeType\":\"PAN\",\"aggregatedNodeLevelPrefetchUXStatus\":\"COMPLETE\",\"dataSourceDownloadDetails\":[{\"GSTR2A\":[{\"012026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,48,896000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"022026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,48,896000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"112025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,48,896000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"122025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,48,896000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"042025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,48,896000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"102025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,48,896000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"092025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,48,896000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"032026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,48,896000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"052025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,48,896000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"082025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,48,896000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"062025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,48,896000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"072025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,48,896000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}}]}]},{\"nodeId\":\"b64933f5-5ea7-4a6d-a847-f49ae1383f46\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeIdValue\":\"09AAGCP5410J1ZC\",\"stateCode\":\"09\",\"parentNodeIdValue\":\"AAGCP5410J\",\"parentNodeIdName\":\"PISCES ESERVICES PRIVATE LIMITED\",\"stateName\":\"UTTAR PRADESH\",\"nodeIdEntityName\":\"Uttar Pradesh\",\"nodeType\":\"GSTIN\",\"parentNodeType\":\"PAN\",\"aggregatedNodeLevelPrefetchUXStatus\":\"COMPLETE\",\"dataSourceDownloadDetails\":[{\"GSTR2A\":[{\"012026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,296000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"022026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,296000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"112025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,296000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"122025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,296000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"042025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,296000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"102025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,296000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"092025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,296000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"032026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,296000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"052025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,296000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"082025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,296000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"062025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,296000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"072025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,296000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}}]}]},{\"nodeId\":\"6a4f6153-f035-4c4e-adbe-956dc8b07ae4\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeIdValue\":\"29AAGCP5410J1ZA\",\"stateCode\":\"29\",\"parentNodeIdValue\":\"AAGCP5410J\",\"parentNodeIdName\":\"PISCES ESERVICES PRIVATE LIMITED\",\"stateName\":\"KARNATAKA\",\"nodeIdEntityName\":\"Karnataka\",\"nodeType\":\"GSTIN\",\"parentNodeType\":\"PAN\",\"aggregatedNodeLevelPrefetchUXStatus\":\"COMPLETE\",\"dataSourceDownloadDetails\":[{\"GSTR2A\":[{\"012026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,40,738000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"022026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,40,738000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"112025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,40,738000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"122025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,40,738000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"042025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,40,738000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"102025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,40,738000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"092025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,40,738000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"032026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,40,738000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"052025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,40,738000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"082025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,40,738000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"062025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,40,738000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"072025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,40,738000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}}]}]},{\"nodeId\":\"deac3f27-1a00-4810-ad38-2ef1a28aaea0\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeIdValue\":\"19AAGCP5410J2ZA\",\"stateCode\":\"19\",\"parentNodeIdValue\":\"AAGCP5410J\",\"parentNodeIdName\":\"PISCES ESERVICES PRIVATE LIMITED\",\"stateName\":\"WEST BENGAL\",\"nodeIdEntityName\":\"West Bengal\",\"nodeType\":\"GSTIN\",\"parentNodeType\":\"PAN\",\"aggregatedNodeLevelPrefetchUXStatus\":\"COMPLETE\",\"dataSourceDownloadDetails\":[{\"GSTR2A\":[{\"012026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,850000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"022026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,850000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"112025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,850000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"122025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,850000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"042025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,850000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"102025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,850000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"092025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,850000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"032026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,850000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"052025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,850000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"082025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,850000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"062025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,850000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"072025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,39,850000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}}]}]},{\"nodeId\":\"7e1f2be2-f48e-4f8a-91de-f9a25d94c100\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeIdValue\":\"07AAGCP5410J1ZG\",\"stateCode\":\"07\",\"parentNodeIdValue\":\"AAGCP5410J\",\"parentNodeIdName\":\"PISCES ESERVICES PRIVATE LIMITED\",\"stateName\":\"DELHI\",\"nodeIdEntityName\":\"Delhi\",\"nodeType\":\"GSTIN\",\"parentNodeType\":\"PAN\",\"aggregatedNodeLevelPrefetchUXStatus\":\"COMPLETE\",\"dataSourceDownloadDetails\":[{\"GSTR2A\":[{\"012026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,838000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"022026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,838000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"112025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,838000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"122025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,838000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"042025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,838000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"102025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,838000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"092025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,838000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"032026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,838000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"052025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,838000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"082025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,838000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"062025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,838000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"072025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,838000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}}]}]},{\"nodeId\":\"c580313d-1e1d-405a-93c4-041ab29764e8\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeIdValue\":\"27AAGCP5410J1ZE\",\"stateCode\":\"27\",\"parentNodeIdValue\":\"AAGCP5410J\",\"parentNodeIdName\":\"PISCES ESERVICES PRIVATE LIMITED\",\"stateName\":\"MAHARASHTRA\",\"nodeIdEntityName\":\"Maharashtra\",\"nodeType\":\"GSTIN\",\"parentNodeType\":\"PAN\",\"aggregatedNodeLevelPrefetchUXStatus\":\"COMPLETE\",\"dataSourceDownloadDetails\":[{\"GSTR2A\":[{\"012026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,577000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"022026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,577000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"112025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,577000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"122025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,577000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"042025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,577000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"102025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,577000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"092025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,577000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"032026\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,577000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"052025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,577000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"082025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,577000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"062025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,577000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}},{\"072025\":{\"lastDownloadAtIst\":[2026,5,20,17,41,49,577000000],\"downloadStatusEnum\":\"DOWNLOADED\",\"errorMessages\":[],\"errorCodes\":[],\"frozenData\":false}}]}]}],\"downloadedAtIst\":[2026,5,20,17,41,39,720000000],\"aggregatedPrefetchUXStatus\":\"COMPLETE\"}",
+  "request_body_parsed": {
+    "nodeIds": [
+      "01cbd28b-126b-46ed-bc85-b8aa5eb2fe83",
+      "eb29a58f-3cd5-49d3-b00b-053e14d3cc21",
+      "deac3f27-1a00-4810-ad38-2ef1a28aaea0",
+      "6a4f6153-f035-4c4e-adbe-956dc8b07ae4",
+      "bd0bc2d4-4f45-4b82-b332-898ba137204f",
+      "7e1f2be2-f48e-4f8a-91de-f9a25d94c100",
+      "c580313d-1e1d-405a-93c4-041ab29764e8",
+      "b64933f5-5ea7-4a6d-a847-f49ae1383f46"
+    ],
+    "nodeType": "GSTIN",
+    "startRange": "01-04-2025",
+    "endRange": "31-03-2026",
+    "pullType": "OPTIMIZED_PULL",
+    "tenant": "GSTR2A_REPORTS",
+    "dataSources": []
+  },
+  "response_body_parsed": {
+    "prefetchUXNodeLevelResponseList": [
+      {
+        "nodeId": "01cbd28b-126b-46ed-bc85-b8aa5eb2fe83",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeIdValue": "06AAGCP5410J1ZI",
+        "stateCode": "06",
+        "parentNodeIdValue": "AAGCP5410J",
+        "parentNodeIdName": "PISCES ESERVICES PRIVATE LIMITED",
+        "stateName": "HARYANA",
+        "nodeIdEntityName": "haryana",
+        "nodeType": "GSTIN",
+        "parentNodeType": "PAN",
+        "aggregatedNodeLevelPrefetchUXStatus": "COMPLETE",
+        "dataSourceDownloadDetails": [
+          {
+            "GSTR2A": [
+              {
+                "012026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    50,
+                    41000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "022026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    50,
+                    41000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "112025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    50,
+                    41000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "122025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    50,
+                    41000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "042025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    50,
+                    41000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "102025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    50,
+                    41000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "092025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    50,
+                    41000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "032026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    50,
+                    41000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "052025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    50,
+                    41000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "082025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    50,
+                    41000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "062025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    50,
+                    41000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "072025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    50,
+                    41000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "nodeId": "bd0bc2d4-4f45-4b82-b332-898ba137204f",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeIdValue": "36AAGCP5410J1ZF",
+        "stateCode": "36",
+        "parentNodeIdValue": "AAGCP5410J",
+        "parentNodeIdName": "PISCES ESERVICES PRIVATE LIMITED",
+        "stateName": "TELANGANA",
+        "nodeIdEntityName": "Telangana",
+        "nodeType": "GSTIN",
+        "parentNodeType": "PAN",
+        "aggregatedNodeLevelPrefetchUXStatus": "COMPLETE",
+        "dataSourceDownloadDetails": [
+          {
+            "GSTR2A": [
+              {
+                "012026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    720000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "022026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    720000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "112025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    720000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "122025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    720000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "042025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    720000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "102025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    720000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "092025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    720000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "032026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    720000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "052025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    720000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "082025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    720000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "062025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    720000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "072025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    720000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "nodeId": "eb29a58f-3cd5-49d3-b00b-053e14d3cc21",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeIdValue": "33AAGCP5410J1ZL",
+        "stateCode": "33",
+        "parentNodeIdValue": "AAGCP5410J",
+        "parentNodeIdName": "PISCES ESERVICES PRIVATE LIMITED",
+        "stateName": "TAMIL NADU",
+        "nodeIdEntityName": "Tamil Nadu",
+        "nodeType": "GSTIN",
+        "parentNodeType": "PAN",
+        "aggregatedNodeLevelPrefetchUXStatus": "COMPLETE",
+        "dataSourceDownloadDetails": [
+          {
+            "GSTR2A": [
+              {
+                "012026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    48,
+                    896000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "022026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    48,
+                    896000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "112025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    48,
+                    896000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "122025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    48,
+                    896000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "042025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    48,
+                    896000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "102025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    48,
+                    896000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "092025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    48,
+                    896000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "032026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    48,
+                    896000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "052025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    48,
+                    896000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "082025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    48,
+                    896000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "062025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    48,
+                    896000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "072025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    48,
+                    896000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "nodeId": "b64933f5-5ea7-4a6d-a847-f49ae1383f46",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeIdValue": "09AAGCP5410J1ZC",
+        "stateCode": "09",
+        "parentNodeIdValue": "AAGCP5410J",
+        "parentNodeIdName": "PISCES ESERVICES PRIVATE LIMITED",
+        "stateName": "UTTAR PRADESH",
+        "nodeIdEntityName": "Uttar Pradesh",
+        "nodeType": "GSTIN",
+        "parentNodeType": "PAN",
+        "aggregatedNodeLevelPrefetchUXStatus": "COMPLETE",
+        "dataSourceDownloadDetails": [
+          {
+            "GSTR2A": [
+              {
+                "012026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    296000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "022026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    296000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "112025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    296000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "122025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    296000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "042025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    296000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "102025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    296000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "092025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    296000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "032026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    296000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "052025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    296000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "082025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    296000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "062025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    296000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "072025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    296000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "nodeId": "6a4f6153-f035-4c4e-adbe-956dc8b07ae4",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeIdValue": "29AAGCP5410J1ZA",
+        "stateCode": "29",
+        "parentNodeIdValue": "AAGCP5410J",
+        "parentNodeIdName": "PISCES ESERVICES PRIVATE LIMITED",
+        "stateName": "KARNATAKA",
+        "nodeIdEntityName": "Karnataka",
+        "nodeType": "GSTIN",
+        "parentNodeType": "PAN",
+        "aggregatedNodeLevelPrefetchUXStatus": "COMPLETE",
+        "dataSourceDownloadDetails": [
+          {
+            "GSTR2A": [
+              {
+                "012026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    40,
+                    738000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "022026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    40,
+                    738000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "112025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    40,
+                    738000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "122025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    40,
+                    738000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "042025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    40,
+                    738000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "102025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    40,
+                    738000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "092025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    40,
+                    738000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "032026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    40,
+                    738000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "052025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    40,
+                    738000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "082025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    40,
+                    738000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "062025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    40,
+                    738000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "072025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    40,
+                    738000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "nodeId": "deac3f27-1a00-4810-ad38-2ef1a28aaea0",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeIdValue": "19AAGCP5410J2ZA",
+        "stateCode": "19",
+        "parentNodeIdValue": "AAGCP5410J",
+        "parentNodeIdName": "PISCES ESERVICES PRIVATE LIMITED",
+        "stateName": "WEST BENGAL",
+        "nodeIdEntityName": "West Bengal",
+        "nodeType": "GSTIN",
+        "parentNodeType": "PAN",
+        "aggregatedNodeLevelPrefetchUXStatus": "COMPLETE",
+        "dataSourceDownloadDetails": [
+          {
+            "GSTR2A": [
+              {
+                "012026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    850000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "022026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    850000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "112025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    850000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "122025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    850000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "042025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    850000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "102025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    850000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "092025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    850000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "032026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    850000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "052025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    850000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "082025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    850000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "062025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    850000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "072025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    39,
+                    850000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "nodeId": "7e1f2be2-f48e-4f8a-91de-f9a25d94c100",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeIdValue": "07AAGCP5410J1ZG",
+        "stateCode": "07",
+        "parentNodeIdValue": "AAGCP5410J",
+        "parentNodeIdName": "PISCES ESERVICES PRIVATE LIMITED",
+        "stateName": "DELHI",
+        "nodeIdEntityName": "Delhi",
+        "nodeType": "GSTIN",
+        "parentNodeType": "PAN",
+        "aggregatedNodeLevelPrefetchUXStatus": "COMPLETE",
+        "dataSourceDownloadDetails": [
+          {
+            "GSTR2A": [
+              {
+                "012026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    838000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "022026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    838000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "112025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    838000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "122025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    838000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "042025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    838000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "102025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    838000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "092025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    838000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "032026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    838000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "052025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    838000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "082025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    838000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "062025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    838000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "072025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    838000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "nodeId": "c580313d-1e1d-405a-93c4-041ab29764e8",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeIdValue": "27AAGCP5410J1ZE",
+        "stateCode": "27",
+        "parentNodeIdValue": "AAGCP5410J",
+        "parentNodeIdName": "PISCES ESERVICES PRIVATE LIMITED",
+        "stateName": "MAHARASHTRA",
+        "nodeIdEntityName": "Maharashtra",
+        "nodeType": "GSTIN",
+        "parentNodeType": "PAN",
+        "aggregatedNodeLevelPrefetchUXStatus": "COMPLETE",
+        "dataSourceDownloadDetails": [
+          {
+            "GSTR2A": [
+              {
+                "012026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    577000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "022026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    577000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "112025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    577000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "122025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    577000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "042025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    577000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "102025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    577000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "092025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    577000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "032026": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    577000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "052025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    577000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "082025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    577000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "062025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    577000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              },
+              {
+                "072025": {
+                  "lastDownloadAtIst": [
+                    2026,
+                    5,
+                    20,
+                    17,
+                    41,
+                    49,
+                    577000000
+                  ],
+                  "downloadStatusEnum": "DOWNLOADED",
+                  "errorMessages": [],
+                  "errorCodes": [],
+                  "frozenData": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "downloadedAtIst": [
+      2026,
+      5,
+      20,
+      17,
+      41,
+      39,
+      720000000
+    ],
+    "aggregatedPrefetchUXStatus": "COMPLETE"
+  }
+}

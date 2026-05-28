@@ -1,0 +1,697 @@
+{
+  "method": "POST",
+  "url": "https://app.clear.in/api/data-pull/public/pull/v2/trigger",
+  "request_headers": [
+    {
+      "name": ":authority",
+      "value": "app.clear.in"
+    },
+    {
+      "name": ":method",
+      "value": "POST"
+    },
+    {
+      "name": ":path",
+      "value": "/api/data-pull/public/pull/v2/trigger"
+    },
+    {
+      "name": ":scheme",
+      "value": "https"
+    },
+    {
+      "name": "accept",
+      "value": "application/json, text/plain, */*"
+    },
+    {
+      "name": "accept-encoding",
+      "value": "gzip, deflate, br, zstd"
+    },
+    {
+      "name": "accept-language",
+      "value": "en-GB,en-US;q=0.9,en;q=0.8"
+    },
+    {
+      "name": "baggage",
+      "value": "sentry-environment=production,sentry-release=2491700ff48240c3949e8461815031a6f5d3c477,sentry-public_key=607fd3b42fc9b74117f75a6900f89b00,sentry-trace_id=1a7c0558704a477b90ec088335e2b00b,sentry-sample_rate=1,sentry-sampled=true"
+    },
+    {
+      "name": "cache-control",
+      "value": "no-cache"
+    },
+    {
+      "name": "content-length",
+      "value": "572"
+    },
+    {
+      "name": "content-type",
+      "value": "application/json"
+    },
+    {
+      "name": "origin",
+      "value": "https://app.clear.in"
+    },
+    {
+      "name": "pragma",
+      "value": "no-cache"
+    },
+    {
+      "name": "priority",
+      "value": "u=1, i"
+    },
+    {
+      "name": "referer",
+      "value": "https://app.clear.in/gst/reports/v2?reportType=panMm2a&activeBusiness=PISCES%20ESERVICES%20PRIVATE%20LIMITED&startDate=2025-04-01&endDate=2026-03-31&pan=AAGCP5410J&panNodeId=8b26df83-cf60-4963-8e4d-e5d7790ee2aa&timePeriodType=FISCAL_YEAR&localStorageKey=OGIyNmRmODMtY2Y2MC00OTYzLThlNGQtZTVkNzc5MGVlMmFhXzE3NzkyODA1NTc2NzI%3D&section=REPORT_VIEW"
+    },
+    {
+      "name": "sec-ch-ua",
+      "value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+    },
+    {
+      "name": "sec-ch-ua-mobile",
+      "value": "?0"
+    },
+    {
+      "name": "sec-ch-ua-platform",
+      "value": "\"Windows\""
+    },
+    {
+      "name": "sec-fetch-dest",
+      "value": "empty"
+    },
+    {
+      "name": "sec-fetch-mode",
+      "value": "cors"
+    },
+    {
+      "name": "sec-fetch-site",
+      "value": "same-origin"
+    },
+    {
+      "name": "sentry-trace",
+      "value": "1a7c0558704a477b90ec088335e2b00b-a6bbb305ec05b5c1-1"
+    },
+    {
+      "name": "tenant",
+      "value": "GSTR2A_REPORTS"
+    },
+    {
+      "name": "user-agent",
+      "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+    },
+    {
+      "name": "x-clear-node-id",
+      "value": "01cbd28b-126b-46ed-bc85-b8aa5eb2fe83,eb29a58f-3cd5-49d3-b00b-053e14d3cc21,deac3f27-1a00-4810-ad38-2ef1a28aaea0,6a4f6153-f035-4c4e-adbe-956dc8b07ae4,bd0bc2d4-4f45-4b82-b332-898ba137204f,7e1f2be2-f48e-4f8a-91de-f9a25d94c100,c580313d-1e1d-405a-93c4-041ab29764e8,b64933f5-5ea7-4a6d-a847-f49ae1383f46"
+    },
+    {
+      "name": "x-clear-node-type",
+      "value": "GSTIN"
+    },
+    {
+      "name": "x-cleartax-country",
+      "value": "in"
+    },
+    {
+      "name": "x-cleartax-orgunit",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    },
+    {
+      "name": "x-cleartax-product",
+      "value": "GST"
+    },
+    {
+      "name": "x-cleartax-source",
+      "value": "APPCLEAR"
+    },
+    {
+      "name": "x-ct-source",
+      "value": "GST_REPORTS"
+    },
+    {
+      "name": "x-organisation-id",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    },
+    {
+      "name": "x-workspace-id",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    }
+  ],
+  "request_body": "{\"nodeType\":\"GSTIN\",\"nodeIds\":[\"01cbd28b-126b-46ed-bc85-b8aa5eb2fe83\",\"eb29a58f-3cd5-49d3-b00b-053e14d3cc21\",\"deac3f27-1a00-4810-ad38-2ef1a28aaea0\",\"6a4f6153-f035-4c4e-adbe-956dc8b07ae4\",\"bd0bc2d4-4f45-4b82-b332-898ba137204f\",\"7e1f2be2-f48e-4f8a-91de-f9a25d94c100\",\"c580313d-1e1d-405a-93c4-041ab29764e8\",\"b64933f5-5ea7-4a6d-a847-f49ae1383f46\"],\"startRange\":\"042025\",\"endRange\":\"032026\",\"pullType\":\"OPTIMIZED_PULL\",\"tenant\":\"GSTR2A_REPORTS\",\"dataSources\":[],\"pageIds\":[],\"nodeIdDataSourcesMap\":{},\"metadata\":{\"reportLevel\":\"PAN\"},\"gisDownloadBehaviour\":\"USE_EXISTING_DATA\"}",
+  "response_status": 200,
+  "response_content_type": "application/json",
+  "response_body": "{\"requestId\":\"6a0dab711c9ab93806328bdb\",\"pullRequestInfo\":{\"createdAt\":[2026,5,20,12,39,13,889126192],\"updatedAt\":[2026,5,20,12,39,13,889126192],\"updatedBy\":null,\"pullRequestId\":\"6a0dab711c9ab93806328bdb\",\"gstinNodeIds\":[\"01cbd28b-126b-46ed-bc85-b8aa5eb2fe83\",\"eb29a58f-3cd5-49d3-b00b-053e14d3cc21\",\"deac3f27-1a00-4810-ad38-2ef1a28aaea0\",\"6a4f6153-f035-4c4e-adbe-956dc8b07ae4\",\"bd0bc2d4-4f45-4b82-b332-898ba137204f\",\"7e1f2be2-f48e-4f8a-91de-f9a25d94c100\",\"c580313d-1e1d-405a-93c4-041ab29764e8\",\"b64933f5-5ea7-4a6d-a847-f49ae1383f46\"],\"panNodeId\":null,\"nodeType\":\"GSTIN\",\"orgId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"workspaceId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"product\":\"GST\",\"tenant\":\"GSTR2A_REPORTS\",\"dataSources\":[\"GSTR2A\"],\"nodeIdDataSourcesMap\":{\"01cbd28b-126b-46ed-bc85-b8aa5eb2fe83\":[\"GSTR2A\"],\"bd0bc2d4-4f45-4b82-b332-898ba137204f\":[\"GSTR2A\"],\"eb29a58f-3cd5-49d3-b00b-053e14d3cc21\":[\"GSTR2A\"],\"b64933f5-5ea7-4a6d-a847-f49ae1383f46\":[\"GSTR2A\"],\"deac3f27-1a00-4810-ad38-2ef1a28aaea0\":[\"GSTR2A\"],\"6a4f6153-f035-4c4e-adbe-956dc8b07ae4\":[\"GSTR2A\"],\"7e1f2be2-f48e-4f8a-91de-f9a25d94c100\":[\"GSTR2A\"],\"c580313d-1e1d-405a-93c4-041ab29764e8\":[\"GSTR2A\"]},\"returnPeriod\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"downloadStatusEnum\":\"DOWNLOADING\",\"pullType\":\"OPTIMIZED_PULL\",\"accessibleHierarchyWithUserDetailsDTO\":null,\"userId\":\"442ef3dd-fdcb-4169-b2d2-88b1b2cecaef\",\"pageIds\":[],\"startRange\":\"042025\",\"endRange\":\"032026\",\"source\":\"GST_REPORTS\",\"onlyLoadNewData\":false,\"postProcessingStartTime\":null,\"postProcessingEndTime\":null,\"gisDataAlreadyDownloaded\":false,\"metadata\":{\"reportLevel\":\"PAN\",\"inactiveGstinNodeIds\":\"[]\"},\"dataSourceMetadata\":null,\"gisDownloadBehaviour\":\"USE_EXISTING_DATA\"},\"dataPullRequestStatusList\":[{\"createdAt\":[2026,5,20,12,39,13,910620717],\"updatedAt\":[2026,5,20,12,39,13,910620717],\"updatedBy\":null,\"id\":\"6a0dab711c9ab93806328bdc\",\"pullRequestId\":\"6a0dab711c9ab93806328bdb\",\"workspaceId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"orgId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"gstinNodeId\":\"01cbd28b-126b-46ed-bc85-b8aa5eb2fe83\",\"panNodeId\":null,\"dataSource\":\"GSTR2A\",\"status\":\"DOWNLOADING\",\"govtInteractionPullStatus\":null,\"returnPeriodsDownloaded\":0,\"totalReturnPeriodsTriggered\":12,\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"startRange\":\"042025\",\"endRange\":\"032026\",\"pullType\":\"OPTIMIZED_PULL\",\"metaData\":null,\"gisDownloadBehaviour\":\"USE_EXISTING_DATA\",\"govtErrorCode\":null,\"govtErrorMessage\":null},{\"createdAt\":[2026,5,20,12,39,13,910843591],\"updatedAt\":[2026,5,20,12,39,13,910843591],\"updatedBy\":null,\"id\":\"6a0dab711c9ab93806328bdd\",\"pullRequestId\":\"6a0dab711c9ab93806328bdb\",\"workspaceId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"orgId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"gstinNodeId\":\"eb29a58f-3cd5-49d3-b00b-053e14d3cc21\",\"panNodeId\":null,\"dataSource\":\"GSTR2A\",\"status\":\"DOWNLOADING\",\"govtInteractionPullStatus\":null,\"returnPeriodsDownloaded\":0,\"totalReturnPeriodsTriggered\":12,\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"startRange\":\"042025\",\"endRange\":\"032026\",\"pullType\":\"OPTIMIZED_PULL\",\"metaData\":null,\"gisDownloadBehaviour\":\"USE_EXISTING_DATA\",\"govtErrorCode\":null,\"govtErrorMessage\":null},{\"createdAt\":[2026,5,20,12,39,13,910964294],\"updatedAt\":[2026,5,20,12,39,13,910964294],\"updatedBy\":null,\"id\":\"6a0dab711c9ab93806328bde\",\"pullRequestId\":\"6a0dab711c9ab93806328bdb\",\"workspaceId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"orgId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"gstinNodeId\":\"deac3f27-1a00-4810-ad38-2ef1a28aaea0\",\"panNodeId\":null,\"dataSource\":\"GSTR2A\",\"status\":\"DOWNLOADING\",\"govtInteractionPullStatus\":null,\"returnPeriodsDownloaded\":0,\"totalReturnPeriodsTriggered\":12,\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"startRange\":\"042025\",\"endRange\":\"032026\",\"pullType\":\"OPTIMIZED_PULL\",\"metaData\":null,\"gisDownloadBehaviour\":\"USE_EXISTING_DATA\",\"govtErrorCode\":null,\"govtErrorMessage\":null},{\"createdAt\":[2026,5,20,12,39,13,911048016],\"updatedAt\":[2026,5,20,12,39,13,911048016],\"updatedBy\":null,\"id\":\"6a0dab711c9ab93806328bdf\",\"pullRequestId\":\"6a0dab711c9ab93806328bdb\",\"workspaceId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"orgId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"gstinNodeId\":\"6a4f6153-f035-4c4e-adbe-956dc8b07ae4\",\"panNodeId\":null,\"dataSource\":\"GSTR2A\",\"status\":\"DOWNLOADING\",\"govtInteractionPullStatus\":null,\"returnPeriodsDownloaded\":0,\"totalReturnPeriodsTriggered\":12,\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"startRange\":\"042025\",\"endRange\":\"032026\",\"pullType\":\"OPTIMIZED_PULL\",\"metaData\":null,\"gisDownloadBehaviour\":\"USE_EXISTING_DATA\",\"govtErrorCode\":null,\"govtErrorMessage\":null},{\"createdAt\":[2026,5,20,12,39,13,911131047],\"updatedAt\":[2026,5,20,12,39,13,911131047],\"updatedBy\":null,\"id\":\"6a0dab711c9ab93806328be0\",\"pullRequestId\":\"6a0dab711c9ab93806328bdb\",\"workspaceId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"orgId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"gstinNodeId\":\"bd0bc2d4-4f45-4b82-b332-898ba137204f\",\"panNodeId\":null,\"dataSource\":\"GSTR2A\",\"status\":\"DOWNLOADING\",\"govtInteractionPullStatus\":null,\"returnPeriodsDownloaded\":0,\"totalReturnPeriodsTriggered\":12,\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"startRange\":\"042025\",\"endRange\":\"032026\",\"pullType\":\"OPTIMIZED_PULL\",\"metaData\":null,\"gisDownloadBehaviour\":\"USE_EXISTING_DATA\",\"govtErrorCode\":null,\"govtErrorMessage\":null},{\"createdAt\":[2026,5,20,12,39,13,911219499],\"updatedAt\":[2026,5,20,12,39,13,911219499],\"updatedBy\":null,\"id\":\"6a0dab711c9ab93806328be1\",\"pullRequestId\":\"6a0dab711c9ab93806328bdb\",\"workspaceId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"orgId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"gstinNodeId\":\"7e1f2be2-f48e-4f8a-91de-f9a25d94c100\",\"panNodeId\":null,\"dataSource\":\"GSTR2A\",\"status\":\"DOWNLOADING\",\"govtInteractionPullStatus\":null,\"returnPeriodsDownloaded\":0,\"totalReturnPeriodsTriggered\":12,\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"startRange\":\"042025\",\"endRange\":\"032026\",\"pullType\":\"OPTIMIZED_PULL\",\"metaData\":null,\"gisDownloadBehaviour\":\"USE_EXISTING_DATA\",\"govtErrorCode\":null,\"govtErrorMessage\":null},{\"createdAt\":[2026,5,20,12,39,13,911300991],\"updatedAt\":[2026,5,20,12,39,13,911300991],\"updatedBy\":null,\"id\":\"6a0dab711c9ab93806328be2\",\"pullRequestId\":\"6a0dab711c9ab93806328bdb\",\"workspaceId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"orgId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"gstinNodeId\":\"c580313d-1e1d-405a-93c4-041ab29764e8\",\"panNodeId\":null,\"dataSource\":\"GSTR2A\",\"status\":\"DOWNLOADING\",\"govtInteractionPullStatus\":null,\"returnPeriodsDownloaded\":0,\"totalReturnPeriodsTriggered\":12,\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"startRange\":\"042025\",\"endRange\":\"032026\",\"pullType\":\"OPTIMIZED_PULL\",\"metaData\":null,\"gisDownloadBehaviour\":\"USE_EXISTING_DATA\",\"govtErrorCode\":null,\"govtErrorMessage\":null},{\"createdAt\":[2026,5,20,12,39,13,911381673],\"updatedAt\":[2026,5,20,12,39,13,911381673],\"updatedBy\":null,\"id\":\"6a0dab711c9ab93806328be3\",\"pullRequestId\":\"6a0dab711c9ab93806328bdb\",\"workspaceId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"orgId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"gstinNodeId\":\"b64933f5-5ea7-4a6d-a847-f49ae1383f46\",\"panNodeId\":null,\"dataSource\":\"GSTR2A\",\"status\":\"DOWNLOADING\",\"govtInteractionPullStatus\":null,\"returnPeriodsDownloaded\":0,\"totalReturnPeriodsTriggered\":12,\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"startRange\":\"042025\",\"endRange\":\"032026\",\"pullType\":\"OPTIMIZED_PULL\",\"metaData\":null,\"gisDownloadBehaviour\":\"USE_EXISTING_DATA\",\"govtErrorCode\":null,\"govtErrorMessage\":null}],\"errorCode\":null,\"errorMessage\":null,\"errorGroups\":null}",
+  "request_body_parsed": {
+    "nodeType": "GSTIN",
+    "nodeIds": [
+      "01cbd28b-126b-46ed-bc85-b8aa5eb2fe83",
+      "eb29a58f-3cd5-49d3-b00b-053e14d3cc21",
+      "deac3f27-1a00-4810-ad38-2ef1a28aaea0",
+      "6a4f6153-f035-4c4e-adbe-956dc8b07ae4",
+      "bd0bc2d4-4f45-4b82-b332-898ba137204f",
+      "7e1f2be2-f48e-4f8a-91de-f9a25d94c100",
+      "c580313d-1e1d-405a-93c4-041ab29764e8",
+      "b64933f5-5ea7-4a6d-a847-f49ae1383f46"
+    ],
+    "startRange": "042025",
+    "endRange": "032026",
+    "pullType": "OPTIMIZED_PULL",
+    "tenant": "GSTR2A_REPORTS",
+    "dataSources": [],
+    "pageIds": [],
+    "nodeIdDataSourcesMap": {},
+    "metadata": {
+      "reportLevel": "PAN"
+    },
+    "gisDownloadBehaviour": "USE_EXISTING_DATA"
+  },
+  "response_body_parsed": {
+    "requestId": "6a0dab711c9ab93806328bdb",
+    "pullRequestInfo": {
+      "createdAt": [
+        2026,
+        5,
+        20,
+        12,
+        39,
+        13,
+        889126192
+      ],
+      "updatedAt": [
+        2026,
+        5,
+        20,
+        12,
+        39,
+        13,
+        889126192
+      ],
+      "updatedBy": null,
+      "pullRequestId": "6a0dab711c9ab93806328bdb",
+      "gstinNodeIds": [
+        "01cbd28b-126b-46ed-bc85-b8aa5eb2fe83",
+        "eb29a58f-3cd5-49d3-b00b-053e14d3cc21",
+        "deac3f27-1a00-4810-ad38-2ef1a28aaea0",
+        "6a4f6153-f035-4c4e-adbe-956dc8b07ae4",
+        "bd0bc2d4-4f45-4b82-b332-898ba137204f",
+        "7e1f2be2-f48e-4f8a-91de-f9a25d94c100",
+        "c580313d-1e1d-405a-93c4-041ab29764e8",
+        "b64933f5-5ea7-4a6d-a847-f49ae1383f46"
+      ],
+      "panNodeId": null,
+      "nodeType": "GSTIN",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "product": "GST",
+      "tenant": "GSTR2A_REPORTS",
+      "dataSources": [
+        "GSTR2A"
+      ],
+      "nodeIdDataSourcesMap": {
+        "01cbd28b-126b-46ed-bc85-b8aa5eb2fe83": [
+          "GSTR2A"
+        ],
+        "bd0bc2d4-4f45-4b82-b332-898ba137204f": [
+          "GSTR2A"
+        ],
+        "eb29a58f-3cd5-49d3-b00b-053e14d3cc21": [
+          "GSTR2A"
+        ],
+        "b64933f5-5ea7-4a6d-a847-f49ae1383f46": [
+          "GSTR2A"
+        ],
+        "deac3f27-1a00-4810-ad38-2ef1a28aaea0": [
+          "GSTR2A"
+        ],
+        "6a4f6153-f035-4c4e-adbe-956dc8b07ae4": [
+          "GSTR2A"
+        ],
+        "7e1f2be2-f48e-4f8a-91de-f9a25d94c100": [
+          "GSTR2A"
+        ],
+        "c580313d-1e1d-405a-93c4-041ab29764e8": [
+          "GSTR2A"
+        ]
+      },
+      "returnPeriod": [
+        "042025",
+        "052025",
+        "062025",
+        "072025",
+        "082025",
+        "092025",
+        "102025",
+        "112025",
+        "122025",
+        "012026",
+        "022026",
+        "032026"
+      ],
+      "downloadStatusEnum": "DOWNLOADING",
+      "pullType": "OPTIMIZED_PULL",
+      "accessibleHierarchyWithUserDetailsDTO": null,
+      "userId": "442ef3dd-fdcb-4169-b2d2-88b1b2cecaef",
+      "pageIds": [],
+      "startRange": "042025",
+      "endRange": "032026",
+      "source": "GST_REPORTS",
+      "onlyLoadNewData": false,
+      "postProcessingStartTime": null,
+      "postProcessingEndTime": null,
+      "gisDataAlreadyDownloaded": false,
+      "metadata": {
+        "reportLevel": "PAN",
+        "inactiveGstinNodeIds": "[]"
+      },
+      "dataSourceMetadata": null,
+      "gisDownloadBehaviour": "USE_EXISTING_DATA"
+    },
+    "dataPullRequestStatusList": [
+      {
+        "createdAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          910620717
+        ],
+        "updatedAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          910620717
+        ],
+        "updatedBy": null,
+        "id": "6a0dab711c9ab93806328bdc",
+        "pullRequestId": "6a0dab711c9ab93806328bdb",
+        "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "gstinNodeId": "01cbd28b-126b-46ed-bc85-b8aa5eb2fe83",
+        "panNodeId": null,
+        "dataSource": "GSTR2A",
+        "status": "DOWNLOADING",
+        "govtInteractionPullStatus": null,
+        "returnPeriodsDownloaded": 0,
+        "totalReturnPeriodsTriggered": 12,
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "startRange": "042025",
+        "endRange": "032026",
+        "pullType": "OPTIMIZED_PULL",
+        "metaData": null,
+        "gisDownloadBehaviour": "USE_EXISTING_DATA",
+        "govtErrorCode": null,
+        "govtErrorMessage": null
+      },
+      {
+        "createdAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          910843591
+        ],
+        "updatedAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          910843591
+        ],
+        "updatedBy": null,
+        "id": "6a0dab711c9ab93806328bdd",
+        "pullRequestId": "6a0dab711c9ab93806328bdb",
+        "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "gstinNodeId": "eb29a58f-3cd5-49d3-b00b-053e14d3cc21",
+        "panNodeId": null,
+        "dataSource": "GSTR2A",
+        "status": "DOWNLOADING",
+        "govtInteractionPullStatus": null,
+        "returnPeriodsDownloaded": 0,
+        "totalReturnPeriodsTriggered": 12,
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "startRange": "042025",
+        "endRange": "032026",
+        "pullType": "OPTIMIZED_PULL",
+        "metaData": null,
+        "gisDownloadBehaviour": "USE_EXISTING_DATA",
+        "govtErrorCode": null,
+        "govtErrorMessage": null
+      },
+      {
+        "createdAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          910964294
+        ],
+        "updatedAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          910964294
+        ],
+        "updatedBy": null,
+        "id": "6a0dab711c9ab93806328bde",
+        "pullRequestId": "6a0dab711c9ab93806328bdb",
+        "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "gstinNodeId": "deac3f27-1a00-4810-ad38-2ef1a28aaea0",
+        "panNodeId": null,
+        "dataSource": "GSTR2A",
+        "status": "DOWNLOADING",
+        "govtInteractionPullStatus": null,
+        "returnPeriodsDownloaded": 0,
+        "totalReturnPeriodsTriggered": 12,
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "startRange": "042025",
+        "endRange": "032026",
+        "pullType": "OPTIMIZED_PULL",
+        "metaData": null,
+        "gisDownloadBehaviour": "USE_EXISTING_DATA",
+        "govtErrorCode": null,
+        "govtErrorMessage": null
+      },
+      {
+        "createdAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          911048016
+        ],
+        "updatedAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          911048016
+        ],
+        "updatedBy": null,
+        "id": "6a0dab711c9ab93806328bdf",
+        "pullRequestId": "6a0dab711c9ab93806328bdb",
+        "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "gstinNodeId": "6a4f6153-f035-4c4e-adbe-956dc8b07ae4",
+        "panNodeId": null,
+        "dataSource": "GSTR2A",
+        "status": "DOWNLOADING",
+        "govtInteractionPullStatus": null,
+        "returnPeriodsDownloaded": 0,
+        "totalReturnPeriodsTriggered": 12,
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "startRange": "042025",
+        "endRange": "032026",
+        "pullType": "OPTIMIZED_PULL",
+        "metaData": null,
+        "gisDownloadBehaviour": "USE_EXISTING_DATA",
+        "govtErrorCode": null,
+        "govtErrorMessage": null
+      },
+      {
+        "createdAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          911131047
+        ],
+        "updatedAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          911131047
+        ],
+        "updatedBy": null,
+        "id": "6a0dab711c9ab93806328be0",
+        "pullRequestId": "6a0dab711c9ab93806328bdb",
+        "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "gstinNodeId": "bd0bc2d4-4f45-4b82-b332-898ba137204f",
+        "panNodeId": null,
+        "dataSource": "GSTR2A",
+        "status": "DOWNLOADING",
+        "govtInteractionPullStatus": null,
+        "returnPeriodsDownloaded": 0,
+        "totalReturnPeriodsTriggered": 12,
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "startRange": "042025",
+        "endRange": "032026",
+        "pullType": "OPTIMIZED_PULL",
+        "metaData": null,
+        "gisDownloadBehaviour": "USE_EXISTING_DATA",
+        "govtErrorCode": null,
+        "govtErrorMessage": null
+      },
+      {
+        "createdAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          911219499
+        ],
+        "updatedAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          911219499
+        ],
+        "updatedBy": null,
+        "id": "6a0dab711c9ab93806328be1",
+        "pullRequestId": "6a0dab711c9ab93806328bdb",
+        "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "gstinNodeId": "7e1f2be2-f48e-4f8a-91de-f9a25d94c100",
+        "panNodeId": null,
+        "dataSource": "GSTR2A",
+        "status": "DOWNLOADING",
+        "govtInteractionPullStatus": null,
+        "returnPeriodsDownloaded": 0,
+        "totalReturnPeriodsTriggered": 12,
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "startRange": "042025",
+        "endRange": "032026",
+        "pullType": "OPTIMIZED_PULL",
+        "metaData": null,
+        "gisDownloadBehaviour": "USE_EXISTING_DATA",
+        "govtErrorCode": null,
+        "govtErrorMessage": null
+      },
+      {
+        "createdAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          911300991
+        ],
+        "updatedAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          911300991
+        ],
+        "updatedBy": null,
+        "id": "6a0dab711c9ab93806328be2",
+        "pullRequestId": "6a0dab711c9ab93806328bdb",
+        "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "gstinNodeId": "c580313d-1e1d-405a-93c4-041ab29764e8",
+        "panNodeId": null,
+        "dataSource": "GSTR2A",
+        "status": "DOWNLOADING",
+        "govtInteractionPullStatus": null,
+        "returnPeriodsDownloaded": 0,
+        "totalReturnPeriodsTriggered": 12,
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "startRange": "042025",
+        "endRange": "032026",
+        "pullType": "OPTIMIZED_PULL",
+        "metaData": null,
+        "gisDownloadBehaviour": "USE_EXISTING_DATA",
+        "govtErrorCode": null,
+        "govtErrorMessage": null
+      },
+      {
+        "createdAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          911381673
+        ],
+        "updatedAt": [
+          2026,
+          5,
+          20,
+          12,
+          39,
+          13,
+          911381673
+        ],
+        "updatedBy": null,
+        "id": "6a0dab711c9ab93806328be3",
+        "pullRequestId": "6a0dab711c9ab93806328bdb",
+        "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "gstinNodeId": "b64933f5-5ea7-4a6d-a847-f49ae1383f46",
+        "panNodeId": null,
+        "dataSource": "GSTR2A",
+        "status": "DOWNLOADING",
+        "govtInteractionPullStatus": null,
+        "returnPeriodsDownloaded": 0,
+        "totalReturnPeriodsTriggered": 12,
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "startRange": "042025",
+        "endRange": "032026",
+        "pullType": "OPTIMIZED_PULL",
+        "metaData": null,
+        "gisDownloadBehaviour": "USE_EXISTING_DATA",
+        "govtErrorCode": null,
+        "govtErrorMessage": null
+      }
+    ],
+    "errorCode": null,
+    "errorMessage": null,
+    "errorGroups": null
+  }
+}

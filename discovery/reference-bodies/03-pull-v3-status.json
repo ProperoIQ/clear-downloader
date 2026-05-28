@@ -1,0 +1,1189 @@
+{
+  "method": "POST",
+  "url": "https://app.clear.in/api/data-pull/public/pull/v3/status",
+  "request_headers": [
+    {
+      "name": ":authority",
+      "value": "app.clear.in"
+    },
+    {
+      "name": ":method",
+      "value": "POST"
+    },
+    {
+      "name": ":path",
+      "value": "/api/data-pull/public/pull/v3/status"
+    },
+    {
+      "name": ":scheme",
+      "value": "https"
+    },
+    {
+      "name": "accept",
+      "value": "application/json, text/plain, */*"
+    },
+    {
+      "name": "accept-encoding",
+      "value": "gzip, deflate, br, zstd"
+    },
+    {
+      "name": "accept-language",
+      "value": "en-GB,en-US;q=0.9,en;q=0.8"
+    },
+    {
+      "name": "baggage",
+      "value": "sentry-environment=production,sentry-release=2491700ff48240c3949e8461815031a6f5d3c477,sentry-public_key=607fd3b42fc9b74117f75a6900f89b00,sentry-trace_id=1a7c0558704a477b90ec088335e2b00b,sentry-sample_rate=1,sentry-sampled=true"
+    },
+    {
+      "name": "cache-control",
+      "value": "no-cache"
+    },
+    {
+      "name": "content-length",
+      "value": "457"
+    },
+    {
+      "name": "content-type",
+      "value": "application/json"
+    },
+    {
+      "name": "origin",
+      "value": "https://app.clear.in"
+    },
+    {
+      "name": "pragma",
+      "value": "no-cache"
+    },
+    {
+      "name": "priority",
+      "value": "u=1, i"
+    },
+    {
+      "name": "referer",
+      "value": "https://app.clear.in/gst/reports/v2?reportType=panMm2a&activeBusiness=PISCES%20ESERVICES%20PRIVATE%20LIMITED&startDate=2025-04-01&endDate=2026-03-31&pan=AAGCP5410J&panNodeId=8b26df83-cf60-4963-8e4d-e5d7790ee2aa&timePeriodType=FISCAL_YEAR&localStorageKey=OGIyNmRmODMtY2Y2MC00OTYzLThlNGQtZTVkNzc5MGVlMmFhXzE3NzkyODA1NTc2NzI%3D&section=REPORT_VIEW&jobId=6a0dab711c9ab93806328bdb"
+    },
+    {
+      "name": "sec-ch-ua",
+      "value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+    },
+    {
+      "name": "sec-ch-ua-mobile",
+      "value": "?0"
+    },
+    {
+      "name": "sec-ch-ua-platform",
+      "value": "\"Windows\""
+    },
+    {
+      "name": "sec-fetch-dest",
+      "value": "empty"
+    },
+    {
+      "name": "sec-fetch-mode",
+      "value": "cors"
+    },
+    {
+      "name": "sec-fetch-site",
+      "value": "same-origin"
+    },
+    {
+      "name": "sentry-trace",
+      "value": "2cabd9ac39994594b219d6f7a3bdcf8b-b42ac160e9448b29-1"
+    },
+    {
+      "name": "tenant",
+      "value": "GSTR2A_REPORTS"
+    },
+    {
+      "name": "user-agent",
+      "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+    },
+    {
+      "name": "x-clear-node-id",
+      "value": "01cbd28b-126b-46ed-bc85-b8aa5eb2fe83,eb29a58f-3cd5-49d3-b00b-053e14d3cc21,deac3f27-1a00-4810-ad38-2ef1a28aaea0,6a4f6153-f035-4c4e-adbe-956dc8b07ae4,bd0bc2d4-4f45-4b82-b332-898ba137204f,7e1f2be2-f48e-4f8a-91de-f9a25d94c100,c580313d-1e1d-405a-93c4-041ab29764e8,b64933f5-5ea7-4a6d-a847-f49ae1383f46"
+    },
+    {
+      "name": "x-clear-node-type",
+      "value": "GSTIN"
+    },
+    {
+      "name": "x-cleartax-country",
+      "value": "in"
+    },
+    {
+      "name": "x-cleartax-orgunit",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    },
+    {
+      "name": "x-cleartax-product",
+      "value": "GST"
+    },
+    {
+      "name": "x-cleartax-source",
+      "value": "APPCLEAR"
+    },
+    {
+      "name": "x-organisation-id",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    },
+    {
+      "name": "x-workspace-id",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    }
+  ],
+  "request_body": "{\"nodeIds\":[\"01cbd28b-126b-46ed-bc85-b8aa5eb2fe83\",\"eb29a58f-3cd5-49d3-b00b-053e14d3cc21\",\"deac3f27-1a00-4810-ad38-2ef1a28aaea0\",\"6a4f6153-f035-4c4e-adbe-956dc8b07ae4\",\"bd0bc2d4-4f45-4b82-b332-898ba137204f\",\"7e1f2be2-f48e-4f8a-91de-f9a25d94c100\",\"c580313d-1e1d-405a-93c4-041ab29764e8\",\"b64933f5-5ea7-4a6d-a847-f49ae1383f46\"],\"nodeType\":\"GSTIN\",\"startRange\":\"042025\",\"endRange\":\"032026\",\"pullType\":\"OPTIMIZED_PULL\",\"tenant\":\"GSTR2A_REPORTS\",\"dataSources\":[]}",
+  "response_status": 200,
+  "response_content_type": "application/json",
+  "response_body": "{\"statusResponses\":[{\"nodeId\":\"01cbd28b-126b-46ed-bc85-b8aa5eb2fe83\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeType\":\"GSTIN\",\"nodeValue\":\"06AAGCP5410J1ZI\",\"nodeName\":\"haryana\",\"userName\":\"Pisces_3364\",\"downloadStatus\":\"DOWNLOADING\",\"downloadPercentage\":0,\"updatedAt\":\"2026-05-20T12:11:49.987+0530\",\"dataSources\":[\"GSTR2A\"],\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"tokenExpiryTimeStamp\":\"2026-05-29T06:27:39.528+0530\",\"dataSourceDownloadDetails\":{\"GSTR2A\":{\"dataSource\":\"GSTR2A\",\"uiDisplayValue\":\"GSTR-2A\",\"downloadStatus\":\"DOWNLOADING\",\"failedReturnPeriods\":[],\"successReturnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"notApplicableReturnPeriods\":[],\"failedReturnPeriodCount\":0,\"successReturnPeriodCount\":0,\"notApplicableReturnPeriodCount\":0,\"notDownloadedReturnPeriodCount\":0,\"totalReturnPeriods\":12,\"errorMessage\":null,\"errorCodes\":null,\"errorGroups\":null,\"returnPeriodRateLimitStatusMap\":{\"012026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"022026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"112025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"122025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"092025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"102025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"042025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"032026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"052025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"082025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"062025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"072025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000}},\"returnPeriodLevelDetails\":null,\"multipleErrors\":false}},\"errorCodes\":[],\"errorGroups\":null,\"active\":true,\"passwordAvailable\":true},{\"nodeId\":\"7e1f2be2-f48e-4f8a-91de-f9a25d94c100\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeType\":\"GSTIN\",\"nodeValue\":\"07AAGCP5410J1ZG\",\"nodeName\":\"Delhi\",\"userName\":\"Pisces_7541\",\"downloadStatus\":\"DOWNLOADING\",\"downloadPercentage\":0,\"updatedAt\":\"2026-05-20T12:11:49.770+0530\",\"dataSources\":[\"GSTR2A\"],\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"tokenExpiryTimeStamp\":\"2026-05-29T06:27:58.344+0530\",\"dataSourceDownloadDetails\":{\"GSTR2A\":{\"dataSource\":\"GSTR2A\",\"uiDisplayValue\":\"GSTR-2A\",\"downloadStatus\":\"DOWNLOADING\",\"failedReturnPeriods\":[],\"successReturnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"notApplicableReturnPeriods\":[],\"failedReturnPeriodCount\":0,\"successReturnPeriodCount\":0,\"notApplicableReturnPeriodCount\":0,\"notDownloadedReturnPeriodCount\":0,\"totalReturnPeriods\":12,\"errorMessage\":null,\"errorCodes\":null,\"errorGroups\":null,\"returnPeriodRateLimitStatusMap\":{\"012026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"022026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"112025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"122025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"092025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"102025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"042025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"032026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"052025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"082025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"062025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"072025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000}},\"returnPeriodLevelDetails\":null,\"multipleErrors\":false}},\"errorCodes\":[],\"errorGroups\":null,\"active\":true,\"passwordAvailable\":true},{\"nodeId\":\"b64933f5-5ea7-4a6d-a847-f49ae1383f46\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeType\":\"GSTIN\",\"nodeValue\":\"09AAGCP5410J1ZC\",\"nodeName\":\"Uttar Pradesh\",\"userName\":\"Pisces_0954\",\"downloadStatus\":\"DOWNLOADING\",\"downloadPercentage\":0,\"updatedAt\":\"2026-05-20T12:11:49.241+0530\",\"dataSources\":[\"GSTR2A\"],\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"tokenExpiryTimeStamp\":\"2026-05-29T06:27:29.599+0530\",\"dataSourceDownloadDetails\":{\"GSTR2A\":{\"dataSource\":\"GSTR2A\",\"uiDisplayValue\":\"GSTR-2A\",\"downloadStatus\":\"DOWNLOADING\",\"failedReturnPeriods\":[],\"successReturnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"notApplicableReturnPeriods\":[],\"failedReturnPeriodCount\":0,\"successReturnPeriodCount\":0,\"notApplicableReturnPeriodCount\":0,\"notDownloadedReturnPeriodCount\":0,\"totalReturnPeriods\":12,\"errorMessage\":null,\"errorCodes\":null,\"errorGroups\":null,\"returnPeriodRateLimitStatusMap\":{\"012026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"022026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"112025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"122025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"092025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"102025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"042025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"032026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"052025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"082025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"062025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"072025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000}},\"returnPeriodLevelDetails\":null,\"multipleErrors\":false}},\"errorCodes\":[],\"errorGroups\":null,\"active\":true,\"passwordAvailable\":true},{\"nodeId\":\"deac3f27-1a00-4810-ad38-2ef1a28aaea0\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeType\":\"GSTIN\",\"nodeValue\":\"19AAGCP5410J2ZA\",\"nodeName\":\"West Bengal\",\"userName\":\"Pisces_1941\",\"downloadStatus\":\"DOWNLOADING\",\"downloadPercentage\":0,\"updatedAt\":\"2026-05-20T12:11:39.803+0530\",\"dataSources\":[\"GSTR2A\"],\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"tokenExpiryTimeStamp\":\"2026-05-29T06:27:48.070+0530\",\"dataSourceDownloadDetails\":{\"GSTR2A\":{\"dataSource\":\"GSTR2A\",\"uiDisplayValue\":\"GSTR-2A\",\"downloadStatus\":\"DOWNLOADING\",\"failedReturnPeriods\":[],\"successReturnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"notApplicableReturnPeriods\":[],\"failedReturnPeriodCount\":0,\"successReturnPeriodCount\":0,\"notApplicableReturnPeriodCount\":0,\"notDownloadedReturnPeriodCount\":0,\"totalReturnPeriods\":12,\"errorMessage\":null,\"errorCodes\":null,\"errorGroups\":null,\"returnPeriodRateLimitStatusMap\":{\"012026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"022026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"112025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"122025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"092025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"102025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"042025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"032026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"052025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"082025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"062025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"072025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000}},\"returnPeriodLevelDetails\":null,\"multipleErrors\":false}},\"errorCodes\":[],\"errorGroups\":null,\"active\":true,\"passwordAvailable\":true},{\"nodeId\":\"c580313d-1e1d-405a-93c4-041ab29764e8\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeType\":\"GSTIN\",\"nodeValue\":\"27AAGCP5410J1ZE\",\"nodeName\":\"Maharashtra\",\"userName\":\"Pisces_2754\",\"downloadStatus\":\"DOWNLOADING\",\"downloadPercentage\":0,\"updatedAt\":\"2026-05-20T12:11:49.509+0530\",\"dataSources\":[\"GSTR2A\"],\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"tokenExpiryTimeStamp\":\"2026-05-29T06:26:59.939+0530\",\"dataSourceDownloadDetails\":{\"GSTR2A\":{\"dataSource\":\"GSTR2A\",\"uiDisplayValue\":\"GSTR-2A\",\"downloadStatus\":\"DOWNLOADING\",\"failedReturnPeriods\":[],\"successReturnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"notApplicableReturnPeriods\":[],\"failedReturnPeriodCount\":0,\"successReturnPeriodCount\":0,\"notApplicableReturnPeriodCount\":0,\"notDownloadedReturnPeriodCount\":0,\"totalReturnPeriods\":12,\"errorMessage\":null,\"errorCodes\":null,\"errorGroups\":null,\"returnPeriodRateLimitStatusMap\":{\"012026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"022026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"112025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"122025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"092025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"102025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"042025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"032026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"052025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"082025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"062025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"072025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000}},\"returnPeriodLevelDetails\":null,\"multipleErrors\":false}},\"errorCodes\":[],\"errorGroups\":null,\"active\":true,\"passwordAvailable\":true},{\"nodeId\":\"6a4f6153-f035-4c4e-adbe-956dc8b07ae4\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeType\":\"GSTIN\",\"nodeValue\":\"29AAGCP5410J1ZA\",\"nodeName\":\"Karnataka\",\"userName\":\"Pisces_3530\",\"downloadStatus\":\"DOWNLOADING\",\"downloadPercentage\":0,\"updatedAt\":\"2026-05-20T12:11:40.691+0530\",\"dataSources\":[\"GSTR2A\"],\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"tokenExpiryTimeStamp\":\"2026-05-29T06:28:06.582+0530\",\"dataSourceDownloadDetails\":{\"GSTR2A\":{\"dataSource\":\"GSTR2A\",\"uiDisplayValue\":\"GSTR-2A\",\"downloadStatus\":\"DOWNLOADING\",\"failedReturnPeriods\":[],\"successReturnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"notApplicableReturnPeriods\":[],\"failedReturnPeriodCount\":0,\"successReturnPeriodCount\":0,\"notApplicableReturnPeriodCount\":0,\"notDownloadedReturnPeriodCount\":0,\"totalReturnPeriods\":12,\"errorMessage\":null,\"errorCodes\":null,\"errorGroups\":null,\"returnPeriodRateLimitStatusMap\":{\"012026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"022026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"112025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"122025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"092025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"102025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"042025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"032026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"052025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"082025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"062025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"072025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000}},\"returnPeriodLevelDetails\":null,\"multipleErrors\":false}},\"errorCodes\":[],\"errorGroups\":null,\"active\":true,\"passwordAvailable\":true},{\"nodeId\":\"eb29a58f-3cd5-49d3-b00b-053e14d3cc21\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeType\":\"GSTIN\",\"nodeValue\":\"33AAGCP5410J1ZL\",\"nodeName\":\"Tamil Nadu\",\"userName\":\"Pisces_3354\",\"downloadStatus\":\"DOWNLOADING\",\"downloadPercentage\":0,\"updatedAt\":\"2026-05-20T12:11:48.854+0530\",\"dataSources\":[\"GSTR2A\"],\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"tokenExpiryTimeStamp\":\"2026-05-29T06:27:16.340+0530\",\"dataSourceDownloadDetails\":{\"GSTR2A\":{\"dataSource\":\"GSTR2A\",\"uiDisplayValue\":\"GSTR-2A\",\"downloadStatus\":\"DOWNLOADING\",\"failedReturnPeriods\":[],\"successReturnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"notApplicableReturnPeriods\":[],\"failedReturnPeriodCount\":0,\"successReturnPeriodCount\":0,\"notApplicableReturnPeriodCount\":0,\"notDownloadedReturnPeriodCount\":0,\"totalReturnPeriods\":12,\"errorMessage\":null,\"errorCodes\":null,\"errorGroups\":null,\"returnPeriodRateLimitStatusMap\":{\"012026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"022026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"112025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"122025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"092025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"102025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"042025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"032026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"052025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"082025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"062025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"072025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000}},\"returnPeriodLevelDetails\":null,\"multipleErrors\":false}},\"errorCodes\":[],\"errorGroups\":null,\"active\":true,\"passwordAvailable\":true},{\"nodeId\":\"bd0bc2d4-4f45-4b82-b332-898ba137204f\",\"parentNodeId\":\"8b26df83-cf60-4963-8e4d-e5d7790ee2aa\",\"nodeType\":\"GSTIN\",\"nodeValue\":\"36AAGCP5410J1ZF\",\"nodeName\":\"Telangana\",\"userName\":\"Pisces_3654\",\"downloadStatus\":\"DOWNLOADING\",\"downloadPercentage\":0,\"updatedAt\":\"2026-05-20T12:11:39.670+0530\",\"dataSources\":[\"GSTR2A\"],\"returnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"tokenExpiryTimeStamp\":\"2026-05-29T06:28:16.127+0530\",\"dataSourceDownloadDetails\":{\"GSTR2A\":{\"dataSource\":\"GSTR2A\",\"uiDisplayValue\":\"GSTR-2A\",\"downloadStatus\":\"DOWNLOADING\",\"failedReturnPeriods\":[],\"successReturnPeriods\":[\"042025\",\"052025\",\"062025\",\"072025\",\"082025\",\"092025\",\"102025\",\"112025\",\"122025\",\"012026\",\"022026\",\"032026\"],\"notApplicableReturnPeriods\":[],\"failedReturnPeriodCount\":0,\"successReturnPeriodCount\":0,\"notApplicableReturnPeriodCount\":0,\"notDownloadedReturnPeriodCount\":0,\"totalReturnPeriods\":12,\"errorMessage\":null,\"errorCodes\":null,\"errorGroups\":null,\"returnPeriodRateLimitStatusMap\":{\"012026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"022026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"112025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"122025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"092025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"102025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"042025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"032026\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"052025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"082025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"062025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000},\"072025\":{\"maxAttempts\":5,\"remainingAttempts\":4,\"resetTimeInMillis\":1779301800000}},\"returnPeriodLevelDetails\":null,\"multipleErrors\":false}},\"errorCodes\":[],\"errorGroups\":null,\"active\":true,\"passwordAvailable\":true}],\"overallDownloadStatus\":\"DOWNLOADING\",\"overallDownloadPercentage\":0.00,\"postPullStatus\":null,\"postPullResponse\":null,\"errorGroups\":[]}",
+  "request_body_parsed": {
+    "nodeIds": [
+      "01cbd28b-126b-46ed-bc85-b8aa5eb2fe83",
+      "eb29a58f-3cd5-49d3-b00b-053e14d3cc21",
+      "deac3f27-1a00-4810-ad38-2ef1a28aaea0",
+      "6a4f6153-f035-4c4e-adbe-956dc8b07ae4",
+      "bd0bc2d4-4f45-4b82-b332-898ba137204f",
+      "7e1f2be2-f48e-4f8a-91de-f9a25d94c100",
+      "c580313d-1e1d-405a-93c4-041ab29764e8",
+      "b64933f5-5ea7-4a6d-a847-f49ae1383f46"
+    ],
+    "nodeType": "GSTIN",
+    "startRange": "042025",
+    "endRange": "032026",
+    "pullType": "OPTIMIZED_PULL",
+    "tenant": "GSTR2A_REPORTS",
+    "dataSources": []
+  },
+  "response_body_parsed": {
+    "statusResponses": [
+      {
+        "nodeId": "01cbd28b-126b-46ed-bc85-b8aa5eb2fe83",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeType": "GSTIN",
+        "nodeValue": "06AAGCP5410J1ZI",
+        "nodeName": "haryana",
+        "userName": "Pisces_3364",
+        "downloadStatus": "DOWNLOADING",
+        "downloadPercentage": 0,
+        "updatedAt": "2026-05-20T12:11:49.987+0530",
+        "dataSources": [
+          "GSTR2A"
+        ],
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "tokenExpiryTimeStamp": "2026-05-29T06:27:39.528+0530",
+        "dataSourceDownloadDetails": {
+          "GSTR2A": {
+            "dataSource": "GSTR2A",
+            "uiDisplayValue": "GSTR-2A",
+            "downloadStatus": "DOWNLOADING",
+            "failedReturnPeriods": [],
+            "successReturnPeriods": [
+              "042025",
+              "052025",
+              "062025",
+              "072025",
+              "082025",
+              "092025",
+              "102025",
+              "112025",
+              "122025",
+              "012026",
+              "022026",
+              "032026"
+            ],
+            "notApplicableReturnPeriods": [],
+            "failedReturnPeriodCount": 0,
+            "successReturnPeriodCount": 0,
+            "notApplicableReturnPeriodCount": 0,
+            "notDownloadedReturnPeriodCount": 0,
+            "totalReturnPeriods": 12,
+            "errorMessage": null,
+            "errorCodes": null,
+            "errorGroups": null,
+            "returnPeriodRateLimitStatusMap": {
+              "012026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "022026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "112025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "122025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "092025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "102025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "042025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "032026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "052025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "082025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "062025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "072025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              }
+            },
+            "returnPeriodLevelDetails": null,
+            "multipleErrors": false
+          }
+        },
+        "errorCodes": [],
+        "errorGroups": null,
+        "active": true,
+        "passwordAvailable": true
+      },
+      {
+        "nodeId": "7e1f2be2-f48e-4f8a-91de-f9a25d94c100",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeType": "GSTIN",
+        "nodeValue": "07AAGCP5410J1ZG",
+        "nodeName": "Delhi",
+        "userName": "Pisces_7541",
+        "downloadStatus": "DOWNLOADING",
+        "downloadPercentage": 0,
+        "updatedAt": "2026-05-20T12:11:49.770+0530",
+        "dataSources": [
+          "GSTR2A"
+        ],
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "tokenExpiryTimeStamp": "2026-05-29T06:27:58.344+0530",
+        "dataSourceDownloadDetails": {
+          "GSTR2A": {
+            "dataSource": "GSTR2A",
+            "uiDisplayValue": "GSTR-2A",
+            "downloadStatus": "DOWNLOADING",
+            "failedReturnPeriods": [],
+            "successReturnPeriods": [
+              "042025",
+              "052025",
+              "062025",
+              "072025",
+              "082025",
+              "092025",
+              "102025",
+              "112025",
+              "122025",
+              "012026",
+              "022026",
+              "032026"
+            ],
+            "notApplicableReturnPeriods": [],
+            "failedReturnPeriodCount": 0,
+            "successReturnPeriodCount": 0,
+            "notApplicableReturnPeriodCount": 0,
+            "notDownloadedReturnPeriodCount": 0,
+            "totalReturnPeriods": 12,
+            "errorMessage": null,
+            "errorCodes": null,
+            "errorGroups": null,
+            "returnPeriodRateLimitStatusMap": {
+              "012026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "022026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "112025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "122025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "092025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "102025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "042025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "032026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "052025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "082025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "062025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "072025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              }
+            },
+            "returnPeriodLevelDetails": null,
+            "multipleErrors": false
+          }
+        },
+        "errorCodes": [],
+        "errorGroups": null,
+        "active": true,
+        "passwordAvailable": true
+      },
+      {
+        "nodeId": "b64933f5-5ea7-4a6d-a847-f49ae1383f46",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeType": "GSTIN",
+        "nodeValue": "09AAGCP5410J1ZC",
+        "nodeName": "Uttar Pradesh",
+        "userName": "Pisces_0954",
+        "downloadStatus": "DOWNLOADING",
+        "downloadPercentage": 0,
+        "updatedAt": "2026-05-20T12:11:49.241+0530",
+        "dataSources": [
+          "GSTR2A"
+        ],
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "tokenExpiryTimeStamp": "2026-05-29T06:27:29.599+0530",
+        "dataSourceDownloadDetails": {
+          "GSTR2A": {
+            "dataSource": "GSTR2A",
+            "uiDisplayValue": "GSTR-2A",
+            "downloadStatus": "DOWNLOADING",
+            "failedReturnPeriods": [],
+            "successReturnPeriods": [
+              "042025",
+              "052025",
+              "062025",
+              "072025",
+              "082025",
+              "092025",
+              "102025",
+              "112025",
+              "122025",
+              "012026",
+              "022026",
+              "032026"
+            ],
+            "notApplicableReturnPeriods": [],
+            "failedReturnPeriodCount": 0,
+            "successReturnPeriodCount": 0,
+            "notApplicableReturnPeriodCount": 0,
+            "notDownloadedReturnPeriodCount": 0,
+            "totalReturnPeriods": 12,
+            "errorMessage": null,
+            "errorCodes": null,
+            "errorGroups": null,
+            "returnPeriodRateLimitStatusMap": {
+              "012026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "022026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "112025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "122025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "092025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "102025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "042025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "032026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "052025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "082025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "062025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "072025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              }
+            },
+            "returnPeriodLevelDetails": null,
+            "multipleErrors": false
+          }
+        },
+        "errorCodes": [],
+        "errorGroups": null,
+        "active": true,
+        "passwordAvailable": true
+      },
+      {
+        "nodeId": "deac3f27-1a00-4810-ad38-2ef1a28aaea0",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeType": "GSTIN",
+        "nodeValue": "19AAGCP5410J2ZA",
+        "nodeName": "West Bengal",
+        "userName": "Pisces_1941",
+        "downloadStatus": "DOWNLOADING",
+        "downloadPercentage": 0,
+        "updatedAt": "2026-05-20T12:11:39.803+0530",
+        "dataSources": [
+          "GSTR2A"
+        ],
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "tokenExpiryTimeStamp": "2026-05-29T06:27:48.070+0530",
+        "dataSourceDownloadDetails": {
+          "GSTR2A": {
+            "dataSource": "GSTR2A",
+            "uiDisplayValue": "GSTR-2A",
+            "downloadStatus": "DOWNLOADING",
+            "failedReturnPeriods": [],
+            "successReturnPeriods": [
+              "042025",
+              "052025",
+              "062025",
+              "072025",
+              "082025",
+              "092025",
+              "102025",
+              "112025",
+              "122025",
+              "012026",
+              "022026",
+              "032026"
+            ],
+            "notApplicableReturnPeriods": [],
+            "failedReturnPeriodCount": 0,
+            "successReturnPeriodCount": 0,
+            "notApplicableReturnPeriodCount": 0,
+            "notDownloadedReturnPeriodCount": 0,
+            "totalReturnPeriods": 12,
+            "errorMessage": null,
+            "errorCodes": null,
+            "errorGroups": null,
+            "returnPeriodRateLimitStatusMap": {
+              "012026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "022026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "112025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "122025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "092025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "102025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "042025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "032026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "052025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "082025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "062025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "072025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              }
+            },
+            "returnPeriodLevelDetails": null,
+            "multipleErrors": false
+          }
+        },
+        "errorCodes": [],
+        "errorGroups": null,
+        "active": true,
+        "passwordAvailable": true
+      },
+      {
+        "nodeId": "c580313d-1e1d-405a-93c4-041ab29764e8",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeType": "GSTIN",
+        "nodeValue": "27AAGCP5410J1ZE",
+        "nodeName": "Maharashtra",
+        "userName": "Pisces_2754",
+        "downloadStatus": "DOWNLOADING",
+        "downloadPercentage": 0,
+        "updatedAt": "2026-05-20T12:11:49.509+0530",
+        "dataSources": [
+          "GSTR2A"
+        ],
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "tokenExpiryTimeStamp": "2026-05-29T06:26:59.939+0530",
+        "dataSourceDownloadDetails": {
+          "GSTR2A": {
+            "dataSource": "GSTR2A",
+            "uiDisplayValue": "GSTR-2A",
+            "downloadStatus": "DOWNLOADING",
+            "failedReturnPeriods": [],
+            "successReturnPeriods": [
+              "042025",
+              "052025",
+              "062025",
+              "072025",
+              "082025",
+              "092025",
+              "102025",
+              "112025",
+              "122025",
+              "012026",
+              "022026",
+              "032026"
+            ],
+            "notApplicableReturnPeriods": [],
+            "failedReturnPeriodCount": 0,
+            "successReturnPeriodCount": 0,
+            "notApplicableReturnPeriodCount": 0,
+            "notDownloadedReturnPeriodCount": 0,
+            "totalReturnPeriods": 12,
+            "errorMessage": null,
+            "errorCodes": null,
+            "errorGroups": null,
+            "returnPeriodRateLimitStatusMap": {
+              "012026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "022026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "112025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "122025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "092025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "102025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "042025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "032026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "052025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "082025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "062025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "072025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              }
+            },
+            "returnPeriodLevelDetails": null,
+            "multipleErrors": false
+          }
+        },
+        "errorCodes": [],
+        "errorGroups": null,
+        "active": true,
+        "passwordAvailable": true
+      },
+      {
+        "nodeId": "6a4f6153-f035-4c4e-adbe-956dc8b07ae4",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeType": "GSTIN",
+        "nodeValue": "29AAGCP5410J1ZA",
+        "nodeName": "Karnataka",
+        "userName": "Pisces_3530",
+        "downloadStatus": "DOWNLOADING",
+        "downloadPercentage": 0,
+        "updatedAt": "2026-05-20T12:11:40.691+0530",
+        "dataSources": [
+          "GSTR2A"
+        ],
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "tokenExpiryTimeStamp": "2026-05-29T06:28:06.582+0530",
+        "dataSourceDownloadDetails": {
+          "GSTR2A": {
+            "dataSource": "GSTR2A",
+            "uiDisplayValue": "GSTR-2A",
+            "downloadStatus": "DOWNLOADING",
+            "failedReturnPeriods": [],
+            "successReturnPeriods": [
+              "042025",
+              "052025",
+              "062025",
+              "072025",
+              "082025",
+              "092025",
+              "102025",
+              "112025",
+              "122025",
+              "012026",
+              "022026",
+              "032026"
+            ],
+            "notApplicableReturnPeriods": [],
+            "failedReturnPeriodCount": 0,
+            "successReturnPeriodCount": 0,
+            "notApplicableReturnPeriodCount": 0,
+            "notDownloadedReturnPeriodCount": 0,
+            "totalReturnPeriods": 12,
+            "errorMessage": null,
+            "errorCodes": null,
+            "errorGroups": null,
+            "returnPeriodRateLimitStatusMap": {
+              "012026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "022026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "112025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "122025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "092025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "102025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "042025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "032026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "052025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "082025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "062025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "072025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              }
+            },
+            "returnPeriodLevelDetails": null,
+            "multipleErrors": false
+          }
+        },
+        "errorCodes": [],
+        "errorGroups": null,
+        "active": true,
+        "passwordAvailable": true
+      },
+      {
+        "nodeId": "eb29a58f-3cd5-49d3-b00b-053e14d3cc21",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeType": "GSTIN",
+        "nodeValue": "33AAGCP5410J1ZL",
+        "nodeName": "Tamil Nadu",
+        "userName": "Pisces_3354",
+        "downloadStatus": "DOWNLOADING",
+        "downloadPercentage": 0,
+        "updatedAt": "2026-05-20T12:11:48.854+0530",
+        "dataSources": [
+          "GSTR2A"
+        ],
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "tokenExpiryTimeStamp": "2026-05-29T06:27:16.340+0530",
+        "dataSourceDownloadDetails": {
+          "GSTR2A": {
+            "dataSource": "GSTR2A",
+            "uiDisplayValue": "GSTR-2A",
+            "downloadStatus": "DOWNLOADING",
+            "failedReturnPeriods": [],
+            "successReturnPeriods": [
+              "042025",
+              "052025",
+              "062025",
+              "072025",
+              "082025",
+              "092025",
+              "102025",
+              "112025",
+              "122025",
+              "012026",
+              "022026",
+              "032026"
+            ],
+            "notApplicableReturnPeriods": [],
+            "failedReturnPeriodCount": 0,
+            "successReturnPeriodCount": 0,
+            "notApplicableReturnPeriodCount": 0,
+            "notDownloadedReturnPeriodCount": 0,
+            "totalReturnPeriods": 12,
+            "errorMessage": null,
+            "errorCodes": null,
+            "errorGroups": null,
+            "returnPeriodRateLimitStatusMap": {
+              "012026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "022026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "112025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "122025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "092025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "102025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "042025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "032026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "052025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "082025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "062025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "072025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              }
+            },
+            "returnPeriodLevelDetails": null,
+            "multipleErrors": false
+          }
+        },
+        "errorCodes": [],
+        "errorGroups": null,
+        "active": true,
+        "passwordAvailable": true
+      },
+      {
+        "nodeId": "bd0bc2d4-4f45-4b82-b332-898ba137204f",
+        "parentNodeId": "8b26df83-cf60-4963-8e4d-e5d7790ee2aa",
+        "nodeType": "GSTIN",
+        "nodeValue": "36AAGCP5410J1ZF",
+        "nodeName": "Telangana",
+        "userName": "Pisces_3654",
+        "downloadStatus": "DOWNLOADING",
+        "downloadPercentage": 0,
+        "updatedAt": "2026-05-20T12:11:39.670+0530",
+        "dataSources": [
+          "GSTR2A"
+        ],
+        "returnPeriods": [
+          "042025",
+          "052025",
+          "062025",
+          "072025",
+          "082025",
+          "092025",
+          "102025",
+          "112025",
+          "122025",
+          "012026",
+          "022026",
+          "032026"
+        ],
+        "tokenExpiryTimeStamp": "2026-05-29T06:28:16.127+0530",
+        "dataSourceDownloadDetails": {
+          "GSTR2A": {
+            "dataSource": "GSTR2A",
+            "uiDisplayValue": "GSTR-2A",
+            "downloadStatus": "DOWNLOADING",
+            "failedReturnPeriods": [],
+            "successReturnPeriods": [
+              "042025",
+              "052025",
+              "062025",
+              "072025",
+              "082025",
+              "092025",
+              "102025",
+              "112025",
+              "122025",
+              "012026",
+              "022026",
+              "032026"
+            ],
+            "notApplicableReturnPeriods": [],
+            "failedReturnPeriodCount": 0,
+            "successReturnPeriodCount": 0,
+            "notApplicableReturnPeriodCount": 0,
+            "notDownloadedReturnPeriodCount": 0,
+            "totalReturnPeriods": 12,
+            "errorMessage": null,
+            "errorCodes": null,
+            "errorGroups": null,
+            "returnPeriodRateLimitStatusMap": {
+              "012026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "022026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "112025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "122025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "092025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "102025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "042025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "032026": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "052025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "082025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "062025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              },
+              "072025": {
+                "maxAttempts": 5,
+                "remainingAttempts": 4,
+                "resetTimeInMillis": 1779301800000
+              }
+            },
+            "returnPeriodLevelDetails": null,
+            "multipleErrors": false
+          }
+        },
+        "errorCodes": [],
+        "errorGroups": null,
+        "active": true,
+        "passwordAvailable": true
+      }
+    ],
+    "overallDownloadStatus": "DOWNLOADING",
+    "overallDownloadPercentage": 0.0,
+    "postPullStatus": null,
+    "postPullResponse": null,
+    "errorGroups": []
+  }
+}

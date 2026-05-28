@@ -1,0 +1,487 @@
+{
+  "method": "POST",
+  "url": "https://app.clear.in/api/clear/data-browser/public/export/trigger",
+  "request_headers": [
+    {
+      "name": ":authority",
+      "value": "app.clear.in"
+    },
+    {
+      "name": ":method",
+      "value": "POST"
+    },
+    {
+      "name": ":path",
+      "value": "/api/clear/data-browser/public/export/trigger"
+    },
+    {
+      "name": ":scheme",
+      "value": "https"
+    },
+    {
+      "name": "accept",
+      "value": "application/json, text/plain, */*"
+    },
+    {
+      "name": "accept-encoding",
+      "value": "gzip, deflate, br, zstd"
+    },
+    {
+      "name": "accept-language",
+      "value": "en-GB,en-US;q=0.9,en;q=0.8"
+    },
+    {
+      "name": "baggage",
+      "value": "sentry-environment=production,sentry-release=2491700ff48240c3949e8461815031a6f5d3c477,sentry-public_key=607fd3b42fc9b74117f75a6900f89b00,sentry-trace_id=1a7c0558704a477b90ec088335e2b00b,sentry-sample_rate=1,sentry-sampled=true"
+    },
+    {
+      "name": "cache-control",
+      "value": "no-cache"
+    },
+    {
+      "name": "content-length",
+      "value": "5757"
+    },
+    {
+      "name": "content-type",
+      "value": "application/json"
+    },
+    {
+      "name": "origin",
+      "value": "https://app.clear.in"
+    },
+    {
+      "name": "pragma",
+      "value": "no-cache"
+    },
+    {
+      "name": "priority",
+      "value": "u=1, i"
+    },
+    {
+      "name": "referer",
+      "value": "https://app.clear.in/gst/reports/v2?reportType=panMm2a&activeBusiness=PISCES%20ESERVICES%20PRIVATE%20LIMITED&startDate=2025-04-01&endDate=2026-03-31&pan=AAGCP5410J&panNodeId=8b26df83-cf60-4963-8e4d-e5d7790ee2aa&timePeriodType=FISCAL_YEAR&localStorageKey=OGIyNmRmODMtY2Y2MC00OTYzLThlNGQtZTVkNzc5MGVlMmFhXzE3NzkyODA1NTc2NzI%3D&section=REPORT_VIEW&jobId=6a0dab711c9ab93806328bdb"
+    },
+    {
+      "name": "sec-ch-ua",
+      "value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+    },
+    {
+      "name": "sec-ch-ua-mobile",
+      "value": "?0"
+    },
+    {
+      "name": "sec-ch-ua-platform",
+      "value": "\"Windows\""
+    },
+    {
+      "name": "sec-fetch-dest",
+      "value": "empty"
+    },
+    {
+      "name": "sec-fetch-mode",
+      "value": "cors"
+    },
+    {
+      "name": "sec-fetch-site",
+      "value": "same-origin"
+    },
+    {
+      "name": "sentry-trace",
+      "value": "2cabd9ac39994594b219d6f7a3bdcf8b-a7b0b381051e62de-1"
+    },
+    {
+      "name": "user-agent",
+      "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+    },
+    {
+      "name": "x-cleartax-country",
+      "value": "in"
+    },
+    {
+      "name": "x-cleartax-orgunit",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    },
+    {
+      "name": "x-cleartax-product",
+      "value": "GST"
+    },
+    {
+      "name": "x-cleartax-source",
+      "value": "APPCLEAR"
+    },
+    {
+      "name": "x-organisation-id",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    },
+    {
+      "name": "x-request-id",
+      "value": "RnCqbsjRQ2ZykbyqAamTw"
+    },
+    {
+      "name": "x-rls-token",
+      "value": "a84d5e06-2d20-44ee-b66e-4e2c6b9e10c7"
+    },
+    {
+      "name": "x-tenant-name",
+      "value": "GST_REPORTS"
+    },
+    {
+      "name": "x-workspace-id",
+      "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    }
+  ],
+  "request_body": "{\"statement\":{\"type\":\"SELECT\",\"fields\":[{\"type\":\"$COLUMN\",\"alias\":\"myGstin\",\"dataType\":\"STRING\",\"columnName\":\"myGstin\"},{\"type\":\"$COLUMN\",\"alias\":\"formatted_return_period\",\"dataType\":\"STRING\",\"columnName\":\"formatted_return_period\"},{\"type\":\"$COLUMN\",\"dataType\":\"STRING\",\"columnName\":\"returnPeriod\"},{\"type\":\"$COLUMN\",\"alias\":\"sellerGstin\",\"dataType\":\"STRING\",\"columnName\":\"sellerGstin\"},{\"type\":\"$COLUMN\",\"alias\":\"legalName\",\"dataType\":\"STRING\",\"columnName\":\"legalName\"},{\"type\":\"$COLUMN\",\"alias\":\"documentType\",\"dataType\":\"STRING\",\"columnName\":\"documentType\"},{\"type\":\"$COLUMN\",\"alias\":\"sectionName\",\"dataType\":\"STRING\",\"columnName\":\"sectionName\"},{\"type\":\"$COLUMN\",\"dataType\":\"STRING\",\"columnName\":\"sectionName_filter\"},{\"type\":\"$COLUMN\",\"alias\":\"supplyType\",\"dataType\":\"STRING\",\"columnName\":\"supplyType\"},{\"type\":\"$COLUMN\",\"alias\":\"documentDate\",\"dataType\":\"DATE\",\"columnName\":\"documentDate\"},{\"type\":\"$COLUMN\",\"alias\":\"documentNumber\",\"dataType\":\"STRING\",\"columnName\":\"documentNumber\"},{\"type\":\"$COLUMN\",\"alias\":\"taxableValue\",\"dataType\":\"DECIMAL\",\"columnName\":\"taxableValue\"},{\"type\":\"$COLUMN\",\"alias\":\"taxRate\",\"dataType\":\"DECIMAL\",\"columnName\":\"taxRate\"},{\"type\":\"$COLUMN\",\"alias\":\"totalTaxAmount\",\"dataType\":\"DECIMAL\",\"columnName\":\"totalTaxAmount\"},{\"type\":\"$COLUMN\",\"alias\":\"igstValue\",\"dataType\":\"DECIMAL\",\"columnName\":\"igstValue\"},{\"type\":\"$COLUMN\",\"alias\":\"cgstValue\",\"dataType\":\"DECIMAL\",\"columnName\":\"cgstValue\"},{\"type\":\"$COLUMN\",\"alias\":\"sgstValue\",\"dataType\":\"DECIMAL\",\"columnName\":\"sgstValue\"},{\"type\":\"$COLUMN\",\"alias\":\"cessValue\",\"dataType\":\"DECIMAL\",\"columnName\":\"cessValue\"},{\"type\":\"$COLUMN\",\"alias\":\"invoiceValue\",\"dataType\":\"DECIMAL\",\"columnName\":\"invoiceValue\"},{\"type\":\"$COLUMN\",\"alias\":\"buyerState\",\"dataType\":\"STRING\",\"columnName\":\"buyerState\"},{\"type\":\"$COLUMN\",\"alias\":\"reverseChargeApplicable\",\"dataType\":\"BOOLEAN\",\"columnName\":\"reverseChargeApplicable\"},{\"type\":\"$COLUMN\",\"alias\":\"rc\",\"dataType\":\"STRING\",\"columnName\":\"rc\"},{\"type\":\"$COLUMN\",\"alias\":\"cfs3b\",\"dataType\":\"STRING\",\"columnName\":\"cfs3b\"},{\"type\":\"$COLUMN\",\"alias\":\"cfs\",\"dataType\":\"STRING\",\"columnName\":\"cfs\"},{\"type\":\"$COLUMN\",\"alias\":\"filingPeriod\",\"dataType\":\"STRING\",\"columnName\":\"filingPeriod\"},{\"type\":\"$COLUMN\",\"alias\":\"filingDate\",\"dataType\":\"STRING\",\"columnName\":\"filingDate\"},{\"type\":\"$COLUMN\",\"alias\":\"originalInvoiceDate\",\"dataType\":\"STRING\",\"columnName\":\"originalInvoiceDate\"},{\"type\":\"$COLUMN\",\"alias\":\"originalInvoiceNumber\",\"dataType\":\"STRING\",\"columnName\":\"originalInvoiceNumber\"},{\"type\":\"$COLUMN\",\"alias\":\"originalGstin\",\"dataType\":\"STRING\",\"columnName\":\"originalGstin\"},{\"type\":\"$COLUMN\",\"alias\":\"transformedOriginalReturnPeriod\",\"dataType\":\"STRING\",\"columnName\":\"transformedOriginalReturnPeriod\"},{\"type\":\"$COLUMN\",\"alias\":\"amendmentType\",\"dataType\":\"STRING\",\"columnName\":\"amendmentType\"},{\"type\":\"$COLUMN\",\"alias\":\"originalTaxableValue\",\"dataType\":\"DECIMAL\",\"columnName\":\"originalTaxableValue\"},{\"type\":\"$COLUMN\",\"alias\":\"originalTotalTaxAmount\",\"dataType\":\"DECIMAL\",\"columnName\":\"originalTotalTaxAmount\"},{\"type\":\"$COLUMN\",\"alias\":\"originalIgstValue\",\"dataType\":\"DECIMAL\",\"columnName\":\"originalIgstValue\"},{\"type\":\"$COLUMN\",\"alias\":\"originalCgstValue\",\"dataType\":\"DECIMAL\",\"columnName\":\"originalCgstValue\"},{\"type\":\"$COLUMN\",\"alias\":\"originalSgstValue\",\"dataType\":\"DECIMAL\",\"columnName\":\"originalSgstValue\"},{\"type\":\"$COLUMN\",\"alias\":\"originalCessValue\",\"dataType\":\"DECIMAL\",\"columnName\":\"originalCessValue\"},{\"type\":\"$COLUMN\",\"alias\":\"source\",\"dataType\":\"STRING\",\"columnName\":\"source\"},{\"type\":\"$COLUMN\",\"alias\":\"irnNumber\",\"dataType\":\"STRING\",\"columnName\":\"irnNumber\"},{\"type\":\"$COLUMN\",\"alias\":\"irnGenerationDate\",\"dataType\":\"STRING\",\"columnName\":\"irnGenerationDate\"},{\"type\":\"$COLUMN\",\"alias\":\"supplierGstinCancellationDate\",\"dataType\":\"STRING\",\"columnName\":\"supplierGstinCancellationDate\"},{\"type\":\"$COLUMN\",\"alias\":\"Applicable_Percentage\",\"dataType\":\"STRING\",\"columnName\":\"Applicable_Percentage\"},{\"type\":\"$COLUMN\",\"alias\":\"tradeName\",\"dataType\":\"STRING\",\"columnName\":\"tradeName\"},{\"type\":\"$COLUMN\",\"alias\":\"taxpayerType\",\"dataType\":\"STRING\",\"columnName\":\"taxpayerType\"},{\"type\":\"$COLUMN\",\"alias\":\"myPan\",\"dataType\":\"STRING\",\"columnName\":\"myPan\"},{\"type\":\"$COLUMN\",\"alias\":\"sellerPan\",\"dataType\":\"STRING\",\"columnName\":\"sellerPan\"},{\"type\":\"$COLUMN\",\"alias\":\"linkedDocumentDate\",\"dataType\":\"STRING\",\"columnName\":\"linkedDocumentDate\"},{\"type\":\"$COLUMN\",\"alias\":\"linkedDocumentNumber\",\"dataType\":\"STRING\",\"columnName\":\"linkedDocumentNumber\"},{\"type\":\"$COLUMN\",\"alias\":\"placeOfSupply\",\"dataType\":\"STRING\",\"columnName\":\"placeOfSupply\"}],\"from\":{\"source\":\"$TEMPLATE\",\"id\":\"675684f469a35b259d177ced\"},\"where\":null,\"orderBy\":null,\"groupBy\":null,\"limit\":100,\"offset\":0},\"onStart\":{\"callbackType\":\"KRAMER\",\"metadata\":{\"notificationType\":\"GST_REPORTS_V2\",\"product\":\"GST\",\"reportType\":\"panMm2a\",\"orgId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"workspaceId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"tenant\":\"GST_REPORTS\",\"nodeNameType\":\"PAN\",\"nodeName\":\"AAGCP5410J\",\"startRange\":\"042025\",\"endRange\":\"032026\",\"activeBusiness\":\"PISCES ESERVICES PRIVATE LIMITED\",\"filename\":\"GSTR-2A Document Level Report\"}},\"onFinish\":{\"callbackType\":\"KRAMER\",\"metadata\":{\"notificationType\":\"GST_REPORTS_V2\",\"product\":\"GST\",\"reportType\":\"panMm2a\",\"orgId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"workspaceId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"tenant\":\"GST_REPORTS\",\"nodeNameType\":\"PAN\",\"nodeName\":\"AAGCP5410J\",\"startRange\":\"042025\",\"endRange\":\"032026\",\"activeBusiness\":\"PISCES ESERVICES PRIVATE LIMITED\",\"filename\":\"GSTR-2A Document Level Report\"}},\"staticRowData\":{\"companyName\":\"PISCES ESERVICES PRIVATE LIMITED\",\"gstin\":\"AAGCP5410J\",\"reportPeriod\":\"Apr 2025 - Mar 2026\"},\"filename\":\"PAN_MM2A_Document_AAGCP5410J_042025-032026\",\"exportName\":\"invoice_cdn_line\"}",
+  "response_status": 200,
+  "response_content_type": "application/json",
+  "response_body": "6a0dabf1a73ff906f7ba7896",
+  "request_body_parsed": {
+    "statement": {
+      "type": "SELECT",
+      "fields": [
+        {
+          "type": "$COLUMN",
+          "alias": "myGstin",
+          "dataType": "STRING",
+          "columnName": "myGstin"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "formatted_return_period",
+          "dataType": "STRING",
+          "columnName": "formatted_return_period"
+        },
+        {
+          "type": "$COLUMN",
+          "dataType": "STRING",
+          "columnName": "returnPeriod"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "sellerGstin",
+          "dataType": "STRING",
+          "columnName": "sellerGstin"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "legalName",
+          "dataType": "STRING",
+          "columnName": "legalName"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "documentType",
+          "dataType": "STRING",
+          "columnName": "documentType"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "sectionName",
+          "dataType": "STRING",
+          "columnName": "sectionName"
+        },
+        {
+          "type": "$COLUMN",
+          "dataType": "STRING",
+          "columnName": "sectionName_filter"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "supplyType",
+          "dataType": "STRING",
+          "columnName": "supplyType"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "documentDate",
+          "dataType": "DATE",
+          "columnName": "documentDate"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "documentNumber",
+          "dataType": "STRING",
+          "columnName": "documentNumber"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "taxableValue",
+          "dataType": "DECIMAL",
+          "columnName": "taxableValue"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "taxRate",
+          "dataType": "DECIMAL",
+          "columnName": "taxRate"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "totalTaxAmount",
+          "dataType": "DECIMAL",
+          "columnName": "totalTaxAmount"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "igstValue",
+          "dataType": "DECIMAL",
+          "columnName": "igstValue"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "cgstValue",
+          "dataType": "DECIMAL",
+          "columnName": "cgstValue"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "sgstValue",
+          "dataType": "DECIMAL",
+          "columnName": "sgstValue"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "cessValue",
+          "dataType": "DECIMAL",
+          "columnName": "cessValue"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "invoiceValue",
+          "dataType": "DECIMAL",
+          "columnName": "invoiceValue"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "buyerState",
+          "dataType": "STRING",
+          "columnName": "buyerState"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "reverseChargeApplicable",
+          "dataType": "BOOLEAN",
+          "columnName": "reverseChargeApplicable"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "rc",
+          "dataType": "STRING",
+          "columnName": "rc"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "cfs3b",
+          "dataType": "STRING",
+          "columnName": "cfs3b"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "cfs",
+          "dataType": "STRING",
+          "columnName": "cfs"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "filingPeriod",
+          "dataType": "STRING",
+          "columnName": "filingPeriod"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "filingDate",
+          "dataType": "STRING",
+          "columnName": "filingDate"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "originalInvoiceDate",
+          "dataType": "STRING",
+          "columnName": "originalInvoiceDate"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "originalInvoiceNumber",
+          "dataType": "STRING",
+          "columnName": "originalInvoiceNumber"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "originalGstin",
+          "dataType": "STRING",
+          "columnName": "originalGstin"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "transformedOriginalReturnPeriod",
+          "dataType": "STRING",
+          "columnName": "transformedOriginalReturnPeriod"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "amendmentType",
+          "dataType": "STRING",
+          "columnName": "amendmentType"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "originalTaxableValue",
+          "dataType": "DECIMAL",
+          "columnName": "originalTaxableValue"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "originalTotalTaxAmount",
+          "dataType": "DECIMAL",
+          "columnName": "originalTotalTaxAmount"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "originalIgstValue",
+          "dataType": "DECIMAL",
+          "columnName": "originalIgstValue"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "originalCgstValue",
+          "dataType": "DECIMAL",
+          "columnName": "originalCgstValue"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "originalSgstValue",
+          "dataType": "DECIMAL",
+          "columnName": "originalSgstValue"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "originalCessValue",
+          "dataType": "DECIMAL",
+          "columnName": "originalCessValue"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "source",
+          "dataType": "STRING",
+          "columnName": "source"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "irnNumber",
+          "dataType": "STRING",
+          "columnName": "irnNumber"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "irnGenerationDate",
+          "dataType": "STRING",
+          "columnName": "irnGenerationDate"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "supplierGstinCancellationDate",
+          "dataType": "STRING",
+          "columnName": "supplierGstinCancellationDate"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "Applicable_Percentage",
+          "dataType": "STRING",
+          "columnName": "Applicable_Percentage"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "tradeName",
+          "dataType": "STRING",
+          "columnName": "tradeName"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "taxpayerType",
+          "dataType": "STRING",
+          "columnName": "taxpayerType"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "myPan",
+          "dataType": "STRING",
+          "columnName": "myPan"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "sellerPan",
+          "dataType": "STRING",
+          "columnName": "sellerPan"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "linkedDocumentDate",
+          "dataType": "STRING",
+          "columnName": "linkedDocumentDate"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "linkedDocumentNumber",
+          "dataType": "STRING",
+          "columnName": "linkedDocumentNumber"
+        },
+        {
+          "type": "$COLUMN",
+          "alias": "placeOfSupply",
+          "dataType": "STRING",
+          "columnName": "placeOfSupply"
+        }
+      ],
+      "from": {
+        "source": "$TEMPLATE",
+        "id": "675684f469a35b259d177ced"
+      },
+      "where": null,
+      "orderBy": null,
+      "groupBy": null,
+      "limit": 100,
+      "offset": 0
+    },
+    "onStart": {
+      "callbackType": "KRAMER",
+      "metadata": {
+        "notificationType": "GST_REPORTS_V2",
+        "product": "GST",
+        "reportType": "panMm2a",
+        "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "tenant": "GST_REPORTS",
+        "nodeNameType": "PAN",
+        "nodeName": "AAGCP5410J",
+        "startRange": "042025",
+        "endRange": "032026",
+        "activeBusiness": "PISCES ESERVICES PRIVATE LIMITED",
+        "filename": "GSTR-2A Document Level Report"
+      }
+    },
+    "onFinish": {
+      "callbackType": "KRAMER",
+      "metadata": {
+        "notificationType": "GST_REPORTS_V2",
+        "product": "GST",
+        "reportType": "panMm2a",
+        "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+        "tenant": "GST_REPORTS",
+        "nodeNameType": "PAN",
+        "nodeName": "AAGCP5410J",
+        "startRange": "042025",
+        "endRange": "032026",
+        "activeBusiness": "PISCES ESERVICES PRIVATE LIMITED",
+        "filename": "GSTR-2A Document Level Report"
+      }
+    },
+    "staticRowData": {
+      "companyName": "PISCES ESERVICES PRIVATE LIMITED",
+      "gstin": "AAGCP5410J",
+      "reportPeriod": "Apr 2025 - Mar 2026"
+    },
+    "filename": "PAN_MM2A_Document_AAGCP5410J_042025-032026",
+    "exportName": "invoice_cdn_line"
+  }
+}
