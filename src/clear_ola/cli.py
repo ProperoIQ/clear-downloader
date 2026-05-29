@@ -17,7 +17,7 @@ from clear_ola.cookies import (
     ChromeRunningError,
     load_clear_cookies,
 )
-from clear_ola.flows import gstr_2a, gstr_2b
+from clear_ola.flows import gstr_1, gstr_2a, gstr_2b
 from clear_ola.manifest import Manifest
 from clear_ola.partials import build_otp_worklist
 from clear_ola.status_report import build_status_report
@@ -64,7 +64,7 @@ def cli(ctx: click.Context, config_path: Path) -> None:
 
 @cli.command()
 @click.option("--report", "report_choice",
-              type=click.Choice(["GSTR-2A", "GSTR-2B"], case_sensitive=False),
+              type=click.Choice(["GSTR-2A", "GSTR-2B", "GSTR-1"], case_sensitive=False),
               default="GSTR-2A", show_default=True,
               help="Which report flow to run")
 @click.option("--pan", "pan_filter", default=None,
@@ -147,6 +147,8 @@ def download(
             gstr_2a.run(api, cfg, manifest, force_partial=force_partial)
         elif report_choice.upper() == "GSTR-2B":
             gstr_2b.run(api, cfg, manifest, force_partial=force_partial)
+        elif report_choice.upper() == "GSTR-1":
+            gstr_1.run(api, cfg, manifest, force_partial=force_partial)
         else:
             click.echo(f"Report {report_choice!r} not implemented yet.", err=True)
             sys.exit(2)
