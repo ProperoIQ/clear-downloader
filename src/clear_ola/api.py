@@ -66,6 +66,13 @@ class ExportReady:
     pre_signed_url: str
 
 
+@dataclass
+class Gstr3bReportReady:
+    """Outcome of `wait_for_3b_report` — what `download_file` needs next."""
+    file_name: str       # URL-decoded last path segment of reportUri (for logging)
+    report_uri: str      # presigned storage.clear.in URL — pass straight to download_file
+
+
 # ---- the client ----
 
 class ClearAPI:
@@ -450,6 +457,378 @@ class ClearAPI:
                         written += len(chunk)
         logger.info("Wrote {} bytes -> {}", written, dest)
         return written
+
+    # ---- GSTR-3B endpoints ----------------------------------------------
+    #
+    # GSTR-3B uses a completely separate backend from 2A/2B/1: instead of
+    # `data-browser/export/trigger` it goes through `/api/gst-reports/...`,
+    # there is no RLS token, and the trigger body for a specific variant
+    # (Combined / Filed / etc.) is only 4 small fields. The 5 variants share
+    # a single data-pull job; only the per-variant `reportDownload` POST and
+    # its `ledgers/report/<id>/status` polls vary. See discovery/app.clear.in.har
+    # (request bodies captured at lines 48828 and 104888) for the verbatim
+    # captures these methods were modelled on.
+
+    # x-job-type for every 3B call; lifted from the HAR header.
+    _3B_JOB_TYPE = "PAN_MM3B_REPORT"
+
+    def _3b_headers(self, gstin_node_ids: list[str]) -> dict[str, str]:
+        """Headers required on every GSTR-3B endpoint.
+
+        The orgunit/product/workspace headers are already set as session
+        defaults; we only need x-job-type and the per-call node-id list.
+        Sending an empty x-clear-node-id (matches the HAR for `reportPoller`)
+        is intentional and accepted — the pull state is keyed by jobId, not
+        by node-id, so the header just needs to exist.
+        """
+        return {
+            "x-job-type": self._3B_JOB_TYPE,
+            **_node_headers(gstin_node_ids),
+        }
+
+    def trigger_3b_data_pull(
+        self,
+        *,
+        pan_node_id: str,
+        gstin_node_ids: list[str],
+        return_periods: list[str],   # ["MMYYYY", ...]
+        workspace_id: str,
+    ) -> str:
+        """Kick off the shared GSTR-3B data pull for a (PAN, FY).
+
+        Returns the `jobId` to feed into `wait_for_3b_data_pull` and into
+        every subsequent `trigger_3b_report_download` for the same combo —
+        one pull powers all 5 variants.
+        """
+        # workspace_id arg is currently unused (session already carries it
+        # in default headers), but accepted to keep the call sites readable.
+        del workspace_id
+        body = {
+            "panNodeId": pan_node_id,
+            "gstinNodeIds": gstin_node_ids,
+            "returnPeriods": return_periods,
+            "reportType": "PAN_MM3B_REPORT",
+            "triggerSource": "REPORTS_UI",
+            "outputType": "DATA",
+            "fyLevelReport": True,
+        }
+        data = self._request(
+            "POST", "/api/gst-reports/reports/v1.0/trigger/report/data/pull",
+            json_body=body,
+            extra_headers=self._3b_headers(gstin_node_ids),
+        )
+        job_id = data.get("jobId") or (data.get("data") or {}).get("jobId")
+        if not job_id:
+            raise ClearAPIError(
+                f"3B data-pull trigger returned no jobId: {data!r}"
+            )
+        logger.info("Triggered 3B data pull, jobId={}", job_id)
+        return job_id
+
+    # Per-GSTIN download_status values observed (HAR) or extrapolated.
+    # "COMPLETED" replaces 2A/2B/1's "DOWNLOADED" in this backend's vocabulary;
+    # the others are the same shape so partials.py logic still applies.
+    _3B_SETTLED_STATUSES = (
+        "COMPLETED",
+        "DOWNLOADED",            # not observed for 3B but harmless to accept
+        "NOT_APPLICABLE",
+        "DOWNLOADED_PARTIALLY",
+        "NOT_DOWNLOADED",
+        "FAILED",
+        "ERROR",
+    )
+
+    # When the report-status endpoint flips to COMPLETED / PARTIALLY_COMPLETED
+    # but hasn't yet exposed `reportUri`, keep polling this many more times
+    # before declaring the missing URL a hard failure. 5 polls x ~5s each =
+    # 25s of grace, which has been enough in live testing for the URI to
+    # appear (usually it shows up on the very next poll).
+    _3B_URI_GRACE_POLLS = 5
+
+    def _normalise_3b_snapshot(self, poller_response: dict) -> list[dict]:
+        """Flatten the nested `reportPoller` shape into the per-GSTIN list
+        the 2A/2B/1 flow code already understands (`nodeName`, `downloadStatus`).
+
+        3B response shape (from HAR):
+            {"jobs": [{"downloadPercentage": 99.0,
+                       "gstinData": [
+                           {"gstin": "27...", "gstinState": "Maharashtra",
+                            "downloadStatus": "COMPLETED", ...},
+                           ...]}]}
+
+        Output rows mirror what `poll_pull_status` returns for 2A/2B/1 so
+        downstream code (`_any_partial`, `_summarize_issues`, `log_partial_items`)
+        can be reused unchanged.
+        """
+        rows: list[dict] = []
+        for job in poller_response.get("jobs") or []:
+            for g in job.get("gstinData") or []:
+                rows.append({
+                    # `nodeName` / `nodeValue` are the field names 2A/2B/1's
+                    # status snapshot uses; mirror them so partials.py and
+                    # status_report.py work on 3B rows unchanged.
+                    "nodeName": g.get("gstinState") or g.get("gstin", "?"),
+                    "nodeValue": g.get("gstin", ""),
+                    "gstin": g.get("gstin"),
+                    "downloadStatus": g.get("downloadStatus"),
+                    "otpStatus": g.get("otpStatus"),
+                    "userName": g.get("userName"),
+                    "lastRefreshDate": g.get("lastRefreshDate"),
+                })
+        return rows
+
+    def wait_for_3b_data_pull(
+        self,
+        job_id: str,
+        *,
+        gstin_node_ids: list[str],
+        workspace_id: str,
+        poll_seconds: int = 10,
+        timeout_seconds: int = 1800,
+    ) -> list[dict]:
+        """Poll `reportPoller?jobId=<id>` until every GSTIN settles.
+
+        Returns the normalised per-GSTIN snapshot (same dict shape 2A/2B/1
+        use) so the flow's partial / no-data handling can stay generic.
+        """
+        del workspace_id  # already in session headers
+        deadline = time.monotonic() + timeout_seconds
+        last_rows: list[dict] = []
+        while True:
+            raw = self._request(
+                "GET", "/api/gst-reports/reports/v1.0/reportPoller",
+                params={"jobId": job_id},
+                extra_headers=self._3b_headers(gstin_node_ids),
+            )
+            # Defensive: if Clear has a transient hiccup and returns
+            # {"errorCode": "...", "jobs": null}, treat as still-running.
+            err_code = raw.get("errorCode")
+            if err_code and not raw.get("jobs"):
+                logger.warning(
+                    "3B reportPoller returned errorCode={!r}: {}; "
+                    "treating as transient and continuing to poll.",
+                    err_code, raw.get("errorMessage"),
+                )
+                if time.monotonic() > deadline:
+                    raise TimeoutError(
+                        f"3B data pull {job_id} did not settle within "
+                        f"{timeout_seconds}s; last errorCode={err_code!r}"
+                    )
+                time.sleep(poll_seconds)
+                continue
+
+            last_rows = self._normalise_3b_snapshot(raw)
+            counts: dict[str, int] = {}
+            for r in last_rows:
+                counts[r.get("downloadStatus") or "?"] = counts.get(
+                    r.get("downloadStatus") or "?", 0,
+                ) + 1
+            pct = (raw.get("jobs") or [{}])[0].get("downloadPercentage")
+            logger.info("3B pull {}%: {}", pct, counts)
+
+            # Per-GSTIN FAILED on this backend is the analog of 2A/2B/1's
+            # NOT_DOWNLOADED — Clear's stored GSTN session for that GSTIN
+            # has expired or it lost the connection. The caller decides
+            # whether to log + bail or proceed with partial data, so we
+            # return the snapshot like 2A/2B/1's wait_for_pull does, NOT
+            # raise here. (Hard pull-level errors surface via errorCode at
+            # the top of the response, handled above.)
+            if (last_rows
+                    and all(r.get("downloadStatus") in self._3B_SETTLED_STATUSES
+                            for r in last_rows)):
+                logger.info("3B pull settled: {}", counts)
+                return last_rows
+
+            if time.monotonic() > deadline:
+                raise TimeoutError(
+                    f"3B pull {job_id} did not settle within {timeout_seconds}s. "
+                    f"Last counts: {counts}"
+                )
+            time.sleep(poll_seconds)
+
+    def fetch_3b_summary(
+        self,
+        *,
+        data_pull_job_id: str,
+        gstin_node_ids: list[str],
+        workspace_id: str,
+    ) -> dict:
+        """Fetch the on-screen 3B summary tables (the same call Clear's UI
+        makes when it renders the report page after a pull settles).
+
+        Required between `wait_for_3b_data_pull` and `trigger_3b_report_download`.
+        Without it, Clear's reportDownload endpoint will accept the trigger,
+        return COMPLETED in seconds, and serve a presigned URL pointing at a
+        valid-shape-but-empty XLSX (all cells zero). The call seems to
+        materialize Clear's per-period data from the upstream pull into
+        the downstream report-builder's working store.
+
+        Returns the parsed summary dict (large — ~120 KB in the captured
+        HAR) but the flow only needs it for the side effect.
+        """
+        del workspace_id
+        body = {
+            "gstinNodeIds": gstin_node_ids,
+            "jobId": data_pull_job_id,
+        }
+        data = self._request(
+            "POST", "/api/gst-reports/reports/v1.0/fetch/3BSummary",
+            json_body=body,
+            extra_headers=self._3b_headers(gstin_node_ids),
+        )
+        # Log a rough size hint without dumping the whole payload — useful
+        # for debugging "is the data actually there?" questions.
+        if isinstance(data, dict):
+            top_keys = list(data.keys())[:5]
+            logger.info(
+                "Fetched 3B summary (top-level keys: {}{})",
+                top_keys, "..." if len(data) > 5 else "",
+            )
+        return data if isinstance(data, dict) else {}
+
+    def trigger_3b_report_download(
+        self,
+        *,
+        data_pull_job_id: str,
+        sheet_type: str,     # e.g. "GSTR_3B_COMBINED_REPORT"
+        output_type: str,    # "EXCEL" or "PDF"
+        gstin_node_ids: list[str],
+        workspace_id: str,
+    ) -> str:
+        """Trigger one variant's report download. Returns the per-variant jobId
+        for `wait_for_3b_report`."""
+        del workspace_id
+        body = {
+            "jobId": data_pull_job_id,
+            "reportType": "PAN_MM3B_REPORT",
+            "sheetType": sheet_type,
+            "outputType": output_type,
+            "triggerSource": "REPORT_UI",
+        }
+        data = self._request(
+            "POST", "/api/gst-reports/reports/v1.0/reportDownload",
+            json_body=body,
+            extra_headers=self._3b_headers(gstin_node_ids),
+        )
+        report_job_id = data.get("jobId")
+        if not report_job_id:
+            raise ClearAPIError(
+                f"3B reportDownload returned no jobId: {data!r}"
+            )
+        # If Clear echoes the data-pull jobId back as the "report" jobId AND
+        # omits `referenceJobId`, it didn't actually create a new report job.
+        # That happens when the requested variant isn't producible for this
+        # (PAN, FY) — observed in the wild for Combined Report on FYs where
+        # some monthly 3Bs haven't been filed. Fail fast with an actionable
+        # message instead of polling a phantom job for 30+ seconds before
+        # giving up on the missing reportUri.
+        if (report_job_id == data_pull_job_id
+                and not data.get("referenceJobId")):
+            raise ClearAPIError(
+                f"3B reportDownload for sheet_type={sheet_type!r} didn't "
+                f"create a new report job (Clear returned the data-pull "
+                f"jobId, ref=None). This variant likely isn't available "
+                f"for this PAN+FY — common when not all monthly 3Bs in the "
+                f"FY have been filed, or the report type doesn't apply to "
+                f"this taxpayer. Try the other variants or a different FY."
+            )
+        logger.info(
+            "Triggered 3B {} report, reportJobId={} (ref={})",
+            sheet_type, report_job_id, data.get("referenceJobId"),
+        )
+        return report_job_id
+
+    def wait_for_3b_report(
+        self,
+        report_job_id: str,
+        *,
+        gstin_node_ids: list[str],
+        workspace_id: str,
+        poll_seconds: int = 5,
+        timeout_seconds: int = 900,
+    ) -> Gstr3bReportReady:
+        """Poll `ledgers/report/<jobId>/status` until `status == "COMPLETED"`.
+
+        Intermediate state observed in HAR: `"ACCEPTED"` (returns until the
+        report is built). On COMPLETED the response carries a `reportUri`
+        pointing at a presigned `storage.clear.in/.../ct-document-service-prod/`
+        URL — pass that straight to `download_file`.
+        """
+        del workspace_id
+        deadline = time.monotonic() + timeout_seconds
+        terminal_no_uri_polls = 0
+        while True:
+            data = self._request(
+                "GET",
+                f"/api/gst-reports/reports/v1.0/ledgers/report/{report_job_id}/status",
+                extra_headers=self._3b_headers(gstin_node_ids),
+            )
+            status = (data.get("status") or "").upper()
+            logger.info("3B report {} status={}", report_job_id, status or "<empty>")
+            # COMPLETED / PARTIALLY_COMPLETED: the report is finished. Two
+            # subtleties observed in live testing:
+            #
+            #   - Clear sometimes flips status to COMPLETED a few seconds
+            #     before populating `reportUri` (eventual consistency on
+            #     their side). We tolerate up to `_3B_URI_GRACE_POLLS`
+            #     follow-up polls without a URI before giving up — usually
+            #     the URI appears on the very next poll.
+            #
+            #   - PARTIALLY_COMPLETED with no URI is a *persistent* terminal
+            #     state, not eventual: Clear gave up because too many GSTINs
+            #     failed the upstream pull. We let the grace counter run
+            #     down and then surface an actionable OTP message.
+            if status in ("COMPLETED", "PARTIALLY_COMPLETED"):
+                report_uri = data.get("reportUri")
+                if report_uri:
+                    if status == "PARTIALLY_COMPLETED":
+                        logger.warning(
+                            "3B report {} settled PARTIALLY_COMPLETED — the "
+                            "downloaded file will be missing rows for any "
+                            "GSTINs that failed the upstream pull. See "
+                            "state/partial-items.csv for which states need "
+                            "OTP re-auth in ClearGST's UI.",
+                            report_job_id,
+                        )
+                    from urllib.parse import unquote, urlparse
+                    last = urlparse(report_uri).path.rsplit("/", 1)[-1]
+                    file_name = unquote(last) or "3b-report"
+                    return Gstr3bReportReady(file_name=file_name, report_uri=report_uri)
+
+                terminal_no_uri_polls += 1
+                if terminal_no_uri_polls > self._3B_URI_GRACE_POLLS:
+                    if status == "PARTIALLY_COMPLETED":
+                        raise ClearAPIError(
+                            f"3B report {report_job_id} settled "
+                            f"PARTIALLY_COMPLETED with no reportUri — Clear "
+                            f"couldn't build the report because too many "
+                            f"GSTINs failed the upstream pull. Open ClearGST "
+                            f"-> this PAN+FY's report page -> 'Generate OTP "
+                            f"to connect GSTINs' for the FAILED states "
+                            f"(listed in state/partial-items.csv), then re-run."
+                        )
+                    raise ClearAPIError(
+                        f"3B report {report_job_id} stayed COMPLETED with no "
+                        f"reportUri across {self._3B_URI_GRACE_POLLS + 1} polls "
+                        f"— Clear's report-status endpoint isn't exposing the "
+                        f"download URL: {data!r}"
+                    )
+                logger.info(
+                    "3B report {} {} but reportUri not yet populated "
+                    "(grace poll {}/{})",
+                    report_job_id, status,
+                    terminal_no_uri_polls, self._3B_URI_GRACE_POLLS,
+                )
+                # Fall through to the inter-poll sleep below.
+            elif status in ("FAILED", "FAILURE", "ERROR", "CANCELLED"):
+                raise ClearAPIError(f"3B report {report_job_id} failed: {data!r}")
+            # ACCEPTED / IN_PROGRESS / PROCESSING / empty → keep polling
+            if time.monotonic() > deadline:
+                raise TimeoutError(
+                    f"3B report {report_job_id} did not complete within "
+                    f"{timeout_seconds}s (last status: {status!r})"
+                )
+            time.sleep(poll_seconds)
 
 
 # ---- header helpers ----

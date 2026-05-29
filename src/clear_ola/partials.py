@@ -111,10 +111,14 @@ def build_otp_worklist(
 
     # Dedup: same (pan, fy, gstin) may appear from multiple re-runs. Keep the
     # latest entry (rows are appended; later wins per (pan, fy, gstin)).
+    # NOT_DOWNLOADED is the 2A/2B/1 vocabulary for "stored GSTN session
+    # expired"; the 3B backend uses FAILED for the same condition. Both go
+    # into the OTP worklist.
+    needs_otp_statuses = {"NOT_DOWNLOADED", "FAILED"}
     rows_by_key: dict[tuple[str, str, str], dict] = {}
     with partials_csv.open(encoding="utf-8") as f:
         for row in csv.DictReader(f):
-            if (row.get("status") or "").strip() != "NOT_DOWNLOADED":
+            if (row.get("status") or "").strip() not in needs_otp_statuses:
                 continue
             key = (row["pan"], row["fy"], row["gstin"])
             rows_by_key[key] = row

@@ -17,7 +17,7 @@ from clear_ola.cookies import (
     ChromeRunningError,
     load_clear_cookies,
 )
-from clear_ola.flows import gstr_1, gstr_2a, gstr_2b
+from clear_ola.flows import gstr_1, gstr_2a, gstr_2b, gstr_3b
 from clear_ola.manifest import Manifest
 from clear_ola.partials import build_otp_worklist
 from clear_ola.status_report import build_status_report
@@ -64,7 +64,7 @@ def cli(ctx: click.Context, config_path: Path) -> None:
 
 @cli.command()
 @click.option("--report", "report_choice",
-              type=click.Choice(["GSTR-2A", "GSTR-2B", "GSTR-1"], case_sensitive=False),
+              type=click.Choice(["GSTR-2A", "GSTR-2B", "GSTR-1", "GSTR-3B"], case_sensitive=False),
               default="GSTR-2A", show_default=True,
               help="Which report flow to run")
 @click.option("--pan", "pan_filter", default=None,
@@ -79,6 +79,10 @@ def cli(ctx: click.Context, config_path: Path) -> None:
                    "'Proceed with this data' equivalent). Details of the "
                    "partial GSTINs are written to state/partial-items.csv "
                    "regardless of this flag.")
+@click.option("--variants", "variants_filter", default=None,
+              help="GSTR-3B only: comma-separated subset of "
+                   "{combined,filed,itc-offset,insights,pdf}. "
+                   "Default: all 5. Ignored for other reports.")
 @click.pass_obj
 def download(
     cfg: AppConfig,
@@ -87,6 +91,7 @@ def download(
     fy_filter: str | None,
     process_all: bool,
     force_partial: bool,
+    variants_filter: str | None,
 ) -> None:
     """Download ClearGST reports. Interactive PAN picker by default.
 
@@ -149,6 +154,17 @@ def download(
             gstr_2b.run(api, cfg, manifest, force_partial=force_partial)
         elif report_choice.upper() == "GSTR-1":
             gstr_1.run(api, cfg, manifest, force_partial=force_partial)
+        elif report_choice.upper() == "GSTR-3B":
+            try:
+                gstr_3b.run(
+                    api, cfg, manifest,
+                    force_partial=force_partial,
+                    variants_filter=variants_filter,
+                )
+            except ValueError as e:
+                # Raised by parse_variants_filter on an unknown --variants key.
+                click.echo(f"\n[ERROR] {e}\n", err=True)
+                sys.exit(2)
         else:
             click.echo(f"Report {report_choice!r} not implemented yet.", err=True)
             sys.exit(2)
