@@ -8,7 +8,7 @@ import secrets
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Iterable, Mapping
 
 import requests
 from loguru import logger
@@ -146,14 +146,18 @@ class ClearAPI:
         *,
         params: dict | list | None = None,
         json_body: Any | None = None,
-        extra_headers: dict[str, str] | None = None,
+        extra_headers: Mapping[str, str | None] | None = None,
         stream: bool = False,
         expect_text: bool = False,
     ) -> Any:
         url = path if path.startswith("http") else f"{BASE}{path}"
-        headers = {"x-request-id": _nanoid()}
+        # `requests` interprets a None header value as "drop this header from
+        # the merged session+request set" — useful for suppressing a session
+        # default (e.g. x-ct-source) on endpoints that reject it.
+        headers: dict[str, str | None] = {"x-request-id": _nanoid()}
         if extra_headers:
-            headers.update(extra_headers)
+            for k, v in extra_headers.items():
+                headers[k] = v
         logger.debug("HTTP {} {} params={} body_keys={}",
                      method, path,
                      params if isinstance(params, dict) else "[...]" if params else None,
@@ -161,7 +165,8 @@ class ClearAPI:
         resp = self.session.request(
             method, url,
             params=params, json=json_body,
-            headers=headers, timeout=self.timeout, stream=stream,
+            headers=headers,  # type: ignore[arg-type]  # requests drops None values at merge-time
+            timeout=self.timeout, stream=stream,
         )
         if resp.status_code in (401, 403):
             raise ClearSessionExpired(
@@ -368,15 +373,37 @@ class ClearAPI:
         logger.info("Got RLS token (expires {}) ", data.get("expiry"))
         return token
 
-    def trigger_export(self, payload: dict, *, rls_token: str) -> str:
-        """Submit the export. Returns the 24-hex-char export job ID (plain text)."""
+    def trigger_export(
+        self, payload: dict, *, rls_token: str,
+        referer_override: str | None = None,
+        header_overrides: Mapping[str, str | None] | None = None,
+    ) -> str:
+        """Submit the export. Returns the 24-hex-char export job ID (plain text).
+
+        referer_override: when set, replaces the session-default Referer header
+        on this call. Required for panG3bvs1vsBooks (and likely any other newer
+        data-browser report), which parses `reportType=` from the Referer query
+        string and 500s with "Unknown error occurred." otherwise. Older flows
+        (GSTR-2A/2B/1) tolerate the generic referer.
+
+        header_overrides: per-call header additions/suppressions. A value of
+        None for a key tells `requests` to drop that header (used to suppress
+        session defaults like `x-ct-source` that some newer Clear endpoints
+        reject). Values are merged after referer_override so they win.
+        """
+        extra_headers: dict[str, str | None] = {
+            "x-rls-token": rls_token,
+            "x-tenant-name": "GST_REPORTS",
+        }
+        if referer_override:
+            extra_headers["referer"] = referer_override
+        if header_overrides:
+            extra_headers.update(header_overrides)
+
         text = self._request(
             "POST", "/api/clear/data-browser/public/export/trigger",
             json_body=payload,
-            extra_headers={
-                "x-rls-token": rls_token,
-                "x-tenant-name": "GST_REPORTS",
-            },
+            extra_headers=extra_headers,
             expect_text=True,
         )
         export_id = text.strip().strip('"')

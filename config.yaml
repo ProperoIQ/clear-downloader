@@ -24,6 +24,8 @@ reports:
   - "GSTR-2A"
   - "GSTR-2B"
   - "GSTR-1"
+  - "GSTR-3B"
+  - "GSTR-1-vs-3B-vs-Books"
 
 # ---- Global FYs ----
 # Applied to EVERY PAN below unless that PAN has its own `fys:` override.
