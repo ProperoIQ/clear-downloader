@@ -17,7 +17,14 @@ from clear_ola.cookies import (
     ChromeRunningError,
     load_clear_cookies,
 )
-from clear_ola.flows import gstr_1, gstr_1_vs_3b_vs_books, gstr_2a, gstr_2b, gstr_3b
+from clear_ola.flows import (
+    gstr_1,
+    gstr_1_vs_3b_vs_books,
+    gstr_2a,
+    gstr_2b,
+    gstr_2b_vs_3b_vs_books,
+    gstr_3b,
+)
 from clear_ola.manifest import Manifest
 from clear_ola.partials import build_otp_worklist
 from clear_ola.status_report import build_status_report
@@ -65,7 +72,8 @@ def cli(ctx: click.Context, config_path: Path) -> None:
 @cli.command()
 @click.option("--report", "report_choice",
               type=click.Choice(["GSTR-2A", "GSTR-2B", "GSTR-1", "GSTR-3B",
-                                 "GSTR-1-vs-3B-vs-Books"], case_sensitive=False),
+                                 "GSTR-1-vs-3B-vs-Books",
+                                 "GSTR-2B-vs-3B-vs-Books"], case_sensitive=False),
               default="GSTR-2A", show_default=True,
               help="Which report flow to run")
 @click.option("--pan", "pan_filter", default=None,
@@ -170,6 +178,12 @@ def download(
             # No --force-partial: this report has no pull step (Clear reuses
             # its cached GSTR-1 + GSTR-3B data server-side).
             gstr_1_vs_3b_vs_books.run(api, cfg, manifest)
+        elif report_choice.upper() == "GSTR-2B-VS-3B-VS-BOOKS":
+            # Unlike 1-vs-3B-vs-Books, this one DOES have a 2B pull step,
+            # so --force-partial applies (same semantics as GSTR-2A/2B/1).
+            gstr_2b_vs_3b_vs_books.run(
+                api, cfg, manifest, force_partial=force_partial,
+            )
         else:
             click.echo(f"Report {report_choice!r} not implemented yet.", err=True)
             sys.exit(2)

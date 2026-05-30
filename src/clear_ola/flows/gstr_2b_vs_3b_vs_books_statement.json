@@ -1,0 +1,110 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "description",
+        "dataType": "STRING",
+        "columnName": "description"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "totalTax",
+        "dataType": "DECIMAL",
+        "columnName": "totalTax"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "igstValue",
+        "dataType": "DECIMAL",
+        "columnName": "igstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "cgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "sgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cessValue",
+        "dataType": "DECIMAL",
+        "columnName": "cessValue"
+      },
+      {
+        "type": "$FUNCTION",
+        "alias": "totalTaxSum",
+        "operation": {
+          "type": "$AGGREGATE",
+          "op": "SUM"
+        },
+        "fields": [
+          {
+            "type": "$COLUMN",
+            "dataType": "DECIMAL",
+            "columnName": "totalTax"
+          }
+        ]
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "67ebcba48ede5b3eac895a1e",
+      "templateType": "QUERY"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 0,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panG3bvs2bvsBooks",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAKCA2311H",
+      "startRange": "072020",
+      "endRange": "032021",
+      "activeBusiness": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED",
+      "filename": "PAN GSTR2B vs 3B vs Books Report (XLSX)"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panG3bvs2bvsBooks",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAKCA2311H",
+      "startRange": "072020",
+      "endRange": "032021",
+      "activeBusiness": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED",
+      "filename": "PAN GSTR2B vs 3B vs Books Report (XLSX)"
+    }
+  },
+  "staticRowData": {
+    "companyName": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED",
+    "gstin": "AAKCA2311H",
+    "reportPeriod": "Jul 2020 - Mar 2021"
+  },
+  "fileType": "XLSX",
+  "filename": "PAN_GSTR2B_vs_3B_vs_Books_Report_AAKCA2311H_072020-032021",
+  "exportName": "G2bvs3BvsBook_pan_download_Adv"
+}
