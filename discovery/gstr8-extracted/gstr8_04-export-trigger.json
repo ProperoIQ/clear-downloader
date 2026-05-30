@@ -1,0 +1,136 @@
+[
+  {
+    "idx": 111,
+    "method": "POST",
+    "url": "https://app.clear.in/api/clear/data-browser/public/export/trigger",
+    "host": "app.clear.in",
+    "path": "/api/clear/data-browser/public/export/trigger",
+    "query": {},
+    "request_headers": [
+      {
+        "name": ":authority",
+        "value": "app.clear.in"
+      },
+      {
+        "name": ":method",
+        "value": "POST"
+      },
+      {
+        "name": ":path",
+        "value": "/api/clear/data-browser/public/export/trigger"
+      },
+      {
+        "name": ":scheme",
+        "value": "https"
+      },
+      {
+        "name": "accept",
+        "value": "application/json, text/plain, */*"
+      },
+      {
+        "name": "accept-encoding",
+        "value": "gzip, deflate, br, zstd"
+      },
+      {
+        "name": "accept-language",
+        "value": "en-US,en;q=0.9,ta;q=0.8"
+      },
+      {
+        "name": "baggage",
+        "value": "sentry-environment=production,sentry-release=2491700ff48240c3949e8461815031a6f5d3c477,sentry-public_key=607fd3b42fc9b74117f75a6900f89b00,sentry-trace_id=6a9ae284e8f243bdac4bb08ce6ea5fe8,sentry-sample_rate=1,sentry-sampled=true"
+      },
+      {
+        "name": "content-length",
+        "value": "2912"
+      },
+      {
+        "name": "content-type",
+        "value": "application/json"
+      },
+      {
+        "name": "origin",
+        "value": "https://app.clear.in"
+      },
+      {
+        "name": "priority",
+        "value": "u=1, i"
+      },
+      {
+        "name": "referer",
+        "value": "https://app.clear.in/gst/reports/v2?reportType=panGstr8&activeBusiness=PISCES%20ESERVICES%20PRIVATE%20LIMITED&startDate=2021-04-01&endDate=2022-03-31&pan=AAGCP5410J&panNodeId=8b26df83-cf60-4963-8e4d-e5d7790ee2aa&timePeriodType=FISCAL_YEAR&localStorageKey=OGIyNmRmODMtY2Y2MC00OTYzLThlNGQtZTVkNzc5MGVlMmFhXzE3ODAxMjcwMDQwODA%3D&section=REPORT_VIEW&jobId=6a1a951e2f4373631dae2b13"
+      },
+      {
+        "name": "sec-ch-ua",
+        "value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+      },
+      {
+        "name": "sec-ch-ua-mobile",
+        "value": "?0"
+      },
+      {
+        "name": "sec-ch-ua-platform",
+        "value": "\"Windows\""
+      },
+      {
+        "name": "sec-fetch-dest",
+        "value": "empty"
+      },
+      {
+        "name": "sec-fetch-mode",
+        "value": "cors"
+      },
+      {
+        "name": "sec-fetch-site",
+        "value": "same-origin"
+      },
+      {
+        "name": "sentry-trace",
+        "value": "e9484506a6ff4a2293a662719f026ffc-b6452b7e23438f17-1"
+      },
+      {
+        "name": "user-agent",
+        "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+      },
+      {
+        "name": "x-cleartax-country",
+        "value": "in"
+      },
+      {
+        "name": "x-cleartax-orgunit",
+        "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+      },
+      {
+        "name": "x-cleartax-product",
+        "value": "GST"
+      },
+      {
+        "name": "x-cleartax-source",
+        "value": "APPCLEAR"
+      },
+      {
+        "name": "x-organisation-id",
+        "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+      },
+      {
+        "name": "x-request-id",
+        "value": "KOHzvgrKIoiNgGI5ZQxVT"
+      },
+      {
+        "name": "x-rls-token",
+        "value": "9756bab6-5944-4288-a192-84c17c0cd930"
+      },
+      {
+        "name": "x-tenant-name",
+        "value": "GST_REPORTS"
+      },
+      {
+        "name": "x-workspace-id",
+        "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+      }
+    ],
+    "request_body": "{\"statement\":{\"type\":\"SELECT\",\"fields\":[{\"type\":\"$COLUMN\",\"alias\":\"myGstin\",\"dataType\":\"STRING\",\"columnName\":\"myGstin\"},{\"type\":\"$COLUMN\",\"alias\":\"returnPeriod\",\"dataType\":\"STRING\",\"columnName\":\"returnPeriod\"},{\"type\":\"$COLUMN\",\"alias\":\"fiscalYear\",\"dataType\":\"STRING\",\"columnName\":\"fiscalYear\"},{\"type\":\"$COLUMN\",\"alias\":\"sectionName\",\"dataType\":\"STRING\",\"columnName\":\"sectionName\"},{\"type\":\"$COLUMN\",\"alias\":\"placeOfSupply\",\"dataType\":\"STRING\",\"columnName\":\"placeOfSupply\"},{\"type\":\"$COLUMN\",\"alias\":\"supplierGstin\",\"dataType\":\"STRING\",\"columnName\":\"supplierGstin\"},{\"type\":\"$COLUMN\",\"alias\":\"supplierGstinName\",\"dataType\":\"STRING\",\"columnName\":\"supplierGstinName\"},{\"type\":\"$COLUMN\",\"alias\":\"eid\",\"dataType\":\"STRING\",\"columnName\":\"eid\"},{\"type\":\"$COLUMN\",\"alias\":\"grossValueOfSupplies\",\"dataType\":\"DECIMAL\",\"columnName\":\"grossValueOfSupplies\"},{\"type\":\"$COLUMN\",\"alias\":\"valueOfSuppliesReturned\",\"dataType\":\"DECIMAL\",\"columnName\":\"valueOfSuppliesReturned\"},{\"type\":\"$COLUMN\",\"alias\":\"netAmountLiableForTcs\",\"dataType\":\"DECIMAL\",\"columnName\":\"netAmountLiableForTcs\"},{\"type\":\"$COLUMN\",\"alias\":\"igst\",\"dataType\":\"DECIMAL\",\"columnName\":\"igst\"},{\"type\":\"$COLUMN\",\"alias\":\"cgst\",\"dataType\":\"DECIMAL\",\"columnName\":\"cgst\"},{\"type\":\"$COLUMN\",\"alias\":\"sgst\",\"dataType\":\"DECIMAL\",\"columnName\":\"sgst\"},{\"type\":\"$COLUMN\",\"alias\":\"originalReturnPeriod\",\"dataType\":\"STRING\",\"columnName\":\"originalReturnPeriod\"},{\"type\":\"$COLUMN\",\"alias\":\"originalSupplierGstin\",\"dataType\":\"STRING\",\"columnName\":\"originalSupplierGstin\"},{\"type\":\"$COLUMN\",\"alias\":\"oeid\",\"dataType\":\"STRING\",\"columnName\":\"oeid\"},{\"type\":\"$COLUMN\",\"alias\":\"originalSupplierName\",\"dataType\":\"STRING\",\"columnName\":\"originalSupplierName\"},{\"type\":\"$COLUMN\",\"alias\":\"originalPlaceOfSupply\",\"dataType\":\"STRING\",\"columnName\":\"originalPlaceOfSupply\"}],\"from\":{\"source\":\"$TEMPLATE\",\"id\":\"684196177d2d777964e33efc\",\"templateType\":\"QUERY\"},\"where\":null,\"orderBy\":null,\"groupBy\":null,\"limit\":0,\"offset\":0},\"onStart\":{\"callbackType\":\"KRAMER\",\"metadata\":{\"notificationType\":\"GST_REPORTS_V2\",\"product\":\"GST\",\"reportType\":\"panGstr8\",\"orgId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"workspaceId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"tenant\":\"GST_REPORTS\",\"nodeNameType\":\"PAN\",\"nodeName\":\"AAGCP5410J\",\"startRange\":\"042021\",\"endRange\":\"032022\",\"activeBusiness\":\"PISCES ESERVICES PRIVATE LIMITED\"}},\"onFinish\":{\"callbackType\":\"KRAMER\",\"metadata\":{\"notificationType\":\"GST_REPORTS_V2\",\"product\":\"GST\",\"reportType\":\"panGstr8\",\"orgId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"workspaceId\":\"a8a3363c-b12b-4e7d-bd00-f81aafd07a89\",\"tenant\":\"GST_REPORTS\",\"nodeNameType\":\"PAN\",\"nodeName\":\"AAGCP5410J\",\"startRange\":\"042021\",\"endRange\":\"032022\",\"activeBusiness\":\"PISCES ESERVICES PRIVATE LIMITED\"}},\"staticRowData\":{\"companyName\":\"PISCES ESERVICES PRIVATE LIMITED\",\"gstin\":\"AAGCP5410J\",\"reportPeriod\":\"Apr 2021 - Mar 2022\"},\"fileType\":\"XLSX\",\"filename\":\"PANGSTR8_AAGCP5410J_042021-032022\"}",
+    "response_status": 200,
+    "response_content_type": "application/json",
+    "response_body": "6a1a953bb964c88980f207d1"
+  }
+]

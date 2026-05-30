@@ -1,4 +1,17 @@
-"""GSTR-2A Document Level Report — one full download per (PAN × FY)."""
+"""GSTR-1 Document Level Report — one full download per (PAN × FY).
+
+Mirrors the GSTR-2A / GSTR-2B flows byte-for-byte; only the report-type slugs,
+the statement template, and the filename prefix differ. See `gstr_2a.py` for the
+canonical commentary on the 6-step orchestration.
+
+Note on Clear's internal naming:
+    The Document Level Report's `exportName` is `G1_report_section_level_summary`
+    and the runtime filename starts with `PAN_GSTR1_Section Level Summary_`,
+    even though the user-facing label (in metadata + Clear's notification tray)
+    is `"GSTR-1 Document Level Report"`. The 38-column schema is per-invoice
+    line items, not section aggregates — Clear's internal slug just doesn't
+    match the user-facing label. Both values are lifted verbatim from the HAR.
+"""
 
 from __future__ import annotations
 
@@ -23,16 +36,22 @@ from clear_ola.manifest import Manifest
 from clear_ola.partials import log_partial_items
 
 
-REPORT_TYPE = "GSTR-2A"
-TENANT = "GSTR2A_REPORTS"
-RLS_WORKFLOW = "GSTR2A_REPORTS"
+REPORT_TYPE = "GSTR-1"
+TENANT = "GSTR1_REPORTS"
+RLS_WORKFLOW = "GSTR1_REPORTS"
+# GSTR-1 has existed since July 2017 (start of the GST regime). FY 2017-18's
+# first 3 months (Apr-Jun 2017) pre-date GSTR-1, but Clear's pull endpoint
+# handles those as NOT_APPLICABLE per-GSTIN/per-period (existing fallthrough).
+# MIN_FY is effectively a no-op against the current config but kept for
+# structural symmetry with gstr_2b.py.
+MIN_FY = "2017-18"
 
 
 def _load_statement_template() -> dict:
     """Load the verbatim export-trigger payload captured during Phase 0.
 
-    Stored as package data at `clear_ola/flows/gstr_2a_statement.json`."""
-    with resources.files("clear_ola.flows").joinpath("gstr_2a_statement.json").open(
+    Stored as package data at `clear_ola/flows/gstr_1_statement.json`."""
+    with resources.files("clear_ola.flows").joinpath("gstr_1_statement.json").open(
         "r", encoding="utf-8"
     ) as f:
         return json.load(f)
@@ -47,21 +66,21 @@ def _build_export_payload(
     workspace_id: str,
     periods: list[str],
 ) -> dict:
-    """Take the captured 2A statement and substitute PAN/FY/workspace-specific bits.
+    """Take the captured GSTR-1 statement and substitute PAN/FY/workspace-specific bits.
 
     `periods` should be the same (possibly truncated) list used for the pull —
-    so the filename and metadata reflect the actual months requested, not the
-    full FY when the current FY isn't yet complete.
+    so the filename and metadata reflect the actual months requested.
 
-    The `statement` block (49 columns, filters=null) is left untouched — Clear
+    The `statement` block (columns, filters=null) is left untouched — Clear
     decides scope from headers + workspace context.
     """
-    start_range = periods[0]   # e.g. "042025"
-    end_range = periods[-1]    # e.g. "032026"
-    filename_base = f"PAN_MM2A_Document_{pan}_{start_range}-{end_range}"
+    start_range = periods[0]   # e.g. "042024"
+    end_range = periods[-1]    # e.g. "032025"
+    # Clear's internal naming: the runtime filename has the literal string
+    # "Section Level Summary" (with spaces) even though the report is the
+    # per-invoice Document Level view. Match the HAR capture exactly.
+    filename_base = f"PAN_GSTR1_Section Level Summary_{pan}_{start_range}-{end_range}"
 
-    # Human-readable period range, derived from the (possibly truncated)
-    # `periods` list so it accurately reflects what we asked for.
     p = copy.deepcopy(template)
     p["staticRowData"] = {
         "companyName": business_name,
@@ -69,8 +88,8 @@ def _build_export_payload(
         "reportPeriod": _periods_to_human(periods),
     }
     p["filename"] = filename_base
-    # exportName stays as the captured value ("invoice_cdn_line") — it's the
-    # S3 prefix Clear uses for this report type.
+    # exportName stays as the captured value ("G1_report_section_level_summary")
+    # — it's the S3 prefix Clear uses for this report type.
 
     for callback_key in ("onStart", "onFinish"):
         md = p[callback_key]["metadata"]
@@ -80,8 +99,9 @@ def _build_export_payload(
         md["startRange"] = start_range
         md["endRange"] = end_range
         md["activeBusiness"] = business_name
-        # md["reportType"] stays "panMm2a" — that's what makes this 2A.
-        # md["filename"] stays "GSTR-2A Document Level Report" — UI label.
+        # md["reportType"] stays "panGstr1" — that's what makes this GSTR-1.
+        # md["filename"] stays "GSTR-1 Document Level Report" — UI label Clear
+        # shows in its notifications tray for this report type.
 
     return p
 
@@ -134,8 +154,9 @@ def run(
     cfg: AppConfig,
     manifest: Manifest,
 ) -> None:
-    """Process every (PAN × FY) in the config for GSTR-2A. Skips combos already
-    marked done. Records progress + errors to the manifest after every step.
+    """Process every (PAN × FY) in the config for GSTR-1. Skips combos already
+    marked done, and short-circuits FYs before 2017-18 (when GSTR-1 did not
+    exist). Records progress + errors to the manifest after every step.
 
     GSTINs that settle in NOT_DOWNLOADED or DOWNLOADED_PARTIALLY are logged to
     `state/partial-items.csv` and the export proceeds with whatever data is
@@ -185,6 +206,25 @@ def _run_one(
     template: dict,
 ) -> None:
     pan = pan_cfg.pan
+
+    # GSTR-1 did not exist before Jul 2017 (FY 2017-18). MIN_FY is effectively
+    # a no-op against the current config (no FY earlier than 2017-18 is
+    # configured), but we keep the same structural guard as gstr_2b.py so the
+    # three flow modules stay easy to compare. Within FY 2017-18 itself, the
+    # Apr-Jun 2017 months pre-date GSTR-1 and Clear returns NOT_APPLICABLE for
+    # them per-GSTIN — handled by the existing NOT_APPLICABLE fallthrough below.
+    # ("YYYY-YY" strings sort lexicographically because YYYY is fixed-width.)
+    if fy < MIN_FY:
+        if manifest.is_done(pan, fy, REPORT_TYPE):
+            return
+        logger.info(
+            "[{} / {} / {}] FY predates GSTR-1 (introduced Jul 2017); "
+            "recording as no_data and skipping.", pan, fy, REPORT_TYPE,
+        )
+        manifest.mark_started(pan, fy, REPORT_TYPE)
+        manifest.mark_no_data(pan, fy, REPORT_TYPE, gstins_seen=0)
+        return
+
     if manifest.is_done(pan, fy, REPORT_TYPE):
         logger.info("[{} / {} / {}] already done — skipping", pan, fy, REPORT_TYPE)
         return
@@ -209,7 +249,7 @@ def _run_one(
 
         # 1. Trigger fresh pull from GSTN (or no-op if recent enough)
         logger.info(
-            "[{}/{}] Step 1/6: refresh GSTR-2A data for {} underlying GSTINs "
+            "[{}/{}] Step 1/6: refresh GSTR-1 data for {} underlying GSTINs "
             "({}..{}) — prep step, no file is produced here.",
             pan, fy, len(gstin_node_ids), start_period, end_period,
         )
@@ -245,13 +285,13 @@ def _run_one(
         )
 
         # 2a.i. Entire PAN is NOT_APPLICABLE for this FY → mark no_data and
-        #       move on (the PAN didn't yet exist anywhere during this FY).
+        #       move on (the PAN didn't yet exist anywhere during this FY,
+        #       or no GSTR-1 has been filed for any of its GSTINs).
         if (not_applicable_count == len(snapshot) and len(snapshot) > 0
                 and not _any_partial(snapshot)):
             logger.info(
                 "[{}/{}] No data for this PAN x FY: all {} underlying GSTIN(s) "
-                "returned NOT_APPLICABLE (entity wasn't yet registered for GST "
-                "in any state during this FY). Marking as no_data and moving on.",
+                "returned NOT_APPLICABLE. Marking as no_data and moving on.",
                 pan, fy, not_applicable_count,
             )
             manifest.mark_no_data(
@@ -260,9 +300,9 @@ def _run_one(
             return
         if not_applicable_count > 0:
             logger.info(
-                "[{}/{}] {} of {} underlying GSTIN(s) returned NOT_APPLICABLE "
-                "(weren't registered yet); the PAN-level Excel will only "
-                "contain data from the {} GSTIN(s) that did.",
+                "[{}/{}] {} of {} underlying GSTIN(s) returned NOT_APPLICABLE; "
+                "the PAN-level Excel will only contain data from the {} GSTIN(s) "
+                "that did.",
                 pan, fy, not_applicable_count, len(snapshot), downloaded_count,
             )
 

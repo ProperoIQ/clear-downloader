@@ -17,7 +17,15 @@ from clear_ola.cookies import (
     ChromeRunningError,
     load_clear_cookies,
 )
-from clear_ola.flows import gstr_2a
+from clear_ola.flows import (
+    gstr_1,
+    gstr_1_vs_3b_vs_books,
+    gstr_2a,
+    gstr_2b,
+    gstr_2b_vs_3b_vs_books,
+    gstr_3b,
+    gstr_8,
+)
 from clear_ola.manifest import Manifest
 from clear_ola.partials import build_otp_worklist
 from clear_ola.status_report import build_status_report
@@ -64,7 +72,10 @@ def cli(ctx: click.Context, config_path: Path) -> None:
 
 @cli.command()
 @click.option("--report", "report_choice",
-              type=click.Choice(["GSTR-2A"], case_sensitive=False),
+              type=click.Choice(["GSTR-2A", "GSTR-2B", "GSTR-1", "GSTR-3B",
+                                 "GSTR-8",
+                                 "GSTR-1-vs-3B-vs-Books",
+                                 "GSTR-2B-vs-3B-vs-Books"], case_sensitive=False),
               default="GSTR-2A", show_default=True,
               help="Which report flow to run (v1: GSTR-2A only)")
 @click.option("--pan", "pan_filter", default=None,
@@ -73,12 +84,10 @@ def cli(ctx: click.Context, config_path: Path) -> None:
               help="Limit to a specific FY for the selected PAN (e.g. 2025-26).")
 @click.option("--all", "process_all", is_flag=True, default=False,
               help="Process every configured PAN x FY (skips the picker).")
-@click.option("--force-partial", "force_partial", is_flag=True, default=False,
-              help="If a pull settles with partial data even after the "
-                   "force-re-download retry, proceed to export anyway (UI's "
-                   "'Proceed with this data' equivalent). Details of the "
-                   "partial GSTINs are written to state/partial-items.csv "
-                   "regardless of this flag.")
+@click.option("--variants", "variants_filter", default=None,
+              help="GSTR-3B only: comma-separated subset of "
+                   "{combined,filed,itc-offset,insights,pdf}. "
+                   "Default: all 5. Ignored for other reports.")
 @click.pass_obj
 def download(
     cfg: AppConfig,
@@ -86,7 +95,7 @@ def download(
     pan_filter: str | None,
     fy_filter: str | None,
     process_all: bool,
-    force_partial: bool,
+    variants_filter: str | None,
 ) -> None:
     """Download ClearGST reports. Interactive PAN picker by default.
 
@@ -144,7 +153,27 @@ def download(
     cfg.pans = selected
     try:
         if report_choice.upper() == "GSTR-2A":
-            gstr_2a.run(api, cfg, manifest, force_partial=force_partial)
+            gstr_2a.run(api, cfg, manifest)
+        elif report_choice.upper() == "GSTR-2B":
+            gstr_2b.run(api, cfg, manifest)
+        elif report_choice.upper() == "GSTR-8":
+            gstr_8.run(api, cfg, manifest)
+        elif report_choice.upper() == "GSTR-1":
+            gstr_1.run(api, cfg, manifest)
+        elif report_choice.upper() == "GSTR-3B":
+            try:
+                gstr_3b.run(
+                    api, cfg, manifest,
+                    variants_filter=variants_filter,
+                )
+            except ValueError as e:
+                # Raised by parse_variants_filter on an unknown --variants key.
+                click.echo(f"\n[ERROR] {e}\n", err=True)
+                sys.exit(2)
+        elif report_choice.upper() == "GSTR-1-VS-3B-VS-BOOKS":
+            gstr_1_vs_3b_vs_books.run(api, cfg, manifest)
+        elif report_choice.upper() == "GSTR-2B-VS-3B-VS-BOOKS":
+            gstr_2b_vs_3b_vs_books.run(api, cfg, manifest)
         else:
             click.echo(f"Report {report_choice!r} not implemented yet.", err=True)
             sys.exit(2)

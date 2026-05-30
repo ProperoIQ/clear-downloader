@@ -272,8 +272,8 @@ def _write_partial_sheet(ws, rows: list[dict], pan_to_business: dict) -> None:
             ", ".join(sorted(periods)),
             r["last_seen"],
             "Confirm with GST team whether the missing months should exist. "
-            "Once confirmed, either re-run normally (Clear may have new data) "
-            "or accept the gap with --force-partial.",
+            "Once confirmed, re-run normally (Clear may have new data); the "
+            "current export already includes the GSTINs that did return data.",
         ])
     for row in ws.iter_rows(min_row=2):
         for cell in row:

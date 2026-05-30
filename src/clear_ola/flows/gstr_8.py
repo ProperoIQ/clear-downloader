@@ -1,4 +1,9 @@
-"""GSTR-2A Document Level Report — one full download per (PAN × FY)."""
+"""GSTR-8 (TCS by e-commerce operators) — one full download per (PAN × FY).
+
+Mirrors the GSTR-2A flow byte-for-byte; only the report-type slugs, the
+statement template, and the filename prefix differ. See `gstr_2a.py` for the
+canonical commentary on the 6-step orchestration.
+"""
 
 from __future__ import annotations
 
@@ -23,16 +28,21 @@ from clear_ola.manifest import Manifest
 from clear_ola.partials import log_partial_items
 
 
-REPORT_TYPE = "GSTR-2A"
-TENANT = "GSTR2A_REPORTS"
-RLS_WORKFLOW = "GSTR2A_REPORTS"
+REPORT_TYPE = "GSTR-8"
+TENANT = "GSTR8_REPORTS"
+RLS_WORKFLOW = "GSTR8_REPORTS"
+# GSTN introduced GSTR-8 (TCS return for e-commerce operators) in Oct 2018
+# (first return period was Oct 2018, FY 2018-19). FYs strictly before
+# 2018-19 therefore have no 8 data at all — we short-circuit those without
+# making any API call.
+MIN_FY = "2018-19"
 
 
 def _load_statement_template() -> dict:
-    """Load the verbatim export-trigger payload captured during Phase 0.
+    """Load the verbatim export-trigger payload captured during HAR discovery.
 
-    Stored as package data at `clear_ola/flows/gstr_2a_statement.json`."""
-    with resources.files("clear_ola.flows").joinpath("gstr_2a_statement.json").open(
+    Stored as package data at `clear_ola/flows/gstr_8_statement.json`."""
+    with resources.files("clear_ola.flows").joinpath("gstr_8_statement.json").open(
         "r", encoding="utf-8"
     ) as f:
         return json.load(f)
@@ -47,21 +57,18 @@ def _build_export_payload(
     workspace_id: str,
     periods: list[str],
 ) -> dict:
-    """Take the captured 2A statement and substitute PAN/FY/workspace-specific bits.
+    """Take the captured GSTR-8 statement and substitute PAN/FY/workspace-specific bits.
 
     `periods` should be the same (possibly truncated) list used for the pull —
-    so the filename and metadata reflect the actual months requested, not the
-    full FY when the current FY isn't yet complete.
+    so the filename and metadata reflect the actual months requested.
 
-    The `statement` block (49 columns, filters=null) is left untouched — Clear
+    The `statement` block (columns, filters=null) is left untouched — Clear
     decides scope from headers + workspace context.
     """
     start_range = periods[0]   # e.g. "042025"
     end_range = periods[-1]    # e.g. "032026"
-    filename_base = f"PAN_MM2A_Document_{pan}_{start_range}-{end_range}"
+    filename_base = f"PANGSTR8_{pan}_{start_range}-{end_range}"
 
-    # Human-readable period range, derived from the (possibly truncated)
-    # `periods` list so it accurately reflects what we asked for.
     p = copy.deepcopy(template)
     p["staticRowData"] = {
         "companyName": business_name,
@@ -69,8 +76,7 @@ def _build_export_payload(
         "reportPeriod": _periods_to_human(periods),
     }
     p["filename"] = filename_base
-    # exportName stays as the captured value ("invoice_cdn_line") — it's the
-    # S3 prefix Clear uses for this report type.
+    # fileType stays "XLSX" — captured verbatim from the GSTR-8 HAR.
 
     for callback_key in ("onStart", "onFinish"):
         md = p[callback_key]["metadata"]
@@ -80,8 +86,7 @@ def _build_export_payload(
         md["startRange"] = start_range
         md["endRange"] = end_range
         md["activeBusiness"] = business_name
-        # md["reportType"] stays "panMm2a" — that's what makes this 2A.
-        # md["filename"] stays "GSTR-2A Document Level Report" — UI label.
+        # md["reportType"] stays "panGstr8" — that's what makes this GSTR-8.
 
     return p
 
@@ -134,8 +139,9 @@ def run(
     cfg: AppConfig,
     manifest: Manifest,
 ) -> None:
-    """Process every (PAN × FY) in the config for GSTR-2A. Skips combos already
-    marked done. Records progress + errors to the manifest after every step.
+    """Process every (PAN × FY) in the config for GSTR-8. Skips combos already
+    marked done, and short-circuits FYs before 2018-19 (when GSTR-8 did not exist).
+    Records progress + errors to the manifest after every step.
 
     GSTINs that settle in NOT_DOWNLOADED or DOWNLOADED_PARTIALLY are logged to
     `state/partial-items.csv` and the export proceeds with whatever data is
@@ -185,6 +191,24 @@ def _run_one(
     template: dict,
 ) -> None:
     pan = pan_cfg.pan
+
+    # GSTR-8 did not exist before Oct 2018 (FY 2018-19). Skip pre-2018-19
+    # FYs without making any API call — Clear would just return NOT_APPLICABLE
+    # for every period and we'd waste a pull cycle. Record as no_data so the
+    # row appears in the status-report's "No Data Available" sheet alongside
+    # PANs that genuinely had no 8 activity.
+    # ("YYYY-YY" strings sort lexicographically because YYYY is fixed-width.)
+    if fy < MIN_FY:
+        if manifest.is_done(pan, fy, REPORT_TYPE):
+            return
+        logger.info(
+            "[{} / {} / {}] FY predates GSTR-8 (introduced Oct 2018); "
+            "recording as no_data and skipping.", pan, fy, REPORT_TYPE,
+        )
+        manifest.mark_started(pan, fy, REPORT_TYPE)
+        manifest.mark_no_data(pan, fy, REPORT_TYPE, gstins_seen=0)
+        return
+
     if manifest.is_done(pan, fy, REPORT_TYPE):
         logger.info("[{} / {} / {}] already done — skipping", pan, fy, REPORT_TYPE)
         return
@@ -209,7 +233,7 @@ def _run_one(
 
         # 1. Trigger fresh pull from GSTN (or no-op if recent enough)
         logger.info(
-            "[{}/{}] Step 1/6: refresh GSTR-2A data for {} underlying GSTINs "
+            "[{}/{}] Step 1/6: refresh GSTR-8 data for {} underlying GSTINs "
             "({}..{}) — prep step, no file is produced here.",
             pan, fy, len(gstin_node_ids), start_period, end_period,
         )
@@ -245,13 +269,13 @@ def _run_one(
         )
 
         # 2a.i. Entire PAN is NOT_APPLICABLE for this FY → mark no_data and
-        #       move on (the PAN didn't yet exist anywhere during this FY).
+        #       move on (the PAN didn't yet exist anywhere during this FY,
+        #       or 8 simply hasn't been generated for any of its GSTINs).
         if (not_applicable_count == len(snapshot) and len(snapshot) > 0
                 and not _any_partial(snapshot)):
             logger.info(
                 "[{}/{}] No data for this PAN x FY: all {} underlying GSTIN(s) "
-                "returned NOT_APPLICABLE (entity wasn't yet registered for GST "
-                "in any state during this FY). Marking as no_data and moving on.",
+                "returned NOT_APPLICABLE. Marking as no_data and moving on.",
                 pan, fy, not_applicable_count,
             )
             manifest.mark_no_data(
@@ -260,9 +284,9 @@ def _run_one(
             return
         if not_applicable_count > 0:
             logger.info(
-                "[{}/{}] {} of {} underlying GSTIN(s) returned NOT_APPLICABLE "
-                "(weren't registered yet); the PAN-level Excel will only "
-                "contain data from the {} GSTIN(s) that did.",
+                "[{}/{}] {} of {} underlying GSTIN(s) returned NOT_APPLICABLE; "
+                "the PAN-level Excel will only contain data from the {} GSTIN(s) "
+                "that did.",
                 pan, fy, not_applicable_count, len(snapshot), downloaded_count,
             )
 
