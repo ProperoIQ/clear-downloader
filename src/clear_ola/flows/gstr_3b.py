@@ -157,13 +157,16 @@ def run(
     cfg: AppConfig,
     manifest: Manifest,
     *,
-    force_partial: bool = False,
     variants_filter: str | None = None,
 ) -> None:
     """Process every (PAN × FY) in the config for GSTR-3B.
 
     A single data pull powers all selected variants per (PAN, FY); each
     variant becomes its own manifest row so failures retry independently.
+
+    GSTINs that settle in NOT_DOWNLOADED or DOWNLOADED_PARTIALLY are logged to
+    `state/partial-items.csv` and the export proceeds with whatever data is
+    available — the same way NOT_APPLICABLE GSTINs are handled.
     """
     selected_variants = parse_variants_filter(variants_filter)
     logger.info("GSTR-3B variants selected: {}", selected_variants)
@@ -197,7 +200,6 @@ def run(
                 api=api, cfg=cfg, manifest=manifest,
                 pan_cfg=pan_cfg, gstins=gstins, fy=fy,
                 selected_variants=selected_variants,
-                force_partial=force_partial,
             )
 
 
@@ -210,7 +212,6 @@ def _run_one(
     gstins: list,
     fy: str,
     selected_variants: list[str],
-    force_partial: bool = False,
 ) -> None:
     pan = pan_cfg.pan
 
@@ -305,8 +306,8 @@ def _run_one(
 
         # 2b. Per-GSTIN issues (DOWNLOADED_PARTIALLY / NOT_DOWNLOADED). The 3B
         # backend doesn't expose a "force re-pull" knob in the captured HAR,
-        # so we log + either bail or proceed based on --force-partial. If a
-        # future HAR reveals an equivalent of 2A/2B/1's
+        # so we just log them and proceed (same as 2a for NOT_APPLICABLE).
+        # If a future HAR reveals an equivalent of 2A/2B/1's
         # gisDownloadBehaviour=DOWNLOAD_COMPLETE_DATA retry, add it here.
         issue_rows = [s for s in snapshot
                       if s.get("downloadStatus") in _NEEDS_USER_ACTION]
@@ -326,27 +327,14 @@ def _run_one(
             )
             issues = _summarize_issues(snapshot)
             logger.warning(
-                "[{}/{}] 3B pull settled with issues: {}. "
-                "Appended {} row(s) to {}.",
-                pan, fy, issues, n_logged, partials_csv,
+                "[{}/{}] 3B pull settled with issues: {}. Appended {} row(s) "
+                "to {}. Proceeding to report-download for {} variant(s) with "
+                "whatever data is available; affected GSTINs' rows may be "
+                "incomplete or absent. NOT_DOWNLOADED needs OTP re-auth in "
+                "ClearGST's UI; DOWNLOADED_PARTIALLY needs confirmation from "
+                "the GST team.",
+                pan, fy, issues, n_logged, partials_csv, len(todo),
             )
-            if force_partial:
-                logger.warning(
-                    "[{}/{}] --force-partial set: proceeding to "
-                    "report-download for {} variant(s) with whatever data "
-                    "is available. Affected GSTINs' rows in the output "
-                    "may be incomplete or absent.",
-                    pan, fy, len(todo),
-                )
-            else:
-                raise RuntimeError(
-                    f"3B pull settled with issues for GSTIN(s): {issues}. "
-                    f"Details in {partials_csv}. NOT_DOWNLOADED needs OTP "
-                    f"re-auth in ClearGST's UI; DOWNLOADED_PARTIALLY needs "
-                    f"confirmation from the GST team. Or re-run this PAN+FY "
-                    f"with --force-partial to accept the gap and download "
-                    f"whatever's available."
-                )
         else:
             logger.info("[{}/{}] 3B pull settled cleanly.", pan, fy)
 

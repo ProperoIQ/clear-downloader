@@ -12,7 +12,7 @@ companion), with two differences confirmed from the HAR capture:
      `tenant: "GSTR2B_VS_3B_VS_BOOKS_REPORTS"` before rendering the page.
      We replay it so the 2B-side of the reconciliation is fresh; the 3B
      side comes from Clear's existing 3B cache (no separate pull). The
-     pull behaves like the 2A/2B/1 flow, so `--force-partial` applies.
+     pull behaves like the 2A/2B/1 flow.
 
   2. Different RLS workflow + Referer slug: `GSTR2B_VS_3B_VS_BOOKS_REPORTS`
      and `reportType=panG3bvs2bvsBooks` (verbatim from HAR).
@@ -246,18 +246,14 @@ def run(
     api: ClearAPI,
     cfg: AppConfig,
     manifest: Manifest,
-    *,
-    force_partial: bool = False,
 ) -> None:
     """Process every (PAN x FY) in the config for the GSTR-2B vs 3B vs Books
     reconciliation. Skips combos already marked done, and short-circuits FYs
     before 2020-21 (when 2B did not exist).
 
-    Args:
-        force_partial: if True, when the 2B pull settles with
-            DOWNLOADED_PARTIALLY even after the force-re-download retry,
-            proceed to export with the available data instead of failing.
-            Partial items are always logged to state/partial-items.csv.
+    GSTINs that settle in NOT_DOWNLOADED or DOWNLOADED_PARTIALLY are logged to
+    `state/partial-items.csv` and the reconciliation proceeds with whatever 2B
+    data is available — the same way NOT_APPLICABLE GSTINs are handled.
     """
     logger.info("Indexing GSTINs from workspace...")
     by_pan = _index_gstins_by_pan(api)
@@ -292,7 +288,6 @@ def run(
                 api=api, cfg=cfg, manifest=manifest,
                 pan_cfg=pan_cfg, gstins=gstins, fy=fy,
                 template=template, preflight_template=preflight_template,
-                force_partial=force_partial,
             )
 
 
@@ -306,7 +301,6 @@ def _run_one(
     fy: str,
     template: dict,
     preflight_template: dict,
-    force_partial: bool = False,
 ) -> None:
     pan = pan_cfg.pan
 
@@ -487,22 +481,12 @@ def _run_one(
                 )
             hint = " ".join(hints)
             logger.warning(
-                "[{}/{}] 2B pull settled with issues: {}. Appended {} row(s) to {}.",
-                pan, fy, issues, n_logged, partials_csv,
+                "[{}/{}] 2B pull settled with issues: {}. Appended {} row(s) "
+                "to {}. Proceeding to export anyway; the reconciliation will "
+                "reflect whatever 2B data is available, and rows for affected "
+                "GSTIN(s) may be incomplete or absent. {}",
+                pan, fy, issues, n_logged, partials_csv, hint,
             )
-            if force_partial:
-                logger.warning(
-                    "[{}/{}] --force-partial is set: proceeding to export "
-                    "anyway. The reconciliation will reflect whatever 2B data "
-                    "is available; rows for affected GSTIN(s) may be "
-                    "incomplete or absent.", pan, fy,
-                )
-            else:
-                raise RuntimeError(
-                    f"2B pull settled with issues for GSTIN(s): {issues}. "
-                    f"Details in {partials_csv}. {hint} Or re-run this "
-                    f"PAN+FY with --force-partial to accept the gap."
-                )
         else:
             logger.info(
                 "[{}/{}] 2B pull settled cleanly. Continuing to export.",

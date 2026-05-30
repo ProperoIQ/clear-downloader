@@ -17,7 +17,8 @@ poll_timeout_pull_seconds: 1800  # 30 min max per pull (fresh data prep)
 poll_timeout_export_seconds: 900 # 15 min max per export (Excel generation)
 inter_call_delay_seconds: 1.0    # short pause between sequential calls
 
-# Which reports to download. Supports "GSTR-2A", "GSTR-2B", and "GSTR-1".
+# Which reports to download. Supports "GSTR-2A", "GSTR-2B", "GSTR-1",
+# "GSTR-3B", "GSTR-8", "GSTR-1-vs-3B-vs-Books", "GSTR-2B-vs-3B-vs-Books".
 # Informational only — the actual report run is driven by the
 # `--report` flag on `python -m clear_ola download` (one report per run).
 reports:
@@ -25,7 +26,9 @@ reports:
   - "GSTR-2B"
   - "GSTR-1"
   - "GSTR-3B"
+  - "GSTR-8"
   - "GSTR-1-vs-3B-vs-Books"
+  - "GSTR-2B-vs-3B-vs-Books"
 
 # ---- Global FYs ----
 # Applied to EVERY PAN below unless that PAN has its own `fys:` override.

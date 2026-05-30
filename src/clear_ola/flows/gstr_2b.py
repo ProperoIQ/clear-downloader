@@ -140,18 +140,14 @@ def run(
     api: ClearAPI,
     cfg: AppConfig,
     manifest: Manifest,
-    *,
-    force_partial: bool = False,
 ) -> None:
     """Process every (PAN × FY) in the config for GSTR-2B. Skips combos already
     marked done, and short-circuits FYs before 2020-21 (when 2B did not exist).
     Records progress + errors to the manifest after every step.
 
-    Args:
-        force_partial: if True, when a pull settles with DOWNLOADED_PARTIALLY
-            even after the force-re-download retry, proceed to export with the
-            available data instead of failing. The partial items are always
-            logged to `state/partial-items.csv` regardless.
+    GSTINs that settle in NOT_DOWNLOADED or DOWNLOADED_PARTIALLY are logged to
+    `state/partial-items.csv` and the export proceeds with whatever data is
+    available — the same way NOT_APPLICABLE GSTINs are handled.
     """
     logger.info("Indexing GSTINs from workspace...")
     by_pan = _index_gstins_by_pan(api)
@@ -183,7 +179,6 @@ def run(
             _run_one(
                 api=api, cfg=cfg, manifest=manifest,
                 pan_cfg=pan_cfg, gstins=gstins, fy=fy, template=template,
-                force_partial=force_partial,
             )
 
 
@@ -196,7 +191,6 @@ def _run_one(
     gstins: list,
     fy: str,
     template: dict,
-    force_partial: bool = False,
 ) -> None:
     pan = pan_cfg.pan
 
@@ -331,7 +325,8 @@ def _run_one(
 
         # 2c. After any retry, unified handling of GSTINs that need user
         #     action (NOT_DOWNLOADED = session expired, DOWNLOADED_PARTIALLY =
-        #     gap remains). Log to CSV, then fail or proceed per --force-partial.
+        #     gap remains). Log to CSV, then proceed to export anyway —
+        #     same as 2a handles partial NOT_APPLICABLE.
         issue_rows = [s for s in snapshot
                       if s.get("downloadStatus") in _NEEDS_USER_ACTION]
         if issue_rows:
@@ -369,23 +364,11 @@ def _run_one(
                 )
             hint = " ".join(hints)
             logger.warning(
-                "[{}/{}] Pull settled with issues: {}. Appended {} row(s) to {}.",
-                pan, fy, issues, n_logged, partials_csv,
+                "[{}/{}] Pull settled with issues: {}. Appended {} row(s) "
+                "to {}. Proceeding to export anyway; rows for the affected "
+                "GSTIN(s) may be incomplete or absent. {}",
+                pan, fy, issues, n_logged, partials_csv, hint,
             )
-            if force_partial:
-                logger.warning(
-                    "[{}/{}] --force-partial is set: proceeding to export "
-                    "anyway. The Excel will contain whatever data is "
-                    "available; rows for the affected GSTIN(s) may be "
-                    "incomplete or absent.", pan, fy,
-                )
-            else:
-                raise RuntimeError(
-                    f"Pull settled with issues for GSTIN(s): {issues}. "
-                    f"Details in {partials_csv}. {hint} Or re-run this "
-                    f"PAN+FY with --force-partial to accept the gap and "
-                    f"generate the Excel from whatever data is available."
-                )
         else:
             logger.info(
                 "[{}/{}] Pull settled cleanly. Continuing to export.",

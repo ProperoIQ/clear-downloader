@@ -93,15 +93,10 @@ For older FYs (especially 2017-18 to 2019-20), Clear sometimes can't fetch the f
 The script's policy:
 
 1. **Auto-retry once** with `gisDownloadBehaviour=DOWNLOAD_COMPLETE_DATA` (equivalent to the UI's "Download all data again" button on the partial-data modal).
-2. **If still partial**, append details to `state/partial-items.csv` and **fail** — so you can take that CSV to the GST team / state filer / Clear support and confirm whether the missing data should exist.
-3. **`--force-partial`** flag lets you proceed to export anyway after you've confirmed the gap is real / acceptable. The resulting Excel will include whatever data Clear has, just missing rows for the partial GSTIN/months.
+2. **If still partial**, append details to `state/partial-items.csv` and **proceed to export anyway** — the same way `NOT_APPLICABLE` GSTINs are handled. The Excel includes whatever data Clear returned; rows for the partial GSTIN/months are missing or incomplete. Take the CSV to the GST team / state filer / Clear support to confirm whether the missing data should exist, then re-run once it's resolved.
 
 ```powershell
-# Default — strict, fails on persistent partial, writes state/partial-items.csv
 python -m clear_ola download --pan AACCO4289J --fy 2019-20
-
-# After reviewing partial-items.csv with the GST team, accept the gap:
-python -m clear_ola download --pan AACCO4289J --fy 2019-20 --force-partial
 ```
 
 The CSV is append-only across runs. Columns:
@@ -129,7 +124,7 @@ The CSV is append-only across runs. Columns:
 
 ## What's not in v1 yet
 
-- GSTR-2B / 6A / 8A (predicted slugs are in `discovery/FINDINGS.md`; needs a 15-min HAR validation walkthrough each).
+- GSTR-6A / 8A (predicted slugs are in `discovery/FINDINGS.md`; needs a 15-min HAR validation walkthrough each).
 - The "data missing" branch (when some periods aren't yet pulled). The flow assumes the trigger-then-wait path always works; if a GSTIN's GSTN session is expired, you'll see a "Pull failed" error and need to refresh that session in Clear's UI first.
 - Multi-PAN auto-discovery (currently you list PANs in `config.yaml`).
 - Headless / scheduled mode. It runs interactively for now; can be wrapped in Task Scheduler later.

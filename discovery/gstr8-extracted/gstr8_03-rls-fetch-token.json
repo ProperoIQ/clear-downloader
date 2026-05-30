@@ -1,0 +1,131 @@
+[
+  {
+    "idx": 99,
+    "method": "POST",
+    "url": "https://app.clear.in/api/gst-auto-compute/public/rls/fetch-token?returnPeriods=042021&returnPeriods=052021&returnPeriods=062021&returnPeriods=072021&returnPeriods=082021&returnPeriods=092021&returnPeriods=102021&returnPeriods=112021&returnPeriods=122021&returnPeriods=012022&returnPeriods=022022&returnPeriods=032022&workFlow=GSTR8_REPORTS&tableType=",
+    "host": "app.clear.in",
+    "path": "/api/gst-auto-compute/public/rls/fetch-token",
+    "query": {
+      "returnPeriods": "032022",
+      "workFlow": "GSTR8_REPORTS"
+    },
+    "request_headers": [
+      {
+        "name": ":authority",
+        "value": "app.clear.in"
+      },
+      {
+        "name": ":method",
+        "value": "POST"
+      },
+      {
+        "name": ":path",
+        "value": "/api/gst-auto-compute/public/rls/fetch-token?returnPeriods=042021&returnPeriods=052021&returnPeriods=062021&returnPeriods=072021&returnPeriods=082021&returnPeriods=092021&returnPeriods=102021&returnPeriods=112021&returnPeriods=122021&returnPeriods=012022&returnPeriods=022022&returnPeriods=032022&workFlow=GSTR8_REPORTS&tableType="
+      },
+      {
+        "name": ":scheme",
+        "value": "https"
+      },
+      {
+        "name": "accept",
+        "value": "application/json, text/plain, */*"
+      },
+      {
+        "name": "accept-encoding",
+        "value": "gzip, deflate, br, zstd"
+      },
+      {
+        "name": "accept-language",
+        "value": "en-US,en;q=0.9,ta;q=0.8"
+      },
+      {
+        "name": "baggage",
+        "value": "sentry-environment=production,sentry-release=2491700ff48240c3949e8461815031a6f5d3c477,sentry-public_key=607fd3b42fc9b74117f75a6900f89b00,sentry-trace_id=6a9ae284e8f243bdac4bb08ce6ea5fe8,sentry-sample_rate=1,sentry-sampled=true"
+      },
+      {
+        "name": "content-length",
+        "value": "0"
+      },
+      {
+        "name": "origin",
+        "value": "https://app.clear.in"
+      },
+      {
+        "name": "priority",
+        "value": "u=1, i"
+      },
+      {
+        "name": "referer",
+        "value": "https://app.clear.in/gst/reports/v2?reportType=panGstr8&activeBusiness=PISCES%20ESERVICES%20PRIVATE%20LIMITED&startDate=2021-04-01&endDate=2022-03-31&pan=AAGCP5410J&panNodeId=8b26df83-cf60-4963-8e4d-e5d7790ee2aa&timePeriodType=FISCAL_YEAR&localStorageKey=OGIyNmRmODMtY2Y2MC00OTYzLThlNGQtZTVkNzc5MGVlMmFhXzE3ODAxMjcwMDQwODA%3D&section=REPORT_VIEW&jobId=6a1a951e2f4373631dae2b13"
+      },
+      {
+        "name": "sec-ch-ua",
+        "value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+      },
+      {
+        "name": "sec-ch-ua-mobile",
+        "value": "?0"
+      },
+      {
+        "name": "sec-ch-ua-platform",
+        "value": "\"Windows\""
+      },
+      {
+        "name": "sec-fetch-dest",
+        "value": "empty"
+      },
+      {
+        "name": "sec-fetch-mode",
+        "value": "cors"
+      },
+      {
+        "name": "sec-fetch-site",
+        "value": "same-origin"
+      },
+      {
+        "name": "sentry-trace",
+        "value": "e9484506a6ff4a2293a662719f026ffc-b6452b7e23438f17-1"
+      },
+      {
+        "name": "user-agent",
+        "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+      },
+      {
+        "name": "x-clear-node-id",
+        "value": "95bba752-4ffc-4661-b687-504b4c6ac6f1,fb6e2a8d-3cfc-4223-aaf2-4eba52bcc10a,0ff3b857-be60-4bbf-a330-ad93b68eee01,59a92698-38c8-4b7e-9713-53d25f254efd,464dbe6c-727a-4429-bdc1-5a5606f2aad1,73552775-9a7b-442a-830a-ef8f090ba8bb,b10c5658-3216-4c33-a5c5-a57a58dd7d36,0150f363-bcba-4859-aa9a-5c8f83308c80,426688dc-1b03-4498-b192-086ebab2dcfd,99e726b9-663b-413f-8452-2424ad298f17,bb247dbc-6e19-4cd8-b628-ecc43ba3a4f2,6b1fe1e9-7e01-4abd-8879-e00b72261cac,23dfa7f6-2695-458a-b40a-1b4d4aa4d45e,b34060c8-5673-45b3-ba49-620be3025673,238967f3-0168-4a0a-8784-d03c9056b79c,97d7da3a-7229-4fec-a4b6-d18feb1db373,112baddd-c476-4628-9a92-0e7deaaa6de1,a388d64b-3d50-4453-8d74-50ba3239f82e,46a0b463-34b7-4856-84b1-fafdac79e664,38f5318c-fd76-4ebc-a840-230946bb9dd0,8cc98c02-87f2-4e79-ae81-830db0575b11,6f8aba18-5106-4653-bccc-362674b80030,974763c9-0cac-467e-b661-7e10c5629906,10c18d5c-4767-4be4-ba3b-ce8282e2dc0f,e5c6ec5e-decb-4d01-88c6-a4b5b60205ee,2b5c6ac1-0d68-4cb4-97ae-db8332c5c4d4,e4f66b40-4539-4e68-9821-a7d2961717cd,8c386e70-a826-435e-90d7-8f62925b30de,8dd30c07-7b8f-4b17-8628-e8b13d6bd655,118d0400-1548-4261-85c9-286c7e7cb2cc,18e6103f-474f-4bb5-a9c6-f801f8983934,ea9bdb69-bdab-4020-957f-ddb391e56051,c532c2b5-d78b-4e53-a1ce-34e268086709"
+      },
+      {
+        "name": "x-clear-node-type",
+        "value": "GSTIN"
+      },
+      {
+        "name": "x-cleartax-country",
+        "value": "in"
+      },
+      {
+        "name": "x-cleartax-orgunit",
+        "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+      },
+      {
+        "name": "x-cleartax-product",
+        "value": "GST"
+      },
+      {
+        "name": "x-cleartax-source",
+        "value": "APPCLEAR"
+      },
+      {
+        "name": "x-organisation-id",
+        "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+      },
+      {
+        "name": "x-workspace-id",
+        "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+      }
+    ],
+    "request_body": "",
+    "response_status": 200,
+    "response_content_type": "application/json",
+    "response_body": "{\"token\":\"9756bab6-5944-4288-a192-84c17c0cd930\",\"expiry\":\"2026-05-31T07:43:48.836674336\"}"
+  }
+]

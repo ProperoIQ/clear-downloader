@@ -1,0 +1,170 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "myGstin",
+        "dataType": "STRING",
+        "columnName": "myGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "returnPeriod",
+        "dataType": "STRING",
+        "columnName": "returnPeriod"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "fiscalYear",
+        "dataType": "STRING",
+        "columnName": "fiscalYear"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sectionName",
+        "dataType": "STRING",
+        "columnName": "sectionName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "placeOfSupply",
+        "dataType": "STRING",
+        "columnName": "placeOfSupply"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "supplierGstin",
+        "dataType": "STRING",
+        "columnName": "supplierGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "supplierGstinName",
+        "dataType": "STRING",
+        "columnName": "supplierGstinName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "eid",
+        "dataType": "STRING",
+        "columnName": "eid"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "grossValueOfSupplies",
+        "dataType": "DECIMAL",
+        "columnName": "grossValueOfSupplies"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "valueOfSuppliesReturned",
+        "dataType": "DECIMAL",
+        "columnName": "valueOfSuppliesReturned"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "netAmountLiableForTcs",
+        "dataType": "DECIMAL",
+        "columnName": "netAmountLiableForTcs"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "igst",
+        "dataType": "DECIMAL",
+        "columnName": "igst"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cgst",
+        "dataType": "DECIMAL",
+        "columnName": "cgst"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sgst",
+        "dataType": "DECIMAL",
+        "columnName": "sgst"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "originalReturnPeriod",
+        "dataType": "STRING",
+        "columnName": "originalReturnPeriod"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "originalSupplierGstin",
+        "dataType": "STRING",
+        "columnName": "originalSupplierGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "oeid",
+        "dataType": "STRING",
+        "columnName": "oeid"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "originalSupplierName",
+        "dataType": "STRING",
+        "columnName": "originalSupplierName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "originalPlaceOfSupply",
+        "dataType": "STRING",
+        "columnName": "originalPlaceOfSupply"
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "684196177d2d777964e33efc",
+      "templateType": "QUERY"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 0,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panGstr8",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAGCP5410J",
+      "startRange": "042021",
+      "endRange": "032022",
+      "activeBusiness": "PISCES ESERVICES PRIVATE LIMITED"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panGstr8",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAGCP5410J",
+      "startRange": "042021",
+      "endRange": "032022",
+      "activeBusiness": "PISCES ESERVICES PRIVATE LIMITED"
+    }
+  },
+  "staticRowData": {
+    "companyName": "PISCES ESERVICES PRIVATE LIMITED",
+    "gstin": "AAGCP5410J",
+    "reportPeriod": "Apr 2021 - Mar 2022"
+  },
+  "fileType": "XLSX",
+  "filename": "PANGSTR8_AAGCP5410J_042021-032022"
+}
