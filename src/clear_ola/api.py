@@ -139,7 +139,7 @@ class ClearAPI:
         *,
         params: dict | list | None = None,
         json_body: Any | None = None,
-        extra_headers: dict[str, str] | None = None,
+        extra_headers: dict[str, str | None] | None = None,
         stream: bool = False,
         expect_text: bool = False,
     ) -> Any:
@@ -361,15 +361,38 @@ class ClearAPI:
         logger.info("Got RLS token (expires {}) ", data.get("expiry"))
         return token
 
-    def trigger_export(self, payload: dict, *, rls_token: str) -> str:
-        """Submit the export. Returns the 24-hex-char export job ID (plain text)."""
+    def trigger_export(
+        self,
+        payload: dict,
+        *,
+        rls_token: str,
+        referer_override: str | None = None,
+        header_overrides: dict[str, str | None] | None = None,
+    ) -> str:
+        """Submit the export. Returns the 24-hex-char export job ID (plain text).
+
+        `referer_override` replaces the session-level Referer for this single
+        call. Some endpoints (e.g. panG3bvs2avsBooks, panG3bvs2bvsBooks,
+        panG3bvs1vsBooks) parse `reportType=` out of the Referer query string
+        and return 500 if it's missing — callers pass a per-report Referer here.
+
+        `header_overrides` is merged on top of the per-call extra_headers.
+        A value of `None` deletes that header from the request entirely
+        (`requests` honours this in its merge_setting), which is how we drop
+        session-level headers like `x-ct-source` that some endpoints reject.
+        """
+        extra: dict[str, str | None] = {
+            "x-rls-token": rls_token,
+            "x-tenant-name": "GST_REPORTS",
+        }
+        if referer_override is not None:
+            extra["referer"] = referer_override
+        if header_overrides:
+            extra.update(header_overrides)
         text = self._request(
             "POST", "/api/clear/data-browser/public/export/trigger",
             json_body=payload,
-            extra_headers={
-                "x-rls-token": rls_token,
-                "x-tenant-name": "GST_REPORTS",
-            },
+            extra_headers=extra,
             expect_text=True,
         )
         export_id = text.strip().strip('"')
