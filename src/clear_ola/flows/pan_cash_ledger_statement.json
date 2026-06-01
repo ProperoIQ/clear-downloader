@@ -1,0 +1,105 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "myGstin",
+        "dataType": "STRING",
+        "columnName": "myGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "id",
+        "dataType": "STRING",
+        "columnName": "mapping_id"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "date",
+        "dataType": "TIMESTAMP",
+        "columnName": "date"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "totalAmount",
+        "dataType": "DECIMAL",
+        "columnName": "totalAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "igst",
+        "dataType": "DECIMAL",
+        "columnName": "igst"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cgst",
+        "dataType": "DECIMAL",
+        "columnName": "cgst"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sgst",
+        "dataType": "DECIMAL",
+        "columnName": "sgst"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cess",
+        "dataType": "DECIMAL",
+        "columnName": "cess"
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "67e2a6e78ede5b3eac89594d",
+      "templateType": "QUERY"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 0,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panCashLedger",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAGCP5410J",
+      "startRange": "01-07-2017",
+      "endRange": "01-06-2026",
+      "activeBusiness": "PISCES ESERVICES PRIVATE LIMITED"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panCashLedger",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAGCP5410J",
+      "startRange": "01-07-2017",
+      "endRange": "01-06-2026",
+      "activeBusiness": "PISCES ESERVICES PRIVATE LIMITED"
+    }
+  },
+  "staticRowData": {
+    "companyName": "PISCES ESERVICES PRIVATE LIMITED",
+    "gstin": "AAGCP5410J",
+    "reportPeriod": "01-07-2017 - 01-06-2026"
+  },
+  "fileType": "XLSX",
+  "filename": "PAN_CASH_LEDGER_REPORT_AAGCP5410J_01-07-2017-01-06-2026",
+  "exportName": "cash_ledger_download"
+}

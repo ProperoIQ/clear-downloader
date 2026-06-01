@@ -25,6 +25,7 @@ from clear_ola.flows import (
     gstr_2b_vs_3b_vs_books,
     gstr_3b,
     gstr_8,
+    pan_cash_ledger,
 )
 from clear_ola.manifest import Manifest
 from clear_ola.partials import build_otp_worklist
@@ -75,7 +76,8 @@ def cli(ctx: click.Context, config_path: Path) -> None:
               type=click.Choice(["GSTR-2A", "GSTR-2B", "GSTR-1", "GSTR-3B",
                                  "GSTR-8",
                                  "GSTR-2A-vs-3B-vs-Books",
-                                 "GSTR-2B-vs-3B-vs-Books"], case_sensitive=False),
+                                 "GSTR-2B-vs-3B-vs-Books",
+                                 "PAN-Cash-Ledger"], case_sensitive=False),
               default="GSTR-2A", show_default=True,
               help="Which report flow to run (v1: GSTR-2A only)")
 @click.option("--pan", "pan_filter", default=None,
@@ -174,6 +176,8 @@ def download(
             gstr_2a_vs_3b_vs_books.run(api, cfg, manifest)
         elif report_choice.upper() == "GSTR-2B-VS-3B-VS-BOOKS":
             gstr_2b_vs_3b_vs_books.run(api, cfg, manifest)
+        elif report_choice.upper() == "PAN-CASH-LEDGER":
+            pan_cash_ledger.run(api, cfg, manifest)
         else:
             click.echo(f"Report {report_choice!r} not implemented yet.", err=True)
             sys.exit(2)

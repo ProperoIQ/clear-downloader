@@ -173,3 +173,46 @@ The **preflight** filename has the same double-`PAN_PAN_` prefix and lowercase `
 ### Periods
 
 No `MIN_FY` floor needed: GSTR-2A is available from the start of GST (Jul 2017). Unlike GSTR-2B-vs-3B-vs-Books (which requires `MIN_START_PERIOD=072020`), this flow can process FY 2017-18 onward without period clipping. *(Validate by attempting an early FY in production — current HAR only covers 2020-21.)*
+
+---
+
+## Addendum — PAN Cash Ledger report
+
+**Source HAR:** `discovery/app.clear.in.CASH-LEDGER.har` (7.8 MB, 143 entries; captured 01 Jun 2026)
+**Scope walked through:** PAN `AAGCP5410J` (PISCES ESERVICES PRIVATE LIMITED), 41 GSTINs, date range `01-07-2017 .. 01-06-2026` (full GST era).
+
+### Confirmed slugs / identifiers
+
+| Key | Value | HAR evidence |
+|---|---|---|
+| URL slug (Referer query) | `reportType=panCashLedger` | entries 80, 108, 118, 136 |
+| `timePeriodType` (Referer) | `DATE_RANGE` (not `FISCAL_YEAR`) | same |
+| Pull tenant | `CASH_LEDGER_REPORT` | entry 80 body |
+| RLS workflow (URL param `workFlow=`) | `CASH_LEDGER_REPORT` | entry 108 URL |
+| RLS URL params (note: no `returnPeriods`) | `workFlow=...&tableType=&fromDate=DD-MM-YYYY&toDate=DD-MM-YYYY` | entry 108 URL |
+| Export S3 prefix | `cash_ledger_download` | entry 136 response URL |
+| Export filename | `PAN_CASH_LEDGER_REPORT_<PAN>_<DD-MM-YYYY>-<DD-MM-YYYY>.xlsx.zip` | entry 136 response |
+| Real-export `exportName` | `cash_ledger_download` | entry 118 body |
+| Real-export `fileType` | `XLSX` | entry 118 body |
+| `staticRowData` keys | `{companyName, gstin, reportPeriod}` | entry 118 body |
+| `staticRowData.reportPeriod` format | `"DD-MM-YYYY - DD-MM-YYYY"` | entry 118 body |
+| `onStart.metadata.reportType` | `panCashLedger` | entry 118 body |
+| Statement template id | `67e2a6e78ede5b3eac89594d` (Clear's stored QUERY template) | entry 118 body |
+
+### Flow ordering (simple — no preflight, like GSTR-2A)
+
+1. `POST /api/data-pull/public/pull/v2/trigger` — `tenant: CASH_LEDGER_REPORT`, `startRange` / `endRange` in **DD-MM-YYYY** (not `MMYYYY`), `gisDownloadBehaviour: null` (HAR sent JSON null, not the usual `"USE_EXISTING_DATA"`).
+2. Poll `POST /api/data-pull/public/pull/v3/status` until DOWNLOADED.
+3. `POST /api/.../rls/fetch-token?workFlow=CASH_LEDGER_REPORT&tableType=&fromDate=...&toDate=...` — date-range mode of the RLS endpoint (no `returnPeriods=`).
+4. **Single** `POST /api/.../export/trigger` with `x-rls-token`, panCashLedger Referer, header overrides (drop `x-ct-source`, add baggage / sentry-trace / accept-language / priority).
+5. Poll `GET /api/.../export/download/<id>` until SUCCESS, then download the pre-signed S3 URL.
+
+### Key difference from every other flow: **date range, not periods**
+
+This is the first report in the toolkit that uses **DD-MM-YYYY date strings** instead of `MMYYYY` periods. `api.fetch_rls_token` was extended with a `from_date=` / `to_date=` mode for this; `api.trigger_pull` is range-agnostic and passes its `start_period` / `end_period` strings through verbatim, so DD-MM-YYYY values work without code changes. `api.trigger_pull`'s `gis_download_behaviour` type was widened to `str | None` to pass JSON `null`.
+
+### FY → date-range mapping (implementation detail)
+
+The flow maps each configured FY (e.g. `2024-25`) to a `(start, end)` DD-MM-YYYY pair internally:
+- Start: `01-04-<first-year>`, clamped up to `01-07-2017` for FY 2017-18 (GST start).
+- End: `31-03-<second-year>`, clamped down to today for the current FY.

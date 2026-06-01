@@ -201,7 +201,7 @@ class ClearAPI:
         start_period: str,  # MMYYYY
         end_period: str,    # MMYYYY
         tenant: str = "GSTR2A_REPORTS",
-        gis_download_behaviour: str = "USE_EXISTING_DATA",
+        gis_download_behaviour: str | None = "USE_EXISTING_DATA",
     ) -> str:
         """Kick off a fresh data pull from GSTN for the given GSTINs / period range.
 
@@ -337,21 +337,46 @@ class ClearAPI:
 
     def fetch_rls_token(
         self,
-        periods: list[str],
+        periods: list[str] | None = None,
         *,
         gstin_node_ids: list[str],
         workflow: str,
+        from_date: str | None = None,
+        to_date: str | None = None,
     ) -> str:
         """Get a short-lived RLS token. Required as `x-rls-token` on export/trigger.
 
         Clear gates this token by the GSTIN scope, which it reads from the
         `x-clear-node-id` / `x-clear-node-type` headers. Without those it
-        returns a generic INTERNAL_SERVER 500."""
-        # Build params with repeated returnPeriods= entries, then workFlow,
-        # then an empty tableType= (matches the HAR exactly).
-        params: list[tuple[str, str]] = [("returnPeriods", p) for p in periods]
-        params.append(("workFlow", workflow))
-        params.append(("tableType", ""))
+        returns a generic INTERNAL_SERVER 500.
+
+        Two URL-param modes — pass one or the other (not both):
+
+          - **Period mode** (default; GSTR-1/2A/2B/3B/8 and their reconciliation
+            variants): pass `periods=["MMYYYY", ...]`. URL has repeated
+            `returnPeriods=` entries.
+
+          - **Date-range mode** (PAN Cash Ledger and other range-scoped reports):
+            pass `from_date="DD-MM-YYYY", to_date="DD-MM-YYYY"`. URL has
+            `fromDate=` and `toDate=` instead of `returnPeriods=`. Captured
+            param order matches the HAR exactly.
+        """
+        if from_date is not None and to_date is not None:
+            params: list[tuple[str, str]] = [
+                ("workFlow", workflow),
+                ("tableType", ""),
+                ("fromDate", from_date),
+                ("toDate", to_date),
+            ]
+        elif periods:
+            params = [("returnPeriods", p) for p in periods]
+            params.append(("workFlow", workflow))
+            params.append(("tableType", ""))
+        else:
+            raise ValueError(
+                "fetch_rls_token requires either `periods=[...]` or "
+                "`from_date=..., to_date=...` (got neither)."
+            )
         data = self._request(
             "POST", "/api/gst-auto-compute/public/rls/fetch-token",
             params=params,
