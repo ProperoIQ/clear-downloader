@@ -1,0 +1,144 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "mygstin",
+        "dataType": "STRING",
+        "columnName": "mygstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "description",
+        "dataType": "STRING",
+        "columnName": "description"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sort_order",
+        "dataType": "STRING",
+        "columnName": "sort_order"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "id",
+        "dataType": "STRING",
+        "columnName": "mapping_id"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "is_bold",
+        "dataType": "STRING",
+        "columnName": "is_bold"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "is_tab",
+        "dataType": "INTEGER",
+        "columnName": "is_tab"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "returnPeriod",
+        "dataType": "STRING",
+        "columnName": "returnPeriod"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "totalTax",
+        "dataType": "DECIMAL",
+        "columnName": "totalTax"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "igstValue",
+        "dataType": "DECIMAL",
+        "columnName": "igstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "cgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "sgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cessValue",
+        "dataType": "DECIMAL",
+        "columnName": "cessValue"
+      },
+      {
+        "type": "$FUNCTION",
+        "alias": "totalTaxSum",
+        "operation": {
+          "type": "$AGGREGATE",
+          "op": "SUM"
+        },
+        "fields": [
+          {
+            "type": "$COLUMN",
+            "dataType": "DECIMAL",
+            "columnName": "totalTax"
+          }
+        ]
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "682c414d96dec0478494048f"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 100,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panG3bvs2avsBooks",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAECB1261D",
+      "startRange": "042020",
+      "endRange": "032021",
+      "activeBusiness": "BIRDS EYE SYSTEMS PRIVATE LIMITED",
+      "filename": "GSTR-2A vs 3B Report (XLSX)"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panG3bvs2avsBooks",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAECB1261D",
+      "startRange": "042020",
+      "endRange": "032021",
+      "activeBusiness": "BIRDS EYE SYSTEMS PRIVATE LIMITED",
+      "filename": "GSTR-2A vs 3B Report (XLSX)"
+    }
+  },
+  "staticRowData": {
+    "companyName": "BIRDS EYE SYSTEMS PRIVATE LIMITED",
+    "gstin": "AAECB1261D",
+    "reportPeriod": "Apr 2020 - Mar 2021"
+  },
+  "filename": "PAN_PAN_GSTR2A_vs_3b_Report_AAECB1261D_042020-032021",
+  "exportName": "pan_G2Avs3B_download_Adv"
+}

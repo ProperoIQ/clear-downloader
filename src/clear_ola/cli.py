@@ -19,8 +19,8 @@ from clear_ola.cookies import (
 )
 from clear_ola.flows import (
     gstr_1,
-    gstr_1_vs_3b_vs_books,
     gstr_2a,
+    gstr_2a_vs_3b_vs_books,
     gstr_2b,
     gstr_2b_vs_3b_vs_books,
     gstr_3b,
@@ -74,7 +74,7 @@ def cli(ctx: click.Context, config_path: Path) -> None:
 @click.option("--report", "report_choice",
               type=click.Choice(["GSTR-2A", "GSTR-2B", "GSTR-1", "GSTR-3B",
                                  "GSTR-8",
-                                 "GSTR-1-vs-3B-vs-Books",
+                                 "GSTR-2A-vs-3B-vs-Books",
                                  "GSTR-2B-vs-3B-vs-Books"], case_sensitive=False),
               default="GSTR-2A", show_default=True,
               help="Which report flow to run (v1: GSTR-2A only)")
@@ -170,8 +170,8 @@ def download(
                 # Raised by parse_variants_filter on an unknown --variants key.
                 click.echo(f"\n[ERROR] {e}\n", err=True)
                 sys.exit(2)
-        elif report_choice.upper() == "GSTR-1-VS-3B-VS-BOOKS":
-            gstr_1_vs_3b_vs_books.run(api, cfg, manifest)
+        elif report_choice.upper() == "GSTR-2A-VS-3B-VS-BOOKS":
+            gstr_2a_vs_3b_vs_books.run(api, cfg, manifest)
         elif report_choice.upper() == "GSTR-2B-VS-3B-VS-BOOKS":
             gstr_2b_vs_3b_vs_books.run(api, cfg, manifest)
         else:

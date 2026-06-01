@@ -130,3 +130,46 @@ Periods are passed as `MMYYYY` strings (no separator), e.g. April 2025 → `"042
 5. Loop over multiple PANs × multiple FYs.
 
 If you're happy with this analysis, ping me and I'll move to step 1 (the second HAR for 2B validation) or skip straight to step 2 (scaffold and validate experimentally) — your call.
+
+---
+
+## Addendum — GSTR-2A vs 3B vs Books reconciliation flow
+
+**Source HAR:** `app.clear.in.har` (7.3 MB, 169 entries; captured 01 Jun 2026)
+**Scope walked through:** PAN `AAECB1261D` (BIRDS EYE SYSTEMS PRIVATE LIMITED), FY 2020-21 (periods `042020..032021`), one GSTIN under the PAN.
+
+### Confirmed slugs / identifiers
+
+| Key | Value | HAR evidence |
+|---|---|---|
+| URL slug (Referer query) | `reportType=panG3bvs2avsBooks` | entries 72, 114, 126, 149 |
+| Pull tenant | `GSTR2A_VS_3B_VS_BOOKS_REPORTS` | entry 72 body |
+| RLS workflow (URL param `workFlow=`) | `GSTR2A_VS_3B_VS_BOOKS_REPORTS` | entry 114 URL |
+| Preflight S3 prefix | `pan_G2Avs3B_download_Adv` | entry 145/146 URLs |
+| Real-export S3 prefix | `pan_G2Avs3BvsBook_download_Adv` | entry 165/166 URLs |
+| Preflight filename pattern | `PAN_PAN_GSTR2A_vs_3b_Report_<PAN>_<MMYYYY>-<MMYYYY>` | entries 126, 145/146 |
+| Real-export filename pattern | `PAN_GSTR2A_vs_3B_vs_Books_Report_<PAN>_<MMYYYY>-<MMYYYY>` | entries 149, 165/166 |
+| Both metadata `reportType` | `panG3bvs2avsBooks` | entries 126, 149 bodies |
+| Preflight UI label (`onStart.metadata.filename`) | `GSTR-2A vs 3B Report (XLSX)` | entry 126 body |
+| Real UI label (`onStart.metadata.filename`) | `GSTR-2A vs 3B vs Books Report (XLSX)` | entry 149 body |
+
+### Flow ordering (same as 2B-vs-3B-vs-Books and 1-vs-3B-vs-Books)
+
+1. `POST /api/data-pull/public/pull/v2/trigger` — `tenant: GSTR2A_VS_3B_VS_BOOKS_REPORTS`, refreshes 2A side only (3B comes from Clear's existing 3B cache, no separate pull).
+2. Poll `POST /api/data-pull/public/pull/v3/status` until DOWNLOADED.
+3. `POST /api/gst-auto-compute/public/rls/fetch-token?...&workFlow=GSTR2A_VS_3B_VS_BOOKS_REPORTS` — same RLS token is reused for both export-trigger calls below.
+4. **Preflight** `POST /api/clear/data-browser/public/export/trigger` with the `G2A vs 3B` body (no Books). Returns an export id we discard — this primes Clear's reconciliation cube. Skipping it is expected to make step 5 fail with `500 Unknown error occurred` (by analogy with the documented 2B and 1 preflights).
+5. **Real export** `POST /api/clear/data-browser/public/export/trigger` with the `G2A vs 3B vs Books` body.
+6. Poll `GET /api/clear/data-browser/public/export/download/<id>` until SUCCESS, then download the pre-signed S3 URL.
+
+### Header overrides on both `export/trigger` calls
+
+Verified absent from HAR: **`x-ct-source`** (our session adds `GST_REPORTS` by default — we must override to `None`). Verified present: `baggage` + `sentry-trace` (Sentry distributed-tracing headers — Clear's edge may validate these), `accept-language`, `priority`. The Referer must carry `?reportType=panG3bvs2avsBooks&...` or Clear's backend 500s — same edge-validation behavior as the panG3bvs2bvsBooks endpoint.
+
+### Filename quirks (replicate verbatim)
+
+The **preflight** filename has the same double-`PAN_PAN_` prefix and lowercase `3b` as the 2B-vs-3B-vs-Books and 1-vs-3B-vs-Books preflights (e.g. `PAN_PAN_GSTR2A_vs_3b_Report_...`). This looks like a frontend typo but Clear's backend may key off it, so the captured JSON template preserves it as-is. The real-export filename is clean (`PAN_GSTR2A_vs_3B_vs_Books_Report_...`).
+
+### Periods
+
+No `MIN_FY` floor needed: GSTR-2A is available from the start of GST (Jul 2017). Unlike GSTR-2B-vs-3B-vs-Books (which requires `MIN_START_PERIOD=072020`), this flow can process FY 2017-18 onward without period clipping. *(Validate by attempting an early FY in production — current HAR only covers 2020-21.)*
