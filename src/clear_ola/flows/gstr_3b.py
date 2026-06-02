@@ -354,7 +354,10 @@ def _run_one(
             gstin_node_ids=gstin_node_ids,
             workspace_id=cfg.workspace_id,
         )
-        time.sleep(cfg.inter_call_delay_seconds)
+        # Clear's UI waits ~10s here; the backend priming must propagate
+        # before reportDownload reads it, otherwise the XLSX/PDF cells are all
+        # zero (see discovery/app.clear.in.har_3b.har).
+        time.sleep(cfg.wait_after_priming_seconds)
 
         # ===== Steps 3-5: per-variant report download =====
         for v in todo:
@@ -402,6 +405,13 @@ def _run_one(
                     ready.report_uri, dest,
                     gstin_node_ids=gstin_node_ids,
                 )
+                if bytes_written < 25 * 1024:
+                    logger.warning(
+                        "[{}/{}/{}] Downloaded file is suspiciously small "
+                        "({} bytes < 25 KB) — Clear may have served an "
+                        "empty-shell XLSX/PDF. Open the file to confirm.",
+                        pan, fy, rt, bytes_written,
+                    )
 
                 manifest.mark_done(
                     pan, fy, rt,

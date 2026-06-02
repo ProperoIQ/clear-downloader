@@ -26,6 +26,7 @@ class AppConfig:
     poll_timeout_pull_seconds: int
     poll_timeout_export_seconds: int
     inter_call_delay_seconds: float
+    wait_after_priming_seconds: float
     reports: list[str]
     pans: list[PanConfig]
     default_fys: list[str]  # global FYs applied when a PAN doesn't list its own
@@ -67,6 +68,7 @@ class AppConfig:
             poll_timeout_pull_seconds=int(raw.get("poll_timeout_pull_seconds", 1800)),
             poll_timeout_export_seconds=int(raw.get("poll_timeout_export_seconds", 900)),
             inter_call_delay_seconds=float(raw.get("inter_call_delay_seconds", 1.0)),
+            wait_after_priming_seconds=float(raw.get("wait_after_priming_seconds", 15.0)),
             reports=[r.strip() for r in raw["reports"]],
             pans=pans,
             default_fys=default_fys,

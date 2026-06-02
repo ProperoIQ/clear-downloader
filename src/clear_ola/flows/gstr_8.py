@@ -91,6 +91,23 @@ def _build_export_payload(
     return p
 
 
+def _build_query_payload(*, template: dict) -> dict:
+    """Build the data-browser priming query body.
+
+    Clear's UI calls `/api/clear/data-browser/public/v2/query` between the
+    RLS-token fetch and the export trigger (see
+    `discovery/app.clear.in.har_GSTR-8.har`, line 68898). The body is just
+    `{"statement": <select>}` — the same SELECT the export uses, but with
+    `limit: 1000` instead of `0` (a pageable preview). The response is
+    discarded; the call's only job is to materialize the result set on
+    Clear's side so the subsequent export trigger reads from a populated
+    cube instead of serving an empty-shell XLSX.
+    """
+    statement = copy.deepcopy(template["statement"])
+    statement["limit"] = 1000
+    return {"statement": statement}
+
+
 _MONTHS = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
@@ -383,6 +400,20 @@ def _run_one(
         )
         time.sleep(cfg.inter_call_delay_seconds)
 
+        # 3.5. Prime Clear's data-browser cube. Without this call, the export
+        # trigger serves a valid-shape-but-empty XLSX. Discovered via HAR diff:
+        # Clear's UI hits POST /v2/query between RLS-token fetch and export
+        # trigger (see discovery/app.clear.in.har_GSTR-8.har, line 68898).
+        logger.info(
+            "[{}/{}] Step 3.5/6: prime Clear's data-browser cube via /v2/query",
+            pan, fy,
+        )
+        query_payload = _build_query_payload(template=template)
+        api.run_data_browser_query(query_payload, rls_token=rls_token)
+        # Clear's UI waits ~5-15s here; the cube must materialize before the
+        # real export trigger reads it.
+        time.sleep(cfg.wait_after_priming_seconds)
+
         # 4. Trigger Excel export (this is the step that produces the single
         #    PAN-level Excel file)
         logger.info(
@@ -416,6 +447,14 @@ def _run_one(
             ready.pre_signed_url, dest,
             gstin_node_ids=gstin_node_ids,
         )
+        if bytes_written < 10 * 1024:
+            logger.warning(
+                "[{}/{}/{}] Downloaded file is suspiciously small "
+                "({} bytes < 10 KB). May be a Clear empty-shell, or the PAN "
+                "genuinely has minimal GSTR-8 (TCS) activity. Cross-check "
+                "with Clear's portal before treating as a bug.",
+                pan, fy, REPORT_TYPE, bytes_written,
+            )
 
         manifest.mark_done(
             pan, fy, REPORT_TYPE,

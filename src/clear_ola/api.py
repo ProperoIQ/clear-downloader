@@ -412,6 +412,38 @@ class ClearAPI:
         logger.info("Triggered export, exportId={}", export_id)
         return export_id
 
+    def run_data_browser_query(
+        self, payload: dict, *, rls_token: str,
+        referer_override: str | None = None,
+        header_overrides: Mapping[str, str | None] | None = None,
+    ) -> None:
+        """Prime Clear's data-browser cube before an export trigger.
+
+        The response is intentionally discarded — we want only the side effect
+        of materializing the result set server-side so the subsequent
+        `trigger_export` reads from a populated cube. Without this priming
+        call, observed for GSTR-8 in `discovery/app.clear.in.har_GSTR-8.har`
+        (UI line 68898), the export downloads a valid-shape-but-empty file.
+
+        `payload` is the same SELECT statement passed to `trigger_export`,
+        but with `limit: 1000` (a pageable preview) instead of `limit: 0`.
+        """
+        extra_headers: dict[str, str | None] = {
+            "x-rls-token": rls_token,
+            "x-tenant-name": "GST_REPORTS",
+        }
+        if referer_override:
+            extra_headers["referer"] = referer_override
+        if header_overrides:
+            extra_headers.update(header_overrides)
+
+        self._request(
+            "POST", "/api/clear/data-browser/public/v2/query",
+            json_body=payload,
+            extra_headers=extra_headers,
+        )
+        logger.info("Primed data-browser cube via /v2/query")
+
     def get_export_status(self, export_id: str) -> dict:
         """One snapshot of the export job status."""
         return self._request(

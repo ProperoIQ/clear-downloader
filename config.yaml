@@ -16,6 +16,10 @@ poll_seconds_export: 5           # poll cadence for export/download/<id>
 poll_timeout_pull_seconds: 1800  # 30 min max per pull (fresh data prep)
 poll_timeout_export_seconds: 900 # 15 min max per export (Excel generation)
 inter_call_delay_seconds: 1.0    # short pause between sequential calls
+# Clear's UI waits 10-13s between a server-side priming call and the real
+# export trigger. Shorter waits cause valid-shape-but-empty downloads
+# (see discovery/app.clear.in.har_3b.har and the recon-flow HARs).
+wait_after_priming_seconds: 15.0
 
 # Which reports to download. Supports "GSTR-2A", "GSTR-2B", "GSTR-1",
 # "GSTR-3B", "GSTR-8", "GSTR-1-vs-3B-vs-Books", "GSTR-2B-vs-3B-vs-Books".

@@ -423,7 +423,11 @@ def _run_one(
             "[{}/{}] preflight export id {} — discarded (cache priming only)",
             pan, fy, preflight_export_id,
         )
-        time.sleep(cfg.inter_call_delay_seconds)
+        # Clear's UI waits ~13s here; the recon cube must materialize on
+        # Clear's side before the real export trigger fires, otherwise the
+        # downloaded XLSX is a valid-shape empty shell (see HAR
+        # discovery/app.clear.in.har_GSTR-1 vs 3B vs Books Report.har).
+        time.sleep(cfg.wait_after_priming_seconds)
 
         # Step 3: Trigger export (the actual vs-Books file)
         logger.info(
@@ -459,6 +463,13 @@ def _run_one(
             ready.pre_signed_url, dest,
             gstin_node_ids=gstin_node_ids,
         )
+        if bytes_written < 50 * 1024:
+            logger.warning(
+                "[{}/{}/{}] Downloaded file is suspiciously small "
+                "({} bytes < 50 KB) — Clear may have served an empty-shell "
+                "XLSX. Open the file to confirm.",
+                pan, fy, REPORT_TYPE, bytes_written,
+            )
 
         manifest.mark_done(
             pan, fy, REPORT_TYPE,
