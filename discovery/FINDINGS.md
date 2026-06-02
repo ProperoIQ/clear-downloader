@@ -239,3 +239,50 @@ The flow maps each configured FY (e.g. `2024-25`) to a `(start, end)` DD-MM-YYYY
 | Statement columns | myGstin, state_name, description, formatted_date, totalValue, igstValue, cgstValue, sgstValue, cessValue | entry 159 body |
 
 `staticRowData` keys (`companyName / gstin / reportPeriod`), `onStart.metadata` shape, the header-override set (drop `x-ct-source`, add baggage + sentry-trace + accept-language + priority), and the FY → date-range mapping are all identical to the cash ledger flow.
+
+---
+
+## Addendum — PAN Electronic Credit Reversal & Re-claimed Statement (ECRRS)
+
+**Source HAR:** `discovery/app.clear.in.ecrrs.har` (5.7 MB, 139 entries; captured 02 Jun 2026)
+**Scope walked through:** PAN `AAGCP5410J`, 8 GSTINs, date range `31-08-2023 .. 02-06-2026` (ECRRS earliest valid date → today).
+
+Same 5-step shape as Cash / ITC ledgers (single pull, single export, no preflight) **with three ECRRS-specific quirks**:
+
+### Quirk 1 — Pull tenant ≠ RLS workflow
+
+This is the first flow in the toolkit where the two differ:
+
+| Field | Value | HAR evidence |
+|---|---|---|
+| `pull/v2/trigger` body `tenant` | `ELECTRONIC_CASH_LEDGER` | entry 83 |
+| `pull/v3/status` header `tenant` | `ELECTRONIC_CASH_LEDGER` (same) | entries 92/94/97 |
+| `rls/fetch-token` URL `workFlow=` | `ELECTRONIC_REVERSAL_REPORT` | entry 101 URL |
+
+The pull piggybacks on the Electronic Cash Ledger data source — both reports share the same underlying GSTN data. The RLS / export use a separate workflow string to scope the token to the ECRRS columns specifically. Flow module uses two constants (`PULL_TENANT` and `RLS_WORKFLOW`) instead of the usual one.
+
+### Quirk 2 — MIN_FY = 2023-24
+
+GSTN introduced ECRRS in August 2023 (effective 31-08-2023). FYs strictly before 2023-24 have no data. The flow records `no_data` and skips for those FYs. FY 2023-24 itself has its start date clamped from `01-04-2023` to `31-08-2023`. Same pattern as `gstr_2b.py`'s `MIN_FY=2020-21`.
+
+### Quirk 3 — Body filename uses CamelCase, server returns a different name
+
+The body `filename` we send is `PANElectronicReversalLedger_<PAN>_<DD-MM-YYYY>-<DD-MM-YYYY>` — note **no underscore between `PAN` and `Electronic`**, and CamelCase rather than the SNAKE_CASE used by Cash/ITC ledgers. Verbatim from HAR; Clear's backend may key off it.
+
+Clear's `export/download` response returns a different `fileName` — `"Electronic Credit Reversal and Re-claimed Statement..xlsx.zip"` (literal double-dot before `xlsx`, spaces preserved). Our code writes whatever `ready.file_name` says, so the on-disk filename matches what Clear gives us — same pattern as every other flow.
+
+### Identifier table
+
+| Key | Value | HAR evidence |
+|---|---|---|
+| URL slug (Referer query) | `reportType=panElectronicReversalLedger` | entries 83, 101, 113, 130 |
+| `timePeriodType` (Referer) | `DATE_RANGE` | same |
+| Pull tenant | `ELECTRONIC_CASH_LEDGER` | entry 83 body |
+| RLS workflow | `ELECTRONIC_REVERSAL_REPORT` | entry 101 URL |
+| Real-export `exportName` | `ELECTRONIC_CASH_LEDGER_TRANSACTION` | entry 113 body |
+| Real-export body `filename` | `PANElectronicReversalLedger_<PAN>_<DD-MM-YYYY>-<DD-MM-YYYY>` | entry 113 body |
+| Server-returned download fileName | `Electronic Credit Reversal and Re-claimed Statement..xlsx.zip` | entry 130 response |
+| Statement template id | `676e7c58fedefe6d880609ba` | entry 113 body |
+| `onStart.metadata.filename` | `ECL Report` (literal, not substituted per call) | entry 113 body |
+| Statement columns | serial_number, gstin, date, description, closingBalance(TotalTax, Igst, Cgst, Sgst, Cess) | entry 113 body |
+| Earliest valid date | `31-08-2023` (GSTN introduction date) | HAR scope + GSTN public docs |

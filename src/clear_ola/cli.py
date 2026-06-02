@@ -26,6 +26,7 @@ from clear_ola.flows import (
     gstr_3b,
     gstr_8,
     pan_cash_ledger,
+    pan_electronic_reversal_ledger,
     pan_itc_ledger,
 )
 from clear_ola.manifest import Manifest
@@ -79,7 +80,8 @@ def cli(ctx: click.Context, config_path: Path) -> None:
                                  "GSTR-2A-vs-3B-vs-Books",
                                  "GSTR-2B-vs-3B-vs-Books",
                                  "PAN-Cash-Ledger",
-                                 "PAN-ITC-Ledger"], case_sensitive=False),
+                                 "PAN-ITC-Ledger",
+                                 "PAN-Electronic-Reversal-Ledger"], case_sensitive=False),
               default="GSTR-2A", show_default=True,
               help="Which report flow to run (v1: GSTR-2A only)")
 @click.option("--pan", "pan_filter", default=None,
@@ -182,6 +184,8 @@ def download(
             pan_cash_ledger.run(api, cfg, manifest)
         elif report_choice.upper() == "PAN-ITC-LEDGER":
             pan_itc_ledger.run(api, cfg, manifest)
+        elif report_choice.upper() == "PAN-ELECTRONIC-REVERSAL-LEDGER":
+            pan_electronic_reversal_ledger.run(api, cfg, manifest)
         else:
             click.echo(f"Report {report_choice!r} not implemented yet.", err=True)
             sys.exit(2)
