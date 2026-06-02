@@ -1,0 +1,213 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "myGstin",
+        "dataType": "STRING",
+        "columnName": "myGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sectionName",
+        "dataType": "STRING",
+        "columnName": "sectionName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "formatted_return_period",
+        "dataType": "STRING",
+        "columnName": "formatted_return_period"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sellerGstin",
+        "dataType": "STRING",
+        "columnName": "sellerGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "buyerGstinName",
+        "dataType": "STRING",
+        "columnName": "buyerGstinName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentType",
+        "dataType": "STRING",
+        "columnName": "documentType"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentNumber",
+        "dataType": "STRING",
+        "columnName": "documentNumber"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentDate",
+        "dataType": "DATE",
+        "columnName": "documentDate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "buyerState",
+        "dataType": "STRING",
+        "columnName": "buyerState"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "taxRate_formated",
+        "dataType": "DECIMAL",
+        "columnName": "taxRate_formated"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "taxableValue",
+        "dataType": "DECIMAL",
+        "columnName": "taxableValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "totalTaxAmount",
+        "dataType": "DECIMAL",
+        "columnName": "totalTaxAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "igstValue",
+        "dataType": "DECIMAL",
+        "columnName": "igstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "cgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "sgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cessValue",
+        "dataType": "DECIMAL",
+        "columnName": "cessValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "invoiceValue",
+        "dataType": "DECIMAL",
+        "columnName": "invoiceValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cfs",
+        "dataType": "STRING",
+        "columnName": "cfs"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "filingPeriod",
+        "dataType": "STRING",
+        "columnName": "filingPeriod"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "source",
+        "dataType": "STRING",
+        "columnName": "source"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "irnNumber",
+        "dataType": "STRING",
+        "columnName": "irnNumber"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "transformed_irnGenerationDate",
+        "dataType": "DATE",
+        "columnName": "transformed_irnGenerationDate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "linkedDocumentNumber",
+        "dataType": "STRING",
+        "columnName": "linkedDocumentNumber"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "linkedDocumentDate",
+        "dataType": "STRING",
+        "columnName": "linkedDocumentDate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "originalInvoiceNumber",
+        "dataType": "STRING",
+        "columnName": "originalInvoiceNumber"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "transformed_originalInvoiceDate",
+        "dataType": "DATE",
+        "columnName": "transformed_originalInvoiceDate"
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "677e48116c3916787c0d7de9",
+      "templateType": "QUERY"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 0,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "gstr6a",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "GSTIN",
+      "nodeName": "29AAKCA2311H2ZV",
+      "startRange": "072017",
+      "endRange": "032018",
+      "activeBusiness": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "gstr6a",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "GSTIN",
+      "nodeName": "29AAKCA2311H2ZV",
+      "startRange": "072017",
+      "endRange": "032018",
+      "activeBusiness": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED"
+    }
+  },
+  "staticRowData": {
+    "companyName": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED",
+    "gstin": "29AAKCA2311H2ZV",
+    "reportPeriod": "Jul 2017 - Mar 2018"
+  },
+  "fileType": "XLSX",
+  "filename": "GSTR6A_29AAKCA2311H2ZV_072017-032018",
+  "exportName": "G6aView"
+}

@@ -214,6 +214,7 @@ class ClearAPI:
         end_period: str,    # MMYYYY
         tenant: str = "GSTR2A_REPORTS",
         gis_download_behaviour: str = "USE_EXISTING_DATA",
+        report_level: str = "PAN",
     ) -> str:
         """Kick off a fresh data pull from GSTN for the given GSTINs / period range.
 
@@ -227,6 +228,12 @@ class ClearAPI:
           - "DOWNLOAD_COMPLETE_DATA" — force a fresh full pull from GSTN for
             every (GSTIN, period) in scope. Maps to the "Download all data
             again" button in the partial-data modal.
+
+        `report_level` switches the pull scope between PAN-level aggregation
+        (default — what GSTR-2A/2B/1/8 use, even though the underlying
+        `nodeType` is still "GSTIN") and per-GSTIN scope (what GSTR-6A uses).
+        Confirmed from `discovery/app.clear.in.har_GSTR-6A Report.har`:
+        the 6A flow sends `metadata.reportLevel: "GSTIN"` with one GSTIN id.
 
         IMPORTANT: Clear reads the tenant from the `tenant` HEADER, not from
         the JSON body. Omitting it produces a server-side NPE
@@ -242,7 +249,7 @@ class ClearAPI:
             "dataSources": [],
             "pageIds": [],
             "nodeIdDataSourcesMap": {},
-            "metadata": {"reportLevel": "PAN"},
+            "metadata": {"reportLevel": report_level},
             "gisDownloadBehaviour": gis_download_behaviour,
         }
         data = self._request(

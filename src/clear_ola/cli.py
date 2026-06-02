@@ -11,7 +11,13 @@ import click
 from loguru import logger
 
 from clear_ola.api import ClearAPI, ClearSessionExpired
-from clear_ola.config import AppConfig, PanConfig, recent_fys, validate_fy
+from clear_ola.config import (
+    AppConfig,
+    GstinConfig,
+    PanConfig,
+    recent_fys,
+    validate_fy,
+)
 from clear_ola.cookies import (
     DEFAULT_COOKIE_FILE,
     ChromeRunningError,
@@ -26,6 +32,8 @@ from clear_ola.flows import (
     gstr_3b,
     gstr_8,
 )
+from clear_ola.gst_flows import gstr_6a
+from clear_ola.gst_manifest import GstManifest
 from clear_ola.manifest import Manifest
 from clear_ola.partials import build_otp_worklist
 from clear_ola.status_report import build_status_report
@@ -348,6 +356,326 @@ def _pick_fy_interactive(p: PanConfig) -> PanConfig:
             return PanConfig(pan=p.pan, business_name=p.business_name, fys=[custom])
     return PanConfig(pan=p.pan, business_name=p.business_name,
                      fys=[options[choice - 1]])
+
+
+@cli.command("gst-download")
+@click.option("--report", "report_choice",
+              type=click.Choice(["GSTR-6A"], case_sensitive=False),
+              default="GSTR-6A", show_default=True,
+              help="Which GST-based (per-GSTIN) report flow to run")
+@click.option("--gstin", "gstin_filter", default=None,
+              help="Process only this GSTIN (must be in config.yaml `gstins:`).")
+@click.option("--fy", "fy_filter", default=None,
+              help="Limit to a specific FY for the selected GSTIN (e.g. 2025-26).")
+@click.option("--all", "process_all", is_flag=True, default=False,
+              help="Process every configured GSTIN x FY (skips the picker).")
+@click.pass_obj
+def gst_download(
+    cfg: AppConfig,
+    report_choice: str,
+    gstin_filter: str | None,
+    fy_filter: str | None,
+    process_all: bool,
+) -> None:
+    """Download GST-based (per-GSTIN) reports. Currently: GSTR-6A.
+
+    Parallel to `download` (which is PAN-based). Files land under
+    downloads/gst/<GSTIN>/FY-<FY>/<REPORT>/...
+    Manifest is state/gst-manifest.sqlite (separate from the PAN manifest).
+
+    Examples:
+        python -m clear_ola gst-download --gstin 29AAKCA2311H2ZV --fy 2025-26
+        python -m clear_ola gst-download --all
+    """
+    logger.info("Loading Chrome cookies from profile {!r}...", cfg.chrome_profile)
+    try:
+        cookies = load_clear_cookies(cfg.chrome_profile)
+    except ChromeRunningError as e:
+        click.echo(f"\n[CHROME IS OPEN] {e}\n", err=True)
+        sys.exit(4)
+    except RuntimeError as e:
+        click.echo(f"\n[COOKIES ERROR] {e}\n", err=True)
+        sys.exit(2)
+    logger.info("Loaded {} cookies", len(cookies))
+
+    api = ClearAPI(workspace_id=cfg.workspace_id, cookies=cookies)
+    try:
+        nodes = api.user_gstins()
+    except ClearSessionExpired as e:
+        click.echo(f"\n[SESSION EXPIRED] {e}\n", err=True)
+        sys.exit(3)
+    _enrich_gstin_business_names(cfg, nodes)
+
+    selected = _select_gstins(cfg, gstin_filter, fy_filter, process_all)
+    if not selected:
+        click.echo("Nothing to do — exiting.")
+        return
+
+    click.echo("\nThis run will process:")
+    for g in selected:
+        click.echo(f"  {g.gstin}  {g.business_name}  FYs: {g.fys}")
+    if not process_all and not gstin_filter:
+        click.confirm("\nProceed?", default=True, abort=True)
+
+    manifest = GstManifest(cfg.state_dir / "gst-manifest.sqlite")
+    orphans = manifest.recover_orphans()
+    if orphans:
+        logger.info(
+            "Recovered {} orphan 'in_progress' row(s) from a previous "
+            "interrupted run -> marked as 'failed' for retry.", orphans,
+        )
+
+    original_gstins = cfg.gstins
+    cfg.gstins = selected
+    try:
+        if report_choice.upper() == "GSTR-6A":
+            gstr_6a.run(api, cfg, manifest)
+        else:
+            click.echo(f"Report {report_choice!r} not implemented yet.", err=True)
+            sys.exit(2)
+    except ClearSessionExpired as e:
+        click.echo(f"\n[SESSION EXPIRED] {e}\n", err=True)
+        sys.exit(3)
+    finally:
+        cfg.gstins = original_gstins
+
+    _print_gst_summary(manifest)
+
+
+def _enrich_gstin_business_names(cfg: AppConfig, nodes: list) -> None:
+    """Replace each GSTIN's `business_name` with Clear's authoritative value.
+
+    Same rationale as `_enrich_pan_business_names`: the export trigger needs
+    `staticRowData.companyName` / `metadata.activeBusiness` to match exactly
+    what Clear's `user_gstins` returns.
+    """
+    gstin_to_business: dict[str, str] = {}
+    for n in nodes:
+        gstin_to_business[n.gstin] = n.business_name
+
+    for g in cfg.gstins:
+        clear_name = gstin_to_business.get(g.gstin)
+        if clear_name is None:
+            click.echo(
+                f"  [warn] GSTIN {g.gstin} is not in your Clear workspace "
+                f"(workspace_id={cfg.workspace_id}). Either a typo or wrong "
+                f"workspace.",
+                err=True,
+            )
+            continue
+        if not g.business_name:
+            g.business_name = clear_name
+        elif g.business_name != clear_name:
+            logger.warning(
+                "GSTIN {}: config.yaml has business_name={!r}; Clear's "
+                "authoritative value is {!r}. Using Clear's.",
+                g.gstin, g.business_name, clear_name,
+            )
+            g.business_name = clear_name
+
+
+def _select_gstins(
+    cfg: AppConfig,
+    gstin_filter: str | None,
+    fy_filter: str | None,
+    process_all: bool,
+) -> list[GstinConfig]:
+    """Resolve which (GSTIN, FYs) to process for this run."""
+    if process_all:
+        if gstin_filter or fy_filter:
+            click.echo("Note: --all overrides --gstin / --fy.")
+        return cfg.gstins
+
+    if not cfg.gstins:
+        click.echo(
+            "config.yaml has no GSTINs configured for the GST-based track. "
+            "Add some under a top-level `gstins:` block, e.g.:\n\n"
+            "  gstins:\n"
+            "    - gstin: 29AAKCA2311H2ZV\n"
+            "      business_name: OLA FLEET TECHNOLOGIES PRIVATE LIMITED\n"
+            "      fys: [\"2025-26\"]\n\n"
+            "Tip: run `python -m clear_ola gstins` to see candidate GSTINs.",
+            err=True,
+        )
+        sys.exit(2)
+
+    # ---- Step 1: select the GSTIN ----
+    if gstin_filter:
+        gstin_filter = gstin_filter.strip().upper()
+        match = next((g for g in cfg.gstins if g.gstin == gstin_filter), None)
+        if not match:
+            click.echo(
+                f"\n[ERROR] GSTIN {gstin_filter!r} is not configured in "
+                f"config.yaml.\n"
+                f"  Configured GSTINs: {[g.gstin for g in cfg.gstins]}\n"
+                f"  Run `python -m clear_ola gstins` to see workspace GSTINs.",
+                err=True,
+            )
+            sys.exit(2)
+        selected_gstin: GstinConfig | None = match
+    elif len(cfg.gstins) == 1:
+        selected_gstin = cfg.gstins[0]
+    else:
+        selected_gstin = _pick_gstin_interactive(cfg.gstins)
+        if selected_gstin is None:
+            return cfg.gstins
+
+    # ---- Step 2: select the FY ----
+    if fy_filter:
+        fy_filter = fy_filter.strip()
+        try:
+            validate_fy(fy_filter)
+        except ValueError as e:
+            click.echo(f"\n[ERROR] {e}", err=True)
+            sys.exit(2)
+        if fy_filter not in selected_gstin.fys:
+            click.echo(
+                f"Note: FY {fy_filter} is not in config.yaml for "
+                f"{selected_gstin.gstin} (configured: {selected_gstin.fys}). "
+                f"Using it anyway."
+            )
+        return [GstinConfig(
+            gstin=selected_gstin.gstin,
+            business_name=selected_gstin.business_name,
+            fys=[fy_filter],
+        )]
+
+    return [_pick_fy_interactive_gstin(selected_gstin)]
+
+
+def _pick_gstin_interactive(gstins: list[GstinConfig]) -> GstinConfig | None:
+    """Numbered menu of configured GSTINs. Returns the chosen GstinConfig, or
+    None if the user picked '(all)'."""
+    click.echo("\nConfigured GSTINs:")
+    for i, g in enumerate(gstins, 1):
+        click.echo(f"  [{i}] {g.gstin}  {g.business_name}  FYs: {g.fys}")
+    click.echo(f"  [{len(gstins) + 1}] (all)")
+    choice = click.prompt(
+        "Pick one", type=click.IntRange(1, len(gstins) + 1),
+    )
+    if choice == len(gstins) + 1:
+        return None
+    return gstins[choice - 1]
+
+
+def _pick_fy_interactive_gstin(g: GstinConfig) -> GstinConfig:
+    """FY picker for a single GSTIN — mirrors `_pick_fy_interactive` for PANs."""
+    configured = list(g.fys)
+    recents = recent_fys(5)
+    seen: set[str] = set()
+    options: list[str] = []
+    for fy in configured + recents:
+        if fy not in seen:
+            seen.add(fy)
+            options.append(fy)
+
+    click.echo(f"\nFYs available for {g.gstin} ({g.business_name}):")
+    for i, fy in enumerate(options, 1):
+        marker = "  (in config.yaml)" if fy in g.fys else ""
+        click.echo(f"  [{i}] {fy}{marker}")
+    all_choice: int | None = None
+    next_idx = len(options) + 1
+    if len(configured) > 1:
+        all_choice = next_idx
+        click.echo(f"  [{all_choice}] (all configured FYs: {configured})")
+        next_idx += 1
+    custom_choice = next_idx
+    click.echo(f"  [{custom_choice}] Enter custom FY...")
+
+    choice = click.prompt("Pick one", type=click.IntRange(1, custom_choice))
+    if all_choice is not None and choice == all_choice:
+        return g
+    if choice == custom_choice:
+        while True:
+            custom = click.prompt("Enter FY (e.g. 2024-25)", type=str).strip()
+            try:
+                validate_fy(custom)
+            except ValueError as e:
+                click.echo(f"  Invalid: {e}")
+                continue
+            return GstinConfig(
+                gstin=g.gstin, business_name=g.business_name, fys=[custom],
+            )
+    return GstinConfig(
+        gstin=g.gstin, business_name=g.business_name,
+        fys=[options[choice - 1]],
+    )
+
+
+def _print_gst_summary(manifest: GstManifest, verbose: bool = False) -> None:
+    rows = manifest.all_rows()
+    if not rows:
+        click.echo("(gst-manifest empty)")
+        return
+
+    counts = {"done": 0, "no_data": 0, "in_progress": 0, "failed": 0, "pending": 0}
+    for r in rows:
+        counts[r["status"]] = counts.get(r["status"], 0) + 1
+
+    click.echo("\n--- gst-manifest summary ---")
+    for k in ("done", "no_data", "in_progress", "failed", "pending"):
+        click.echo(f"  {k:<12} {counts.get(k, 0)}")
+
+    if verbose:
+        click.echo("\n--- rows ---")
+        for r in rows:
+            line = (f"  {r['gstin']:<16} {r['fy']:<9} {r['report_type']:<10} "
+                    f"{r['status']:<11} {r['file_path'] or ''}")
+            if r["status"] == "failed" and r.get("error_message"):
+                line += f"  [ERROR: {r['error_message'][:120]}]"
+            click.echo(line)
+
+
+@cli.command("gstins")
+@click.pass_obj
+def list_gstins(cfg: AppConfig) -> None:
+    """List every GSTIN in your Clear workspace, marking which are in
+    config.yaml's `gstins:` block. Useful when seeding the GST-based track."""
+    logger.info("Loading Chrome cookies from profile {!r}...", cfg.chrome_profile)
+    try:
+        cookies = load_clear_cookies(cfg.chrome_profile)
+    except ChromeRunningError as e:
+        click.echo(f"\n[CHROME IS OPEN] {e}\n", err=True)
+        sys.exit(4)
+    except RuntimeError as e:
+        click.echo(f"\n[COOKIES ERROR] {e}\n", err=True)
+        sys.exit(2)
+
+    api = ClearAPI(workspace_id=cfg.workspace_id, cookies=cookies)
+    try:
+        nodes = api.user_gstins()
+    except ClearSessionExpired as e:
+        click.echo(f"\n[SESSION EXPIRED] {e}\n", err=True)
+        sys.exit(3)
+
+    configured = {g.gstin for g in cfg.gstins}
+    click.echo(
+        f"\nWorkspace has {len(nodes)} GSTIN(s). "
+        f"{len(configured)} in config.yaml's `gstins:` block.\n"
+    )
+    click.echo(f"  {'cfg':<5} {'GSTIN':<17} {'state':<22} {'business':<48}")
+    click.echo(f"  {'-'*5} {'-'*17} {'-'*22} {'-'*48}")
+    for n in sorted(nodes, key=lambda x: (x.pan, x.state_name)):
+        mark = " yes " if n.gstin in configured else "  -  "
+        click.echo(
+            f"  {mark:<5} {n.gstin:<17} {n.state_name[:22]:<22} "
+            f"{n.business_name[:48]:<48}"
+        )
+
+    not_configured = [n for n in nodes if n.gstin not in configured]
+    if not_configured:
+        click.echo(
+            f"\n{len(not_configured)} GSTIN(s) NOT in config.yaml's `gstins:` "
+            f"block. Add (example):\n"
+        )
+        click.echo("gstins:")
+        for n in not_configured[:3]:
+            click.echo(f'  - gstin: "{n.gstin}"')
+            click.echo(f'    business_name: "{n.business_name}"')
+            click.echo(f"    fys:")
+            click.echo(f'      - "2025-26"  # edit as needed')
+        if len(not_configured) > 3:
+            click.echo(f"  # ... and {len(not_configured) - 3} more")
 
 
 @cli.command("cookies-import")

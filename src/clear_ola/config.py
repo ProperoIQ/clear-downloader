@@ -18,6 +18,17 @@ class PanConfig:
 
 
 @dataclass
+class GstinConfig:
+    """One entry under the `gstins:` block — used by the GST-based track
+    (GSTR-6A and any future per-GSTIN reports). Separate from PanConfig
+    because the API treats these as different scopes (PAN-level aggregation
+    vs. per-GSTIN), so the input/output models diverge cleanly."""
+    gstin: str
+    fys: list[str]
+    business_name: str = ""
+
+
+@dataclass
 class AppConfig:
     workspace_id: str
     chrome_profile: str
@@ -29,7 +40,8 @@ class AppConfig:
     wait_after_priming_seconds: float
     reports: list[str]
     pans: list[PanConfig]
-    default_fys: list[str]  # global FYs applied when a PAN doesn't list its own
+    gstins: list[GstinConfig]
+    default_fys: list[str]  # global FYs applied when a PAN/GSTIN doesn't list its own
     downloads_dir: Path
     state_dir: Path
 
@@ -59,6 +71,27 @@ class AppConfig:
                 business_name=(p.get("business_name") or "").strip(),
                 fys=resolved,
             ))
+
+        # `gstins:` is optional — only the GST-based track uses it. Same FY
+        # resolution rule as `pans:` (per-entry overrides global).
+        gstins: list[GstinConfig] = []
+        for g in (raw.get("gstins") or []):
+            gstin_fys = g.get("fys")
+            if gstin_fys is not None:
+                resolved_g = [fy.strip() for fy in gstin_fys]
+            elif default_fys:
+                resolved_g = list(default_fys)
+            else:
+                raise ValueError(
+                    f"config.yaml: GSTIN {g.get('gstin')!r} has no `fys:` and "
+                    f"no top-level `fys:` is set. Add one or the other."
+                )
+            gstins.append(GstinConfig(
+                gstin=g["gstin"].strip().upper(),
+                business_name=(g.get("business_name") or "").strip(),
+                fys=resolved_g,
+            ))
+
         root = path.parent
         return cls(
             workspace_id=raw["workspace_id"].strip(),
@@ -71,6 +104,7 @@ class AppConfig:
             wait_after_priming_seconds=float(raw.get("wait_after_priming_seconds", 15.0)),
             reports=[r.strip() for r in raw["reports"]],
             pans=pans,
+            gstins=gstins,
             default_fys=default_fys,
             downloads_dir=(root / raw.get("downloads_dir", "downloads")).resolve(),
             state_dir=(root / raw.get("state_dir", "state")).resolve(),

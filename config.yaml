@@ -91,8 +91,40 @@ pans:
   #     - "2024-25"
   #     - "2025-26"
 
+# ---- GSTINs to process (GST-based track) ----
+# Only used by `gst-download` (currently: GSTR-6A). The PAN-based commands
+# above ignore this block.
+#
+# Why a separate block: GSTR-6A is filed per ISD GSTIN (not per PAN), so the
+# unit of work is one GSTIN, and the output is one Excel per GSTIN per FY at
+# downloads/gst/<GSTIN>/FY-<FY>/GSTR-6A/...  Manifest is a separate file
+# (state/gst-manifest.sqlite) so PAN and GST tracks can't collide.
+#
+# Same `fys:` rule as `pans:` — omit `fys:` on an entry to use the global
+# list above, or specify it per-GSTIN to override.
+#
+# To discover candidate GSTINs in your workspace:
+#     python -m clear_ola gstins
+#
+# Add one entry per ISD GSTIN to download. Same rules as `pans:`:
+#   - `business_name` is optional (auto-filled from Clear's API at runtime).
+#   - `fys:` is optional per entry — omit it to inherit the global list above.
+gstins:
+  - gstin: "29AACCO4289J2ZV"
+  - gstin: "29AAKCA2311H2ZV"
+  - gstin: "29AADCO3578R2ZG"
+  - gstin: "29AADCO6589L2ZJ"
+  - gstin: "29AAJCA1389G2ZE"
+
+  # Example with a per-GSTIN FY override (uncomment + edit if you ever need it):
+  # - gstin: "29AAXXX0000X1ZX"
+  #   fys:
+  #     - "2024-25"
+  #     - "2025-26"
+
 # Where to save the .xlsx.zip files. Files land at:
-#   <downloads_dir>/<PAN>/FY-<FY>/<REPORT>/<filename>
+#   <downloads_dir>/<PAN>/FY-<FY>/<REPORT>/<filename>           (PAN track)
+#   <downloads_dir>/gst/<GSTIN>/FY-<FY>/<REPORT>/<filename>     (GST track)
 downloads_dir: "downloads"
 
 # SQLite manifest for resumable runs.

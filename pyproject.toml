@@ -26,3 +26,4 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 "clear_ola.flows" = ["*.json"]
+"clear_ola.gst_flows" = ["*.json"]
