@@ -216,3 +216,26 @@ This is the first report in the toolkit that uses **DD-MM-YYYY date strings** in
 The flow maps each configured FY (e.g. `2024-25`) to a `(start, end)` DD-MM-YYYY pair internally:
 - Start: `01-04-<first-year>`, clamped up to `01-07-2017` for FY 2017-18 (GST start).
 - End: `31-03-<second-year>`, clamped down to today for the current FY.
+
+---
+
+## Addendum — PAN ITC Ledger report
+
+**Source HAR:** `discovery/app.clear.in.itc.har` (13 MB, 209 entries; captured 02 Jun 2026)
+**Scope walked through:** PAN `AAGCP5410J` (PISCES ESERVICES PRIVATE LIMITED), 8 GSTINs, date range `01-07-2017 .. 02-06-2026`.
+
+**Structurally identical to PAN Cash Ledger** (same 5-step pipeline, same DD-MM-YYYY date format, same `gisDownloadBehaviour: null`, same header-override set, no preflight). Only identifiers differ:
+
+| Key | Value | HAR evidence |
+|---|---|---|
+| URL slug (Referer query) | `reportType=panItcLedger` | entries 88, 149, 159, 174 |
+| `timePeriodType` (Referer) | `DATE_RANGE` | same |
+| Pull tenant | `ITC_LEDGER_REPORT` | entry 88 body |
+| RLS workflow (URL param `workFlow=`) | `ITC_LEDGER_REPORT` | entry 149 URL |
+| Export S3 prefix | `itc_ledger_download` | entry 174 response URL |
+| Export filename | `PAN_ITC_LEDGER_REPORT_<PAN>_<DD-MM-YYYY>-<DD-MM-YYYY>.xlsx.zip` | entry 174 response |
+| Real-export `exportName` | `itc_ledger_download` | entry 159 body |
+| Statement template id | `67e2a4bc8ede5b3eac89594a` | entry 159 body |
+| Statement columns | myGstin, state_name, description, formatted_date, totalValue, igstValue, cgstValue, sgstValue, cessValue | entry 159 body |
+
+`staticRowData` keys (`companyName / gstin / reportPeriod`), `onStart.metadata` shape, the header-override set (drop `x-ct-source`, add baggage + sentry-trace + accept-language + priority), and the FY → date-range mapping are all identical to the cash ledger flow.

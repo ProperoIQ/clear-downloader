@@ -1,0 +1,111 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "myGstin",
+        "dataType": "STRING",
+        "columnName": "myGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "state_name",
+        "dataType": "STRING",
+        "columnName": "state_name"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "description",
+        "dataType": "STRING",
+        "columnName": "description"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "formatted_date",
+        "dataType": "STRING",
+        "columnName": "formatted_date"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "totalValue",
+        "dataType": "DECIMAL",
+        "columnName": "totalValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "igstValue",
+        "dataType": "DECIMAL",
+        "columnName": "igstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "cgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "sgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cessValue",
+        "dataType": "DECIMAL",
+        "columnName": "cessValue"
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "67e2a4bc8ede5b3eac89594a",
+      "templateType": "QUERY"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 0,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panItcLedger",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAGCP5410J",
+      "startRange": "01-07-2017",
+      "endRange": "02-06-2026",
+      "activeBusiness": "PISCES ESERVICES PRIVATE LIMITED"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panItcLedger",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAGCP5410J",
+      "startRange": "01-07-2017",
+      "endRange": "02-06-2026",
+      "activeBusiness": "PISCES ESERVICES PRIVATE LIMITED"
+    }
+  },
+  "staticRowData": {
+    "companyName": "PISCES ESERVICES PRIVATE LIMITED",
+    "gstin": "AAGCP5410J",
+    "reportPeriod": "01-07-2017 - 02-06-2026"
+  },
+  "fileType": "XLSX",
+  "filename": "PAN_ITC_LEDGER_REPORT_AAGCP5410J_01-07-2017-02-06-2026",
+  "exportName": "itc_ledger_download"
+}
