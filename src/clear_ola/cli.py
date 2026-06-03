@@ -32,7 +32,7 @@ from clear_ola.flows import (
     gstr_3b,
     gstr_8,
 )
-from clear_ola.gst_flows import gstr_6a
+from clear_ola.gst_flows import gstr_6a, gstr_9_8a
 from clear_ola.gst_manifest import GstManifest
 from clear_ola.manifest import Manifest
 from clear_ola.partials import build_otp_worklist
@@ -360,7 +360,7 @@ def _pick_fy_interactive(p: PanConfig) -> PanConfig:
 
 @cli.command("gst-download")
 @click.option("--report", "report_choice",
-              type=click.Choice(["GSTR-6A"], case_sensitive=False),
+              type=click.Choice(["GSTR-6A", "GSTR-9-8A"], case_sensitive=False),
               default="GSTR-6A", show_default=True,
               help="Which GST-based (per-GSTIN) report flow to run")
 @click.option("--gstin", "gstin_filter", default=None,
@@ -377,14 +377,18 @@ def gst_download(
     fy_filter: str | None,
     process_all: bool,
 ) -> None:
-    """Download GST-based (per-GSTIN) reports. Currently: GSTR-6A.
+    """Download GST-based (per-GSTIN) reports. Currently: GSTR-6A, GSTR-9-8A.
 
     Parallel to `download` (which is PAN-based). Files land under
     downloads/gst/<GSTIN>/FY-<FY>/<REPORT>/...
     Manifest is state/gst-manifest.sqlite (separate from the PAN manifest).
 
+    GSTR-9-8A produces TWO files per (GSTIN, FY) — a Detail view and a
+    Summary view — tracked as separate manifest rows.
+
     Examples:
         python -m clear_ola gst-download --gstin 29AAKCA2311H2ZV --fy 2025-26
+        python -m clear_ola gst-download --report GSTR-9-8A --gstin 29AAKCA2311H2ZV --fy 2024-25
         python -m clear_ola gst-download --all
     """
     logger.info("Loading Chrome cookies from profile {!r}...", cfg.chrome_profile)
@@ -430,6 +434,8 @@ def gst_download(
     try:
         if report_choice.upper() == "GSTR-6A":
             gstr_6a.run(api, cfg, manifest)
+        elif report_choice.upper() == "GSTR-9-8A":
+            gstr_9_8a.run(api, cfg, manifest)
         else:
             click.echo(f"Report {report_choice!r} not implemented yet.", err=True)
             sys.exit(2)

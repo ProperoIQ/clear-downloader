@@ -1,0 +1,195 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "myGstin",
+        "dataType": "STRING",
+        "columnName": "myGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sectionName",
+        "dataType": "STRING",
+        "columnName": "sectionName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "returnPeriod",
+        "dataType": "STRING",
+        "columnName": "returnPeriod"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sellerGstin",
+        "dataType": "STRING",
+        "columnName": "sellerGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "legalName",
+        "dataType": "STRING",
+        "columnName": "legalName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentType",
+        "dataType": "STRING",
+        "columnName": "documentType"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentNumber",
+        "dataType": "STRING",
+        "columnName": "documentNumber"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentDate",
+        "dataType": "DATE",
+        "columnName": "documentDate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "placeOfSupplyStateName",
+        "dataType": "STRING",
+        "columnName": "placeOfSupplyStateName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "reverseChargeApplicable",
+        "dataType": "BOOLEAN",
+        "columnName": "reverseChargeApplicable"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "taxableValue",
+        "dataType": "DECIMAL",
+        "columnName": "taxableValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "totalTaxAmount",
+        "dataType": "DECIMAL",
+        "columnName": "totalTaxAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "igstValue",
+        "dataType": "DECIMAL",
+        "columnName": "igstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "cgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "sgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cessValue",
+        "dataType": "DECIMAL",
+        "columnName": "cessValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentValue",
+        "dataType": "DECIMAL",
+        "columnName": "documentValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "filingDate",
+        "dataType": "DATE",
+        "columnName": "filingDate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "itcEligible",
+        "dataType": "BOOLEAN",
+        "columnName": "itcEligible"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "reasonForItcUnavailable",
+        "dataType": "STRING",
+        "columnName": "reasonForItcUnavailable"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "originalNoteType",
+        "dataType": "STRING",
+        "columnName": "originalNoteType"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "originalInvoiceNumber",
+        "dataType": "STRING",
+        "columnName": "originalInvoiceNumber"
+      },
+      {
+        "type": "$CUSTOM",
+        "alias": "oid",
+        "dataType": "DATE",
+        "sql": "CASE WHEN originalInvoiceDate = '1970-01-01' THEN NULL ELSE originalInvoiceDate end"
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "6736ebc4e1a4782fd28cbf5d",
+      "templateType": "VIEW"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 0,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "gstr98a",
+      "orgId": "PLACEHOLDER_WORKSPACE_ID",
+      "workspaceId": "PLACEHOLDER_WORKSPACE_ID",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "GSTIN",
+      "nodeName": "PLACEHOLDER_GSTIN",
+      "startRange": "PLACEHOLDER_PERIOD",
+      "endRange": "PLACEHOLDER_PERIOD",
+      "activeBusiness": "PLACEHOLDER_BUSINESS_NAME"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "gstr98a",
+      "orgId": "PLACEHOLDER_WORKSPACE_ID",
+      "workspaceId": "PLACEHOLDER_WORKSPACE_ID",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "GSTIN",
+      "nodeName": "PLACEHOLDER_GSTIN",
+      "startRange": "PLACEHOLDER_PERIOD",
+      "endRange": "PLACEHOLDER_PERIOD",
+      "activeBusiness": "PLACEHOLDER_BUSINESS_NAME"
+    }
+  },
+  "staticRowData": {
+    "companyName": "PLACEHOLDER_BUSINESS_NAME",
+    "gstin": "PLACEHOLDER_GSTIN",
+    "reportPeriod": "PLACEHOLDER_REPORT_PERIOD"
+  },
+  "fileType": "XLSX",
+  "filename": "GSTR98A_PLACEHOLDER_GSTIN_PLACEHOLDER_PERIOD-PLACEHOLDER_PERIOD",
+  "exportName": "view_9_8a"
+}

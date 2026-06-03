@@ -110,11 +110,190 @@ pans:
 #   - `business_name` is optional (auto-filled from Clear's API at runtime).
 #   - `fys:` is optional per entry — omit it to inherit the global list above.
 gstins:
-  - gstin: "29AACCO4289J2ZV"
-  - gstin: "29AAKCA2311H2ZV"
-  - gstin: "29AADCO3578R2ZG"
-  - gstin: "29AADCO6589L2ZJ"
-  - gstin: "29AAJCA1389G2ZE"
+  # AAJCA1389G
+  - gstin: "02AAJCA1389G1ZV"
+  - gstin: "03AAJCA1389G1ZT"
+  - gstin: "04AAJCA1389G2ZQ"
+  - gstin: "05AAJCA1389G1ZP"
+  - gstin: "06AAJCA1389G1ZN"
+  - gstin: "07AAJCA1389G6ZG"
+  - gstin: "08AAJCA1389G1ZJ"
+  - gstin: "09AAJCA1389G1ZH"
+  - gstin: "10AAJCA1389G1ZY"
+  - gstin: "18AAJCA1389G1ZI"
+  - gstin: "19AAJCA1389G1ZG"
+  - gstin: "20AAJCA1389G1ZX"
+  - gstin: "21AAJCA1389G1ZV"
+  - gstin: "22AAJCA1389G1ZT"
+  - gstin: "23AAJCA1389G1ZR"
+  - gstin: "24AAJCA1389G1ZP"
+  - gstin: "27AAJCA1389G1ZJ"
+  - gstin: "29AAJCA1389G1ZF"
+  - gstin: "32AAJCA1389G1ZS"
+  - gstin: "33AAJCA1389G1ZQ"
+  - gstin: "34AAJCA1389G1ZO"
+  - gstin: "36AAJCA1389G7ZE"
+  - gstin: "37AAJCA1389G1ZI"
+
+  # AAKCA2311H
+  - gstin: "01AAKCA2311H1ZE"
+  - gstin: "03AAKCA2311H1ZA"
+  - gstin: "04AAKCA2311H1Z8"
+  - gstin: "05AAKCA2311H1Z6"
+  - gstin: "06AAKCA2311H1Z4"
+  - gstin: "07AAKCA2311H1Z2"
+  - gstin: "08AAKCA2311H1Z0"
+  - gstin: "09AAKCA2311H1ZY"
+  - gstin: "10AAKCA2311H1ZF"
+  - gstin: "16AAKCA2311H1Z3"
+  - gstin: "18AAKCA2311H2ZY"
+  - gstin: "19AAKCA2311H1ZX"
+  - gstin: "20AAKCA2311H1ZE"
+  - gstin: "21AAKCA2311H1ZC"
+  - gstin: "22AAKCA2311H1ZA"
+  - gstin: "23AAKCA2311H1Z8"
+  - gstin: "24AAKCA2311H1Z6"
+  - gstin: "27AAKCA2311H1Z0"
+  - gstin: "29AAKCA2311H1ZW"
+  - gstin: "30AAKCA2311H1ZD"
+  - gstin: "32AAKCA2311H1Z9"
+  - gstin: "33AAKCA2311H1Z7"
+  - gstin: "34AAKCA2311H1Z5"
+  - gstin: "36AAKCA2311H1Z1"
+  - gstin: "37AAKCA2311H1ZZ"
+
+  # AADCO3578R
+  - gstin: "01AADCO3578R1ZZ"
+  - gstin: "02AADCO3578R1ZX"
+  - gstin: "03AADCO3578R1ZV"
+  - gstin: "04AADCO3578R2ZS"
+  - gstin: "05AADCO3578R1ZR"
+  - gstin: "06AADCO3578R1ZP"
+  - gstin: "07AADCO3578R1ZN"
+  - gstin: "08AADCO3578R1ZL"
+  - gstin: "09AADCO3578R1ZJ"
+  - gstin: "10AADCO3578R1Z0"
+  - gstin: "11AADCO3578R1ZY"
+  - gstin: "12AADCO3578R1ZW"
+  - gstin: "13AADCO3578R1ZU"
+  - gstin: "15AADCO3578R1ZQ"
+  - gstin: "16AADCO3578R1ZO"
+  - gstin: "17AADCO3578R1ZM"
+  - gstin: "18AADCO3578R1ZK"
+  - gstin: "19AADCO3578R1ZI"
+  - gstin: "20AADCO3578R1ZZ"
+  - gstin: "21AADCO3578R1ZX"
+  - gstin: "22AADCO3578R1ZV"
+  - gstin: "23AADCO3578R1ZT"
+  - gstin: "24AADCO3578R1ZR"
+  - gstin: "26AADCO3578R1ZN"
+  - gstin: "27AADCO3578R1ZL"
+  - gstin: "29AADCO3578R1ZH"
+  - gstin: "30AADCO3578R1ZY"
+  - gstin: "32AADCO3578R1ZU"
+  - gstin: "33AADCO3578R1ZS"
+  - gstin: "33AADCO3578R2ZR"
+  - gstin: "34AADCO3578R1ZQ"
+  - gstin: "35AADCO3578R1ZO"
+  - gstin: "36AADCO3578R1ZM"
+  - gstin: "37AADCO3578R1ZK"
+
+  # AACCO4289J
+  - gstin: "01AACCO4289J1ZE"
+  - gstin: "02AACCO4289J1ZC"
+  - gstin: "03AACCO4289J1ZA"
+  - gstin: "04AACCO4289J1Z8"
+  - gstin: "05AACCO4289J1Z6"
+  - gstin: "06AACCO4289J1Z4"
+  - gstin: "07AACCO4289J1Z2"
+  - gstin: "08AACCO4289J1Z0"
+  - gstin: "09AACCO4289J1ZY"
+  - gstin: "10AACCO4289J1ZF"
+  - gstin: "11AACCO4289J1ZD"
+  - gstin: "16AACCO4289J1Z3"
+  - gstin: "18AACCO4289J1ZZ"
+  - gstin: "19AACCO4289J1ZX"
+  - gstin: "20AACCO4289J1ZE"
+  - gstin: "21AACCO4289J1ZC"
+  - gstin: "22AACCO4289J1ZA"
+  - gstin: "23AACCO4289J1Z8"
+  - gstin: "24AACCO4289J1Z6"
+  - gstin: "26AACCO4289J1Z2"
+  - gstin: "27AACCO4289J1Z0"
+  - gstin: "29AACCO4289J1ZW"
+  - gstin: "30AACCO4289J1ZD"
+  - gstin: "32AACCO4289J1Z9"
+  - gstin: "33AACCO4289J1Z7"
+  - gstin: "34AACCO4289J1Z5"
+  - gstin: "35AACCO4289J1Z3"
+  - gstin: "36AACCO4289J1Z1"
+  - gstin: "37AACCO4289J1ZZ"
+
+  # AAGCP5410J
+  - gstin: "06AAGCP5410J1ZI"
+  - gstin: "07AAGCP5410J1ZG"
+  - gstin: "09AAGCP5410J1ZC"
+  - gstin: "19AAGCP5410J2ZA"
+  - gstin: "27AAGCP5410J1ZE"
+  - gstin: "29AAGCP5410J1ZA"
+  - gstin: "33AAGCP5410J1ZL"
+  - gstin: "36AAGCP5410J1ZF"
+
+  # AAACZ3092L
+  - gstin: "29AAACZ3092L1ZS"
+
+  # AACCO4484B
+  - gstin: "03AACCO4484B1ZU"
+  - gstin: "06AACCO4484B1ZO"
+  - gstin: "07AACCO4484B1ZM"
+  - gstin: "08AACCO4484B1ZK"
+  - gstin: "09AACCO4484B1ZI"
+  - gstin: "19AACCO4484B1ZH"
+  - gstin: "23AACCO4484B1ZS"
+  - gstin: "24AACCO4484B1ZQ"
+  - gstin: "27AACCO4484B1ZK"
+  - gstin: "29AACCO4484B1ZG"
+  - gstin: "33AACCO4484B1ZR"
+  - gstin: "36AACCO4484B1ZL"
+
+  # AAATO5745J
+  - gstin: "29AAATO5745J1Z4"
+
+  # AACCO9189P
+  - gstin: "29AACCO9189P1ZB"
+
+  # AAECB1261D
+  - gstin: "27AAECB1261D1Z6"
+
+  # AADCO6589L
+  - gstin: "27AADCO6589L1ZO"
+  - gstin: "29AADCO6589L1ZK"
+
+  # AADCO8292L
+  - gstin: "29AADCO8292L1ZO"
+  - gstin: "33AADCO8292L1ZZ"
+
+  # AAKCK1411A
+  - gstin: "29AAKCK1411A1Z1"
+  - gstin: "36AAKCK1411A1Z6"
+
+  # AAKCK8748G
+  - gstin: "29AAKCK8748G1ZV"
+
+  # AALCK3552H
+  - gstin: "29AALCK3552H1Z8"
+
+  # AALCK6549C
+  - gstin: "29AALCK6549C1Z7"
+
+  # AALCK9000E
+  - gstin: "29AALCK9000E1ZJ"
+
+  # AABTO0143M
+  - gstin: "29AABTO0143M1ZF"
+
+  # AAGCG6213L
+  - gstin: "29AAGCG6213L1ZC"
 
   # Example with a per-GSTIN FY override (uncomment + edit if you ever need it):
   # - gstin: "29AAXXX0000X1ZX"

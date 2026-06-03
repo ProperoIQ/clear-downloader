@@ -1,0 +1,116 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "documentType",
+        "dataType": "STRING",
+        "columnName": "documentType"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "supplierCount",
+        "dataType": "STRING",
+        "columnName": "supplierCount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "docCount",
+        "dataType": "STRING",
+        "columnName": "docCount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "taxableValue",
+        "dataType": "DECIMAL",
+        "columnName": "taxableValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "taxAmount",
+        "dataType": "DECIMAL",
+        "columnName": "taxAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "igstAmount",
+        "dataType": "DECIMAL",
+        "columnName": "igstAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cgstAmount",
+        "dataType": "DECIMAL",
+        "columnName": "cgstAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sgstAmount",
+        "dataType": "DECIMAL",
+        "columnName": "sgstAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cessAmount",
+        "dataType": "DECIMAL",
+        "columnName": "cessAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentValue",
+        "dataType": "DECIMAL",
+        "columnName": "documentValue"
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "6736eb931abff877c2912afb",
+      "templateType": "QUERY"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 10
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "gstr98a",
+      "orgId": "PLACEHOLDER_WORKSPACE_ID",
+      "workspaceId": "PLACEHOLDER_WORKSPACE_ID",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "GSTIN",
+      "nodeName": "PLACEHOLDER_GSTIN",
+      "startRange": "PLACEHOLDER_PERIOD",
+      "endRange": "PLACEHOLDER_PERIOD",
+      "activeBusiness": "PLACEHOLDER_BUSINESS_NAME"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "gstr98a",
+      "orgId": "PLACEHOLDER_WORKSPACE_ID",
+      "workspaceId": "PLACEHOLDER_WORKSPACE_ID",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "GSTIN",
+      "nodeName": "PLACEHOLDER_GSTIN",
+      "startRange": "PLACEHOLDER_PERIOD",
+      "endRange": "PLACEHOLDER_PERIOD",
+      "activeBusiness": "PLACEHOLDER_BUSINESS_NAME"
+    }
+  },
+  "staticRowData": {
+    "companyName": "PLACEHOLDER_BUSINESS_NAME",
+    "gstin": "PLACEHOLDER_GSTIN",
+    "reportPeriod": "PLACEHOLDER_REPORT_PERIOD"
+  },
+  "fileType": "XLSX",
+  "filename": "GSTR98A_PLACEHOLDER_GSTIN_PLACEHOLDER_PERIOD-PLACEHOLDER_PERIOD",
+  "exportName": "summary_9_8a"
+}
