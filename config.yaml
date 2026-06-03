@@ -22,13 +22,9 @@ inter_call_delay_seconds: 1.0    # short pause between sequential calls
 wait_after_priming_seconds: 15.0
 
 # Which reports to download. Supports "GSTR-2A", "GSTR-2B", "GSTR-1",
-<<<<<<< HEAD
-# "GSTR-3B", "GSTR-8", "GSTR-1-vs-3B-vs-Books", "GSTR-2B-vs-3B-vs-Books".
-=======
 # "GSTR-3B", "GSTR-8", "GSTR-1-vs-3B-vs-Books", "GSTR-2A-vs-3B-vs-Books",
 # "GSTR-2B-vs-3B-vs-Books", "PAN-Cash-Ledger", "PAN-ITC-Ledger",
 # "PAN-Electronic-Reversal-Ledger".
->>>>>>> origin/add-pan-ecrrs-report
 # Informational only — the actual report run is driven by the
 # `--report` flag on `python -m clear_ola download` (one report per run).
 reports:
@@ -38,15 +34,11 @@ reports:
   - "GSTR-3B"
   - "GSTR-8"
   - "GSTR-1-vs-3B-vs-Books"
-<<<<<<< HEAD
-  - "GSTR-2B-vs-3B-vs-Books"
-=======
   - "GSTR-2A-vs-3B-vs-Books"
   - "GSTR-2B-vs-3B-vs-Books"
   - "PAN-Cash-Ledger"
   - "PAN-ITC-Ledger"
   - "PAN-Electronic-Reversal-Ledger"
->>>>>>> origin/add-pan-ecrrs-report
 
 # ---- Global FYs ----
 # Applied to EVERY PAN below unless that PAN has its own `fys:` override.
@@ -143,6 +135,7 @@ gstins:
   - gstin: "24AAJCA1389G1ZP"
   - gstin: "27AAJCA1389G1ZJ"
   - gstin: "29AAJCA1389G1ZF"
+  - gstin: "29AAJCA1389G2ZE"
   - gstin: "32AAJCA1389G1ZS"
   - gstin: "33AAJCA1389G1ZQ"
   - gstin: "34AAJCA1389G1ZO"
@@ -169,6 +162,7 @@ gstins:
   - gstin: "24AAKCA2311H1Z6"
   - gstin: "27AAKCA2311H1Z0"
   - gstin: "29AAKCA2311H1ZW"
+  - gstin: "29AAKCA2311H2ZV"
   - gstin: "30AAKCA2311H1ZD"
   - gstin: "32AAKCA2311H1Z9"
   - gstin: "33AAKCA2311H1Z7"
@@ -203,6 +197,7 @@ gstins:
   - gstin: "26AADCO3578R1ZN"
   - gstin: "27AADCO3578R1ZL"
   - gstin: "29AADCO3578R1ZH"
+  - gstin: "29AADCO3578R2ZG"
   - gstin: "30AADCO3578R1ZY"
   - gstin: "32AADCO3578R1ZU"
   - gstin: "33AADCO3578R1ZS"
@@ -235,6 +230,7 @@ gstins:
   - gstin: "26AACCO4289J1Z2"
   - gstin: "27AACCO4289J1Z0"
   - gstin: "29AACCO4289J1ZW"
+  - gstin: "29AACCO4289J2ZV"
   - gstin: "30AACCO4289J1ZD"
   - gstin: "32AACCO4289J1Z9"
   - gstin: "33AACCO4289J1Z7"
@@ -282,6 +278,7 @@ gstins:
   # AADCO6589L
   - gstin: "27AADCO6589L1ZO"
   - gstin: "29AADCO6589L1ZK"
+  - gstin: "29AADCO6589L2ZJ"
 
   # AADCO8292L
   - gstin: "29AADCO8292L1ZO"

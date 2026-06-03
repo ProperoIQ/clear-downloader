@@ -25,27 +25,19 @@ from clear_ola.cookies import (
 )
 from clear_ola.flows import (
     gstr_1,
-<<<<<<< HEAD
     gstr_1_vs_3b_vs_books,
     gstr_2a,
-=======
-    gstr_2a,
     gstr_2a_vs_3b_vs_books,
->>>>>>> origin/add-pan-ecrrs-report
     gstr_2b,
     gstr_2b_vs_3b_vs_books,
     gstr_3b,
     gstr_8,
-<<<<<<< HEAD
-)
-from clear_ola.gst_flows import gstr_6, gstr_6a, gstr_9_8a
-from clear_ola.gst_manifest import GstManifest
-=======
     pan_cash_ledger,
     pan_electronic_reversal_ledger,
     pan_itc_ledger,
 )
->>>>>>> origin/add-pan-ecrrs-report
+from clear_ola.gst_flows import gstr_6, gstr_6a, gstr_9_8a
+from clear_ola.gst_manifest import GstManifest
 from clear_ola.manifest import Manifest
 from clear_ola.partials import build_otp_worklist
 from clear_ola.status_report import build_status_report
@@ -94,16 +86,13 @@ def cli(ctx: click.Context, config_path: Path) -> None:
 @click.option("--report", "report_choice",
               type=click.Choice(["GSTR-2A", "GSTR-2B", "GSTR-1", "GSTR-3B",
                                  "GSTR-8",
-<<<<<<< HEAD
                                  "GSTR-1-vs-3B-vs-Books",
-                                 "GSTR-2B-vs-3B-vs-Books"], case_sensitive=False),
-=======
                                  "GSTR-2A-vs-3B-vs-Books",
                                  "GSTR-2B-vs-3B-vs-Books",
                                  "PAN-Cash-Ledger",
                                  "PAN-ITC-Ledger",
-                                 "PAN-Electronic-Reversal-Ledger"], case_sensitive=False),
->>>>>>> origin/add-pan-ecrrs-report
+                                 "PAN-Electronic-Reversal-Ledger"],
+                                case_sensitive=False),
               default="GSTR-2A", show_default=True,
               help="Which report flow to run")
 @click.option("--pan", "pan_filter", default=None,
@@ -198,12 +187,8 @@ def download(
                 # Raised by parse_variants_filter on an unknown --variants key.
                 click.echo(f"\n[ERROR] {e}\n", err=True)
                 sys.exit(2)
-<<<<<<< HEAD
         elif report_choice.upper() == "GSTR-1-VS-3B-VS-BOOKS":
             gstr_1_vs_3b_vs_books.run(api, cfg, manifest)
-        elif report_choice.upper() == "GSTR-2B-VS-3B-VS-BOOKS":
-            gstr_2b_vs_3b_vs_books.run(api, cfg, manifest)
-=======
         elif report_choice.upper() == "GSTR-2A-VS-3B-VS-BOOKS":
             gstr_2a_vs_3b_vs_books.run(api, cfg, manifest)
         elif report_choice.upper() == "GSTR-2B-VS-3B-VS-BOOKS":
@@ -214,7 +199,6 @@ def download(
             pan_itc_ledger.run(api, cfg, manifest)
         elif report_choice.upper() == "PAN-ELECTRONIC-REVERSAL-LEDGER":
             pan_electronic_reversal_ledger.run(api, cfg, manifest)
->>>>>>> origin/add-pan-ecrrs-report
         else:
             click.echo(f"Report {report_choice!r} not implemented yet.", err=True)
             sys.exit(2)

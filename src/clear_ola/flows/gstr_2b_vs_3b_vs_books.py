@@ -567,15 +567,11 @@ def _run_one(
             "[{}/{}] preflight export id {} — discarded (cache priming only)",
             pan, fy, preflight_export_id,
         )
-<<<<<<< HEAD
         # Clear's UI waits ~11s here; the recon cube must materialize on
         # Clear's side before the real export trigger fires, otherwise the
         # downloaded XLSX is a valid-shape empty shell (see HAR
         # discovery/app.clear.in.har_GSTR-2B vs 3B vs Books Report.har).
         time.sleep(cfg.wait_after_priming_seconds)
-=======
-        time.sleep(cfg.inter_call_delay_seconds)
->>>>>>> origin/add-pan-ecrrs-report
 
         # Step 5: Trigger the real vs-Books export
         logger.info(
@@ -611,7 +607,6 @@ def _run_one(
             ready.pre_signed_url, dest,
             gstin_node_ids=gstin_node_ids,
         )
-<<<<<<< HEAD
         if bytes_written < 50 * 1024:
             logger.warning(
                 "[{}/{}/{}] Downloaded file is suspiciously small "
@@ -619,8 +614,6 @@ def _run_one(
                 "XLSX. Open the file to confirm.",
                 pan, fy, REPORT_TYPE, bytes_written,
             )
-=======
->>>>>>> origin/add-pan-ecrrs-report
 
         manifest.mark_done(
             pan, fy, REPORT_TYPE,
