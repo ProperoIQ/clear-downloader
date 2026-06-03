@@ -623,7 +623,8 @@ class ClearAPI:
         "COMPLETED",
         "DOWNLOADED",            # not observed for 3B but harmless to accept
         "NOT_APPLICABLE",
-        "DOWNLOADED_PARTIALLY",
+        "PARTIALLY_COMPLETED",   # ✓ observed live — Clear's actual per-GSTIN partial state
+        "DOWNLOADED_PARTIALLY",  # legacy/defensive synonym (never observed)
         "NOT_DOWNLOADED",
         "FAILED",
         "ERROR",

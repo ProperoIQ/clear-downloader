@@ -52,31 +52,28 @@ VARIANTS: dict[str, dict[str, str]] = {
     },
     "filed": {
         "report_type": "GSTR-3B-Filed",
-        "sheet_type": "GSTR_3B_FILED_REPORT",     # ⚠ extrapolated
+        "sheet_type": "GSTR_3B_REPORT",            # ✓ HAR-verified (har_pan_based_3b.har entry 101)
         "output_type": "EXCEL",
         "ext": "xlsx",
         "label": "Filed",
     },
     "itc-offset": {
         "report_type": "GSTR-3B-ITC-Offset",
-        "sheet_type": "GSTR_3B_ITC_OFFSET_REPORT", # ⚠ extrapolated
+        "sheet_type": "ITC_OFFSET_REPORT",         # ✓ HAR-verified (har_pan_based_3b.har entry 111)
         "output_type": "EXCEL",
         "ext": "xlsx",
         "label": "ITC-Offset",
     },
     "insights": {
         "report_type": "GSTR-3B-Insights",
-        "sheet_type": "GSTR_3B_INSIGHTS_REPORT",   # ⚠ extrapolated
+        "sheet_type": "GSTR_3B_INSIGHTS_REPORT",   # ✓ HAR-verified (har_pan_based_3b.har entry 120)
         "output_type": "EXCEL",
         "ext": "xlsx",
         "label": "Insights",
     },
     "pdf": {
         "report_type": "GSTR-3B-PDF",
-        # PDF likely uses the FILED template internally but with a PDF
-        # outputType; if Clear's reportDownload 4xxs with a different
-        # sheet_type, swap to the value the error suggests.
-        "sheet_type": "GSTR_3B_FILED_REPORT",      # ⚠ extrapolated
+        "sheet_type": "GSTR_3B_PDF_REPORT",        # ✓ HAR-verified (har_pan_based_3b.har entry 128)
         "output_type": "PDF",
         "ext": "pdf",
         "label": "PDF",
@@ -98,11 +95,17 @@ DEFAULT_VARIANTS = list(VARIANTS.keys())
 #                          all data again" button). Same as 2A/2B/1.
 #   NOT_DOWNLOADED       — not observed for 3B in HAR but included as a
 #                          defensive synonym for FAILED.
-_NEEDS_USER_ACTION = ("DOWNLOADED_PARTIALLY", "NOT_DOWNLOADED", "FAILED")
+_NEEDS_USER_ACTION = (
+    "PARTIALLY_COMPLETED",   # ✓ observed live (the actual per-GSTIN partial state)
+    "DOWNLOADED_PARTIALLY",  # legacy/defensive synonym (never observed)
+    "NOT_DOWNLOADED",
+    "FAILED",
+)
+_PARTIAL_STATUSES = ("PARTIALLY_COMPLETED", "DOWNLOADED_PARTIALLY")
 
 
 def _any_partial(snapshot: list[dict]) -> bool:
-    return any(s.get("downloadStatus") == "DOWNLOADED_PARTIALLY" for s in snapshot)
+    return any(s.get("downloadStatus") in _PARTIAL_STATUSES for s in snapshot)
 
 
 def _summarize_issues(snapshot: list[dict]) -> str:
