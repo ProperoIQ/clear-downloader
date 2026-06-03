@@ -92,12 +92,12 @@ pans:
   #     - "2025-26"
 
 # ---- GSTINs to process (GST-based track) ----
-# Only used by `gst-download` (currently: GSTR-6A). The PAN-based commands
-# above ignore this block.
+# Only used by `gst-download` (currently: GSTR-6A, GSTR-9-8A, GSTR-6).
+# The PAN-based commands above ignore this block.
 #
-# Why a separate block: GSTR-6A is filed per ISD GSTIN (not per PAN), so the
-# unit of work is one GSTIN, and the output is one Excel per GSTIN per FY at
-# downloads/gst/<GSTIN>/FY-<FY>/GSTR-6A/...  Manifest is a separate file
+# Why a separate block: these reports are filed per GSTIN (not per PAN), so
+# the unit of work is one GSTIN, and the output lands at
+# downloads/gst/<GSTIN>/FY-<FY>/<REPORT>/...  Manifest is a separate file
 # (state/gst-manifest.sqlite) so PAN and GST tracks can't collide.
 #
 # Same `fys:` rule as `pans:` — omit `fys:` on an entry to use the global

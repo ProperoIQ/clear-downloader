@@ -1,0 +1,167 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "ReturnPeriod",
+        "dataType": "STRING",
+        "columnName": "ReturnPeriod"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "TypeOfDocument",
+        "dataType": "STRING",
+        "columnName": "TypeOfDocument"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "NumberOfDocuments",
+        "dataType": "INTEGER",
+        "columnName": "NumberOfDocuments"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "TaxableValue",
+        "dataType": "DECIMAL",
+        "columnName": "TaxableValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "TotalTax",
+        "dataType": "DECIMAL",
+        "columnName": "TotalTax"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "IGST",
+        "dataType": "DECIMAL",
+        "columnName": "IGST"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "CGST",
+        "dataType": "DECIMAL",
+        "columnName": "CGST"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "SGST",
+        "dataType": "DECIMAL",
+        "columnName": "SGST"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "CESS",
+        "dataType": "DECIMAL",
+        "columnName": "CESS"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "DocumentValue",
+        "dataType": "DECIMAL",
+        "columnName": "DocumentValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "TypeOfDocumentDist",
+        "dataType": "STRING",
+        "columnName": "TypeOfDocumentDist"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "NumberOfDocumentsDist",
+        "dataType": "INTEGER",
+        "columnName": "NumberOfDocumentsDist"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "TotalEligibleITC",
+        "dataType": "DECIMAL",
+        "columnName": "TotalEligibleITC"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "TotalIneligibleITC",
+        "dataType": "DECIMAL",
+        "columnName": "TotalIneligibleITC"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "TypeOfDocumentRedist",
+        "dataType": "STRING",
+        "columnName": "TypeOfDocumentRedist"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "NumberOfDocumentsRedist",
+        "dataType": "INTEGER",
+        "columnName": "NumberOfDocumentsRedist"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "TotalEligibleITCRedist",
+        "dataType": "DECIMAL",
+        "columnName": "TotalEligibleITCRedist"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "TotalIneligibleITCRedist",
+        "dataType": "DECIMAL",
+        "columnName": "TotalIneligibleITCRedist"
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "688201ca5ba45d42a797f1e0",
+      "templateType": "QUERY"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 0,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "gstr6V2",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "GSTIN",
+      "nodeName": "29AAKCA2311H2ZV",
+      "startRange": "072017",
+      "endRange": "032018",
+      "activeBusiness": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED",
+      "filename": "GSTR-6 Report"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "gstr6V2",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "GSTIN",
+      "nodeName": "29AAKCA2311H2ZV",
+      "startRange": "072017",
+      "endRange": "032018",
+      "activeBusiness": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED",
+      "filename": "GSTR-6 Report"
+    }
+  },
+  "staticRowData": {
+    "companyName": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED",
+    "gstin": "29AAKCA2311H2ZV",
+    "reportPeriod": "Jul 2017 - Mar 2018"
+  },
+  "fileType": "XLSX",
+  "filename": "GSTR6_SUMMARY_29AAKCA2311H2ZV_072017-032018",
+  "exportName": "gstr6_download"
+}

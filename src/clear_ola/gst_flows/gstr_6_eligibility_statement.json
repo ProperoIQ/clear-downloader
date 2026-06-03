@@ -1,0 +1,83 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "Rp",
+        "dataType": "STRING",
+        "columnName": "Rp"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "TotalITC",
+        "dataType": "DECIMAL",
+        "columnName": "TotalITC"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "eligibleITC",
+        "dataType": "DECIMAL",
+        "columnName": "eligibleITC"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "ineligibleITC",
+        "dataType": "DECIMAL",
+        "columnName": "ineligibleITC"
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "6874b3f55ba45d42a797f166",
+      "templateType": "QUERY"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 0,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "gstr6V2",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "GSTIN",
+      "nodeName": "29AAKCA2311H2ZV",
+      "startRange": "072017",
+      "endRange": "032018",
+      "activeBusiness": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED",
+      "filename": "GSTR-6 Report"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "gstr6V2",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "GSTIN",
+      "nodeName": "29AAKCA2311H2ZV",
+      "startRange": "072017",
+      "endRange": "032018",
+      "activeBusiness": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED",
+      "filename": "GSTR-6 Report"
+    }
+  },
+  "staticRowData": {
+    "companyName": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED",
+    "gstin": "29AAKCA2311H2ZV",
+    "reportPeriod": "Jul 2017 - Mar 2018"
+  },
+  "fileType": "XLSX",
+  "filename": "GSTR6_SUMMARY_29AAKCA2311H2ZV_072017-032018",
+  "exportName": "gstr6_download"
+}
