@@ -130,3 +130,159 @@ Periods are passed as `MMYYYY` strings (no separator), e.g. April 2025 → `"042
 5. Loop over multiple PANs × multiple FYs.
 
 If you're happy with this analysis, ping me and I'll move to step 1 (the second HAR for 2B validation) or skip straight to step 2 (scaffold and validate experimentally) — your call.
+
+---
+
+## Addendum — GSTR-2A vs 3B vs Books reconciliation flow
+
+**Source HAR:** `app.clear.in.har` (7.3 MB, 169 entries; captured 01 Jun 2026)
+**Scope walked through:** PAN `AAECB1261D` (BIRDS EYE SYSTEMS PRIVATE LIMITED), FY 2020-21 (periods `042020..032021`), one GSTIN under the PAN.
+
+### Confirmed slugs / identifiers
+
+| Key | Value | HAR evidence |
+|---|---|---|
+| URL slug (Referer query) | `reportType=panG3bvs2avsBooks` | entries 72, 114, 126, 149 |
+| Pull tenant | `GSTR2A_VS_3B_VS_BOOKS_REPORTS` | entry 72 body |
+| RLS workflow (URL param `workFlow=`) | `GSTR2A_VS_3B_VS_BOOKS_REPORTS` | entry 114 URL |
+| Preflight S3 prefix | `pan_G2Avs3B_download_Adv` | entry 145/146 URLs |
+| Real-export S3 prefix | `pan_G2Avs3BvsBook_download_Adv` | entry 165/166 URLs |
+| Preflight filename pattern | `PAN_PAN_GSTR2A_vs_3b_Report_<PAN>_<MMYYYY>-<MMYYYY>` | entries 126, 145/146 |
+| Real-export filename pattern | `PAN_GSTR2A_vs_3B_vs_Books_Report_<PAN>_<MMYYYY>-<MMYYYY>` | entries 149, 165/166 |
+| Both metadata `reportType` | `panG3bvs2avsBooks` | entries 126, 149 bodies |
+| Preflight UI label (`onStart.metadata.filename`) | `GSTR-2A vs 3B Report (XLSX)` | entry 126 body |
+| Real UI label (`onStart.metadata.filename`) | `GSTR-2A vs 3B vs Books Report (XLSX)` | entry 149 body |
+
+### Flow ordering (same as 2B-vs-3B-vs-Books and 1-vs-3B-vs-Books)
+
+1. `POST /api/data-pull/public/pull/v2/trigger` — `tenant: GSTR2A_VS_3B_VS_BOOKS_REPORTS`, refreshes 2A side only (3B comes from Clear's existing 3B cache, no separate pull).
+2. Poll `POST /api/data-pull/public/pull/v3/status` until DOWNLOADED.
+3. `POST /api/gst-auto-compute/public/rls/fetch-token?...&workFlow=GSTR2A_VS_3B_VS_BOOKS_REPORTS` — same RLS token is reused for both export-trigger calls below.
+4. **Preflight** `POST /api/clear/data-browser/public/export/trigger` with the `G2A vs 3B` body (no Books). Returns an export id we discard — this primes Clear's reconciliation cube. Skipping it is expected to make step 5 fail with `500 Unknown error occurred` (by analogy with the documented 2B and 1 preflights).
+5. **Real export** `POST /api/clear/data-browser/public/export/trigger` with the `G2A vs 3B vs Books` body.
+6. Poll `GET /api/clear/data-browser/public/export/download/<id>` until SUCCESS, then download the pre-signed S3 URL.
+
+### Header overrides on both `export/trigger` calls
+
+Verified absent from HAR: **`x-ct-source`** (our session adds `GST_REPORTS` by default — we must override to `None`). Verified present: `baggage` + `sentry-trace` (Sentry distributed-tracing headers — Clear's edge may validate these), `accept-language`, `priority`. The Referer must carry `?reportType=panG3bvs2avsBooks&...` or Clear's backend 500s — same edge-validation behavior as the panG3bvs2bvsBooks endpoint.
+
+### Filename quirks (replicate verbatim)
+
+The **preflight** filename has the same double-`PAN_PAN_` prefix and lowercase `3b` as the 2B-vs-3B-vs-Books and 1-vs-3B-vs-Books preflights (e.g. `PAN_PAN_GSTR2A_vs_3b_Report_...`). This looks like a frontend typo but Clear's backend may key off it, so the captured JSON template preserves it as-is. The real-export filename is clean (`PAN_GSTR2A_vs_3B_vs_Books_Report_...`).
+
+### Periods
+
+No `MIN_FY` floor needed: GSTR-2A is available from the start of GST (Jul 2017). Unlike GSTR-2B-vs-3B-vs-Books (which requires `MIN_START_PERIOD=072020`), this flow can process FY 2017-18 onward without period clipping. *(Validate by attempting an early FY in production — current HAR only covers 2020-21.)*
+
+---
+
+## Addendum — PAN Cash Ledger report
+
+**Source HAR:** `discovery/app.clear.in.CASH-LEDGER.har` (7.8 MB, 143 entries; captured 01 Jun 2026)
+**Scope walked through:** PAN `AAGCP5410J` (PISCES ESERVICES PRIVATE LIMITED), 41 GSTINs, date range `01-07-2017 .. 01-06-2026` (full GST era).
+
+### Confirmed slugs / identifiers
+
+| Key | Value | HAR evidence |
+|---|---|---|
+| URL slug (Referer query) | `reportType=panCashLedger` | entries 80, 108, 118, 136 |
+| `timePeriodType` (Referer) | `DATE_RANGE` (not `FISCAL_YEAR`) | same |
+| Pull tenant | `CASH_LEDGER_REPORT` | entry 80 body |
+| RLS workflow (URL param `workFlow=`) | `CASH_LEDGER_REPORT` | entry 108 URL |
+| RLS URL params (note: no `returnPeriods`) | `workFlow=...&tableType=&fromDate=DD-MM-YYYY&toDate=DD-MM-YYYY` | entry 108 URL |
+| Export S3 prefix | `cash_ledger_download` | entry 136 response URL |
+| Export filename | `PAN_CASH_LEDGER_REPORT_<PAN>_<DD-MM-YYYY>-<DD-MM-YYYY>.xlsx.zip` | entry 136 response |
+| Real-export `exportName` | `cash_ledger_download` | entry 118 body |
+| Real-export `fileType` | `XLSX` | entry 118 body |
+| `staticRowData` keys | `{companyName, gstin, reportPeriod}` | entry 118 body |
+| `staticRowData.reportPeriod` format | `"DD-MM-YYYY - DD-MM-YYYY"` | entry 118 body |
+| `onStart.metadata.reportType` | `panCashLedger` | entry 118 body |
+| Statement template id | `67e2a6e78ede5b3eac89594d` (Clear's stored QUERY template) | entry 118 body |
+
+### Flow ordering (simple — no preflight, like GSTR-2A)
+
+1. `POST /api/data-pull/public/pull/v2/trigger` — `tenant: CASH_LEDGER_REPORT`, `startRange` / `endRange` in **DD-MM-YYYY** (not `MMYYYY`), `gisDownloadBehaviour: null` (HAR sent JSON null, not the usual `"USE_EXISTING_DATA"`).
+2. Poll `POST /api/data-pull/public/pull/v3/status` until DOWNLOADED.
+3. `POST /api/.../rls/fetch-token?workFlow=CASH_LEDGER_REPORT&tableType=&fromDate=...&toDate=...` — date-range mode of the RLS endpoint (no `returnPeriods=`).
+4. **Single** `POST /api/.../export/trigger` with `x-rls-token`, panCashLedger Referer, header overrides (drop `x-ct-source`, add baggage / sentry-trace / accept-language / priority).
+5. Poll `GET /api/.../export/download/<id>` until SUCCESS, then download the pre-signed S3 URL.
+
+### Key difference from every other flow: **date range, not periods**
+
+This is the first report in the toolkit that uses **DD-MM-YYYY date strings** instead of `MMYYYY` periods. `api.fetch_rls_token` was extended with a `from_date=` / `to_date=` mode for this; `api.trigger_pull` is range-agnostic and passes its `start_period` / `end_period` strings through verbatim, so DD-MM-YYYY values work without code changes. `api.trigger_pull`'s `gis_download_behaviour` type was widened to `str | None` to pass JSON `null`.
+
+### FY → date-range mapping (implementation detail)
+
+The flow maps each configured FY (e.g. `2024-25`) to a `(start, end)` DD-MM-YYYY pair internally:
+- Start: `01-04-<first-year>`, clamped up to `01-07-2017` for FY 2017-18 (GST start).
+- End: `31-03-<second-year>`, clamped down to today for the current FY.
+
+---
+
+## Addendum — PAN ITC Ledger report
+
+**Source HAR:** `discovery/app.clear.in.itc.har` (13 MB, 209 entries; captured 02 Jun 2026)
+**Scope walked through:** PAN `AAGCP5410J` (PISCES ESERVICES PRIVATE LIMITED), 8 GSTINs, date range `01-07-2017 .. 02-06-2026`.
+
+**Structurally identical to PAN Cash Ledger** (same 5-step pipeline, same DD-MM-YYYY date format, same `gisDownloadBehaviour: null`, same header-override set, no preflight). Only identifiers differ:
+
+| Key | Value | HAR evidence |
+|---|---|---|
+| URL slug (Referer query) | `reportType=panItcLedger` | entries 88, 149, 159, 174 |
+| `timePeriodType` (Referer) | `DATE_RANGE` | same |
+| Pull tenant | `ITC_LEDGER_REPORT` | entry 88 body |
+| RLS workflow (URL param `workFlow=`) | `ITC_LEDGER_REPORT` | entry 149 URL |
+| Export S3 prefix | `itc_ledger_download` | entry 174 response URL |
+| Export filename | `PAN_ITC_LEDGER_REPORT_<PAN>_<DD-MM-YYYY>-<DD-MM-YYYY>.xlsx.zip` | entry 174 response |
+| Real-export `exportName` | `itc_ledger_download` | entry 159 body |
+| Statement template id | `67e2a4bc8ede5b3eac89594a` | entry 159 body |
+| Statement columns | myGstin, state_name, description, formatted_date, totalValue, igstValue, cgstValue, sgstValue, cessValue | entry 159 body |
+
+`staticRowData` keys (`companyName / gstin / reportPeriod`), `onStart.metadata` shape, the header-override set (drop `x-ct-source`, add baggage + sentry-trace + accept-language + priority), and the FY → date-range mapping are all identical to the cash ledger flow.
+
+---
+
+## Addendum — PAN Electronic Credit Reversal & Re-claimed Statement (ECRRS)
+
+**Source HAR:** `discovery/app.clear.in.ecrrs.har` (5.7 MB, 139 entries; captured 02 Jun 2026)
+**Scope walked through:** PAN `AAGCP5410J`, 8 GSTINs, date range `31-08-2023 .. 02-06-2026` (ECRRS earliest valid date → today).
+
+Same 5-step shape as Cash / ITC ledgers (single pull, single export, no preflight) **with three ECRRS-specific quirks**:
+
+### Quirk 1 — Pull tenant ≠ RLS workflow
+
+This is the first flow in the toolkit where the two differ:
+
+| Field | Value | HAR evidence |
+|---|---|---|
+| `pull/v2/trigger` body `tenant` | `ELECTRONIC_CASH_LEDGER` | entry 83 |
+| `pull/v3/status` header `tenant` | `ELECTRONIC_CASH_LEDGER` (same) | entries 92/94/97 |
+| `rls/fetch-token` URL `workFlow=` | `ELECTRONIC_REVERSAL_REPORT` | entry 101 URL |
+
+The pull piggybacks on the Electronic Cash Ledger data source — both reports share the same underlying GSTN data. The RLS / export use a separate workflow string to scope the token to the ECRRS columns specifically. Flow module uses two constants (`PULL_TENANT` and `RLS_WORKFLOW`) instead of the usual one.
+
+### Quirk 2 — MIN_FY = 2023-24
+
+GSTN introduced ECRRS in August 2023 (effective 31-08-2023). FYs strictly before 2023-24 have no data. The flow records `no_data` and skips for those FYs. FY 2023-24 itself has its start date clamped from `01-04-2023` to `31-08-2023`. Same pattern as `gstr_2b.py`'s `MIN_FY=2020-21`.
+
+### Quirk 3 — Body filename uses CamelCase, server returns a different name
+
+The body `filename` we send is `PANElectronicReversalLedger_<PAN>_<DD-MM-YYYY>-<DD-MM-YYYY>` — note **no underscore between `PAN` and `Electronic`**, and CamelCase rather than the SNAKE_CASE used by Cash/ITC ledgers. Verbatim from HAR; Clear's backend may key off it.
+
+Clear's `export/download` response returns a different `fileName` — `"Electronic Credit Reversal and Re-claimed Statement..xlsx.zip"` (literal double-dot before `xlsx`, spaces preserved). Our code writes whatever `ready.file_name` says, so the on-disk filename matches what Clear gives us — same pattern as every other flow.
+
+### Identifier table
+
+| Key | Value | HAR evidence |
+|---|---|---|
+| URL slug (Referer query) | `reportType=panElectronicReversalLedger` | entries 83, 101, 113, 130 |
+| `timePeriodType` (Referer) | `DATE_RANGE` | same |
+| Pull tenant | `ELECTRONIC_CASH_LEDGER` | entry 83 body |
+| RLS workflow | `ELECTRONIC_REVERSAL_REPORT` | entry 101 URL |
+| Real-export `exportName` | `ELECTRONIC_CASH_LEDGER_TRANSACTION` | entry 113 body |
+| Real-export body `filename` | `PANElectronicReversalLedger_<PAN>_<DD-MM-YYYY>-<DD-MM-YYYY>` | entry 113 body |
+| Server-returned download fileName | `Electronic Credit Reversal and Re-claimed Statement..xlsx.zip` | entry 130 response |
+| Statement template id | `676e7c58fedefe6d880609ba` | entry 113 body |
+| `onStart.metadata.filename` | `ECL Report` (literal, not substituted per call) | entry 113 body |
+| Statement columns | serial_number, gstin, date, description, closingBalance(TotalTax, Igst, Cgst, Sgst, Cess) | entry 113 body |
+| Earliest valid date | `31-08-2023` (GSTN introduction date) | HAR scope + GSTN public docs |

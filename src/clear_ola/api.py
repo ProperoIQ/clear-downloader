@@ -146,7 +146,11 @@ class ClearAPI:
         *,
         params: dict | list | None = None,
         json_body: Any | None = None,
+<<<<<<< HEAD
         extra_headers: Mapping[str, str | None] | None = None,
+=======
+        extra_headers: dict[str, str | None] | None = None,
+>>>>>>> origin/add-pan-ecrrs-report
         stream: bool = False,
         expect_text: bool = False,
     ) -> Any:
@@ -213,8 +217,12 @@ class ClearAPI:
         start_period: str,  # MMYYYY
         end_period: str,    # MMYYYY
         tenant: str = "GSTR2A_REPORTS",
+<<<<<<< HEAD
         gis_download_behaviour: str = "USE_EXISTING_DATA",
         report_level: str = "PAN",
+=======
+        gis_download_behaviour: str | None = "USE_EXISTING_DATA",
+>>>>>>> origin/add-pan-ecrrs-report
     ) -> str:
         """Kick off a fresh data pull from GSTN for the given GSTINs / period range.
 
@@ -356,21 +364,46 @@ class ClearAPI:
 
     def fetch_rls_token(
         self,
-        periods: list[str],
+        periods: list[str] | None = None,
         *,
         gstin_node_ids: list[str],
         workflow: str,
+        from_date: str | None = None,
+        to_date: str | None = None,
     ) -> str:
         """Get a short-lived RLS token. Required as `x-rls-token` on export/trigger.
 
         Clear gates this token by the GSTIN scope, which it reads from the
         `x-clear-node-id` / `x-clear-node-type` headers. Without those it
-        returns a generic INTERNAL_SERVER 500."""
-        # Build params with repeated returnPeriods= entries, then workFlow,
-        # then an empty tableType= (matches the HAR exactly).
-        params: list[tuple[str, str]] = [("returnPeriods", p) for p in periods]
-        params.append(("workFlow", workflow))
-        params.append(("tableType", ""))
+        returns a generic INTERNAL_SERVER 500.
+
+        Two URL-param modes — pass one or the other (not both):
+
+          - **Period mode** (default; GSTR-1/2A/2B/3B/8 and their reconciliation
+            variants): pass `periods=["MMYYYY", ...]`. URL has repeated
+            `returnPeriods=` entries.
+
+          - **Date-range mode** (PAN Cash Ledger and other range-scoped reports):
+            pass `from_date="DD-MM-YYYY", to_date="DD-MM-YYYY"`. URL has
+            `fromDate=` and `toDate=` instead of `returnPeriods=`. Captured
+            param order matches the HAR exactly.
+        """
+        if from_date is not None and to_date is not None:
+            params: list[tuple[str, str]] = [
+                ("workFlow", workflow),
+                ("tableType", ""),
+                ("fromDate", from_date),
+                ("toDate", to_date),
+            ]
+        elif periods:
+            params = [("returnPeriods", p) for p in periods]
+            params.append(("workFlow", workflow))
+            params.append(("tableType", ""))
+        else:
+            raise ValueError(
+                "fetch_rls_token requires either `periods=[...]` or "
+                "`from_date=..., to_date=...` (got neither)."
+            )
         data = self._request(
             "POST", "/api/gst-auto-compute/public/rls/fetch-token",
             params=params,
@@ -381,6 +414,7 @@ class ClearAPI:
         return token
 
     def trigger_export(
+<<<<<<< HEAD
         self, payload: dict, *, rls_token: str,
         referer_override: str | None = None,
         header_overrides: Mapping[str, str | None] | None = None,
@@ -411,6 +445,39 @@ class ClearAPI:
             "POST", "/api/clear/data-browser/public/export/trigger",
             json_body=payload,
             extra_headers=extra_headers,
+=======
+        self,
+        payload: dict,
+        *,
+        rls_token: str,
+        referer_override: str | None = None,
+        header_overrides: dict[str, str | None] | None = None,
+    ) -> str:
+        """Submit the export. Returns the 24-hex-char export job ID (plain text).
+
+        `referer_override` replaces the session-level Referer for this single
+        call. Some endpoints (e.g. panG3bvs2avsBooks, panG3bvs2bvsBooks,
+        panG3bvs1vsBooks) parse `reportType=` out of the Referer query string
+        and return 500 if it's missing — callers pass a per-report Referer here.
+
+        `header_overrides` is merged on top of the per-call extra_headers.
+        A value of `None` deletes that header from the request entirely
+        (`requests` honours this in its merge_setting), which is how we drop
+        session-level headers like `x-ct-source` that some endpoints reject.
+        """
+        extra: dict[str, str | None] = {
+            "x-rls-token": rls_token,
+            "x-tenant-name": "GST_REPORTS",
+        }
+        if referer_override is not None:
+            extra["referer"] = referer_override
+        if header_overrides:
+            extra.update(header_overrides)
+        text = self._request(
+            "POST", "/api/clear/data-browser/public/export/trigger",
+            json_body=payload,
+            extra_headers=extra,
+>>>>>>> origin/add-pan-ecrrs-report
             expect_text=True,
         )
         export_id = text.strip().strip('"')

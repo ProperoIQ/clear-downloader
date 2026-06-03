@@ -354,10 +354,14 @@ def _run_one(
             gstin_node_ids=gstin_node_ids,
             workspace_id=cfg.workspace_id,
         )
+<<<<<<< HEAD
         # Clear's UI waits ~10s here; the backend priming must propagate
         # before reportDownload reads it, otherwise the XLSX/PDF cells are all
         # zero (see discovery/app.clear.in.har_3b.har).
         time.sleep(cfg.wait_after_priming_seconds)
+=======
+        time.sleep(cfg.inter_call_delay_seconds)
+>>>>>>> origin/add-pan-ecrrs-report
 
         # ===== Steps 3-5: per-variant report download =====
         for v in todo:
@@ -405,6 +409,7 @@ def _run_one(
                     ready.report_uri, dest,
                     gstin_node_ids=gstin_node_ids,
                 )
+<<<<<<< HEAD
                 if bytes_written < 25 * 1024:
                     logger.warning(
                         "[{}/{}/{}] Downloaded file is suspiciously small "
@@ -412,6 +417,8 @@ def _run_one(
                         "empty-shell XLSX/PDF. Open the file to confirm.",
                         pan, fy, rt, bytes_written,
                     )
+=======
+>>>>>>> origin/add-pan-ecrrs-report
 
                 manifest.mark_done(
                     pan, fy, rt,

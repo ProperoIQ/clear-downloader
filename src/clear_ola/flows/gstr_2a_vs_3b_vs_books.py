@@ -1,25 +1,26 @@
-"""GSTR-2B vs 3B vs Books Report — Clear's ITC-reconciliation report.
+"""GSTR-2A vs 3B vs Books Report — Clear's ITC-reconciliation report.
 
-Compares ITC available per GSTR-2B vs ITC claimed per GSTR-3B vs the
+Compares ITC reflected per GSTR-2A vs ITC claimed per GSTR-3B vs the
 taxpayer's Books (purchase register held in Clear's Books module).
-Clear's UI slug is `panG3bvs2bvsBooks`. Output: one PAN-level XLSX per FY.
+Clear's UI slug is `panG3bvs2avsBooks`. Output: one PAN-level XLSX per FY.
 
-Mirrors `gstr_1_vs_3b_vs_books.py` (the outward-supply reconciliation
-companion), with two differences confirmed from the HAR capture:
+Mirrors `gstr_2b_vs_3b_vs_books.py` step-for-step — same preflight-then-real
+ordering, same partials handling, same header overrides. Differences from
+the 2B variant, all verified from the HAR capture at
+`d:/office/test-downloader/app.clear.in.har` (entries #72, #114, #126, #149):
 
-  1. There IS a data-pull step. Clear's UI hits
-     `/api/data-pull/public/pull/v2/trigger` with
-     `tenant: "GSTR2B_VS_3B_VS_BOOKS_REPORTS"` before rendering the page.
-     We replay it so the 2B-side of the reconciliation is fresh; the 3B
-     side comes from Clear's existing 3B cache (no separate pull). The
-     pull behaves like the 2A/2B/1 flow.
-
-  2. Different RLS workflow + Referer slug: `GSTR2B_VS_3B_VS_BOOKS_REPORTS`
-     and `reportType=panG3bvs2bvsBooks` (verbatim from HAR).
+  1. Pull tenant + RLS workflow are `GSTR2A_VS_3B_VS_BOOKS_REPORTS`.
+  2. Referer slug is `reportType=panG3bvs2avsBooks`.
+  3. No minimum FY: GSTR-2A is available since GST began (Jul 2017), so
+     no `MIN_FY` / `MIN_START_PERIOD` clipping (unlike 2B, which starts at 072020).
+  4. Preflight filename prefix is `PAN_PAN_GSTR2A_vs_3b_Report_...` (same
+     quirky double-PAN_PAN_ + lowercase `3b` typo as the 2B preflight —
+     replicated verbatim because Clear's backend may key off it).
+  5. Real-export filename prefix is `PAN_GSTR2A_vs_3B_vs_Books_Report_...`.
 
 Captured POST bodies live next to this file:
-  - gstr_2b_vs_3b_vs_books_preflight_statement.json  (G2bvs3B priming call)
-  - gstr_2b_vs_3b_vs_books_statement.json            (G2bvs3BvsBook real export)
+  - gstr_2a_vs_3b_vs_books_preflight_statement.json  (G2A vs 3B priming call)
+  - gstr_2a_vs_3b_vs_books_statement.json            (G2A vs 3B vs Books real export)
 """
 
 from __future__ import annotations
@@ -45,47 +46,39 @@ from clear_ola.manifest import Manifest
 from clear_ola.partials import log_partial_items
 
 
-REPORT_TYPE = "GSTR-2B-vs-3B-vs-Books"
+REPORT_TYPE = "GSTR-2A-vs-3B-vs-Books"
 # Tenant used on the data-pull trigger / status calls and on the RLS-token
-# fetch. Lifted verbatim from the HAR's fetch-token call for this report.
-TENANT = "GSTR2B_VS_3B_VS_BOOKS_REPORTS"
+# fetch. Verified from HAR entry #72 (pull/v2/trigger body) and entry #114
+# (rls/fetch-token URL `workFlow=` param).
+TENANT = "GSTR2A_VS_3B_VS_BOOKS_REPORTS"
 RLS_WORKFLOW = TENANT
-# GSTR-2B was introduced Aug 2020 (first 2B was for July 2020 return period).
-# FYs strictly before 2020-21 have no 2B data at all.
-MIN_FY = "2020-21"
-# Earliest valid period for this report. The HAR's UI request for FY 2020-21
-# starts at 072020 even though the FY itself starts in April — same pattern as
-# the 1-vs-3B-vs-Books MIN_START_PERIOD clip. Format: "MMYYYY".
-MIN_START_PERIOD = "072020"
 
-# How stale upstream GSTR-2B / GSTR-3B data can be before we warn. The report
-# itself doesn't enforce this — Clear renders against whatever it has cached
-# (modulo the pull step above, which only refreshes 2B) — but a fresh-enough
-# warning helps users avoid surprises when 3B is stale.
+# How stale upstream GSTR-3B data can be before we warn. This report's own
+# pull step refreshes 2A only — 3B comes from Clear's existing 3B cache.
 _STALE_DAYS = 7
 
 _NEEDS_USER_ACTION = ("DOWNLOADED_PARTIALLY", "NOT_DOWNLOADED")
 
 
 def _load_statement_template() -> dict:
-    """Load the verbatim export-trigger payload captured for panG3bvs2bvsBooks."""
+    """Load the verbatim export-trigger payload captured for panG3bvs2avsBooks."""
     with resources.files("clear_ola.flows").joinpath(
-        "gstr_2b_vs_3b_vs_books_statement.json"
+        "gstr_2a_vs_3b_vs_books_statement.json"
     ).open("r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def _load_preflight_template() -> dict:
-    """Load the verbatim 'G2B vs 3B' (no Books) export-trigger payload.
+    """Load the verbatim 'G2A vs 3B' (no Books) export-trigger payload.
 
-    The panG3bvs2bvsBooks page in Clear's UI auto-issues this call first to
+    The panG3bvs2avsBooks page in Clear's UI auto-issues this call first to
     materialize the reconciliation cube in Clear's server-side cache. By
-    analogy with the 1-vs-3B-vs-Books flow, replaying only the vs-Books call
-    without this preflight is expected to 500 with "Unknown error occurred."
-    Both calls use the same RLS token.
+    analogy with the 2B-vs-3B-vs-Books and 1-vs-3B-vs-Books flows, replaying
+    only the vs-Books call without this preflight is expected to 500 with
+    "Unknown error occurred." Both calls use the same RLS token.
     """
     with resources.files("clear_ola.flows").joinpath(
-        "gstr_2b_vs_3b_vs_books_preflight_statement.json"
+        "gstr_2a_vs_3b_vs_books_preflight_statement.json"
     ).open("r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -107,7 +100,7 @@ def _build_export_payload(
     start_range = periods[0]
     end_range = periods[-1]
     filename_base = (
-        f"PAN_GSTR2B_vs_3B_vs_Books_Report_{pan}_{start_range}-{end_range}"
+        f"PAN_GSTR2A_vs_3B_vs_Books_Report_{pan}_{start_range}-{end_range}"
     )
 
     p = copy.deepcopy(template)
@@ -138,19 +131,19 @@ def _build_preflight_payload(
     workspace_id: str,
     periods: list[str],
 ) -> dict:
-    """Substitute per-(PAN, FY) fields into the preflight ('G2B vs 3B', no
+    """Substitute per-(PAN, FY) fields into the preflight ('G2A vs 3B', no
     Books) export template. Same shape as _build_export_payload but with
     call #1's filename pattern.
 
     The double 'PAN_PAN_' prefix and lowercase 'vs_3b' in the filename are
     verbatim from the HAR — they look like a typo in Clear's frontend but
     Clear's backend may key off them, so we replicate exactly. Same quirk
-    as the G1-vs-3B-vs-Books preflight.
+    as the G2B-vs-3B-vs-Books and G1-vs-3B-vs-Books preflights.
     """
     start_range = periods[0]
     end_range = periods[-1]
     filename_base = (
-        f"PAN_PAN_GSTR2B_vs_3b_Report_{pan}_{start_range}-{end_range}"
+        f"PAN_PAN_GSTR2A_vs_3b_Report_{pan}_{start_range}-{end_range}"
     )
 
     p = copy.deepcopy(template)
@@ -212,9 +205,9 @@ def _warn_if_upstream_3b_stale(
 ) -> None:
     """Log a WARNING if GSTR-3B-Combined is missing or stale for this (PAN, FY).
 
-    GSTR-2B itself is refreshed by this report's own pull step, but 3B comes
-    from Clear's existing 3B cache (no separate pull in the vs-3B-vs-Books
-    page). Reuses the same threshold as gstr_1_vs_3b_vs_books.
+    GSTR-2A itself is refreshed by this report's own pull step, but 3B comes
+    from Clear's existing 3B cache (no separate pull on the vs-3B-vs-Books
+    page). Reuses the same threshold and message shape as gstr_2b_vs_3b_vs_books.
     """
     threshold = datetime.now(timezone.utc) - timedelta(days=_STALE_DAYS)
     upstream = "GSTR-3B-Combined"
@@ -247,12 +240,12 @@ def run(
     cfg: AppConfig,
     manifest: Manifest,
 ) -> None:
-    """Process every (PAN x FY) in the config for the GSTR-2B vs 3B vs Books
-    reconciliation. Skips combos already marked done, and short-circuits FYs
-    before 2020-21 (when 2B did not exist).
+    """Process every (PAN x FY) in the config for the GSTR-2A vs 3B vs Books
+    reconciliation. Skips combos already marked done. No FY floor — GSTR-2A
+    has existed since GST began (Jul 2017).
 
     GSTINs that settle in NOT_DOWNLOADED or DOWNLOADED_PARTIALLY are logged to
-    `state/partial-items.csv` and the reconciliation proceeds with whatever 2B
+    `state/partial-items.csv` and the reconciliation proceeds with whatever 2A
     data is available — the same way NOT_APPLICABLE GSTINs are handled.
     """
     logger.info("Indexing GSTINs from workspace...")
@@ -279,7 +272,7 @@ def run(
             continue
         logger.info(
             "PAN {} ({}) has {} state-wise GSTIN(s) registered. "
-            "Generating PAN-level GSTR-2B vs 3B vs Books reconciliation per FY.",
+            "Generating PAN-level GSTR-2A vs 3B vs Books reconciliation per FY.",
             pan_cfg.pan, pan_cfg.business_name, len(gstins),
         )
 
@@ -304,17 +297,6 @@ def _run_one(
 ) -> None:
     pan = pan_cfg.pan
 
-    if fy < MIN_FY:
-        if manifest.is_done(pan, fy, REPORT_TYPE):
-            return
-        logger.info(
-            "[{}/{}/{}] FY predates GSTR-2B (introduced Aug 2020); "
-            "recording no_data and skipping.", pan, fy, REPORT_TYPE,
-        )
-        manifest.mark_started(pan, fy, REPORT_TYPE)
-        manifest.mark_no_data(pan, fy, REPORT_TYPE, gstins_seen=0)
-        return
-
     if manifest.is_done(pan, fy, REPORT_TYPE):
         logger.info("[{}/{}/{}] already done — skipping", pan, fy, REPORT_TYPE)
         return
@@ -335,33 +317,12 @@ def _run_one(
                 pan, fy, today.isoformat(),
                 len(periods), periods[0], periods[-1],
             )
-
-        # Clip periods earlier than MIN_START_PERIOD. Period strings
-        # ("MMYYYY") aren't lexicographically orderable — flip to "YYYYMM"
-        # for the comparison.
-        def _yyyymm(p: str) -> str:
-            return p[2:] + p[:2]
-        clipped = [p for p in periods if _yyyymm(p) >= _yyyymm(MIN_START_PERIOD)]
-        if not clipped:
-            logger.info(
-                "[{}/{}/{}] All FY periods predate GSTR-2B; recording no_data.",
-                pan, fy, REPORT_TYPE,
-            )
-            manifest.mark_no_data(pan, fy, REPORT_TYPE, gstins_seen=0)
-            return
-        if len(clipped) != len(periods):
-            logger.info(
-                "[{}/{}] Clipped {} pre-2B period(s); requesting {}..{} ({} period(s))",
-                pan, fy, len(periods) - len(clipped),
-                clipped[0], clipped[-1], len(clipped),
-            )
-        periods = clipped
         start_period = periods[0]
         end_period = periods[-1]
 
-        # Step 1: Trigger GSTR-2B pull (this report's data-pull step)
+        # Step 1: Trigger GSTR-2A pull (this report's data-pull step)
         logger.info(
-            "[{}/{}] Step 1/6: refresh GSTR-2B data for {} underlying GSTINs "
+            "[{}/{}] Step 1/6: refresh GSTR-2A data for {} underlying GSTINs "
             "({}..{}) under tenant {}",
             pan, fy, len(gstin_node_ids), start_period, end_period, TENANT,
         )
@@ -376,7 +337,7 @@ def _run_one(
 
         # Step 2: Wait for pull
         logger.info(
-            "[{}/{}] Step 2/6: wait for the 2B data refresh", pan, fy,
+            "[{}/{}] Step 2/6: wait for the 2A data refresh", pan, fy,
         )
         snapshot = api.wait_for_pull(
             gstin_node_ids,
@@ -481,15 +442,15 @@ def _run_one(
                 )
             hint = " ".join(hints)
             logger.warning(
-                "[{}/{}] 2B pull settled with issues: {}. Appended {} row(s) "
+                "[{}/{}] 2A pull settled with issues: {}. Appended {} row(s) "
                 "to {}. Proceeding to export anyway; the reconciliation will "
-                "reflect whatever 2B data is available, and rows for affected "
+                "reflect whatever 2A data is available, and rows for affected "
                 "GSTIN(s) may be incomplete or absent. {}",
                 pan, fy, issues, n_logged, partials_csv, hint,
             )
         else:
             logger.info(
-                "[{}/{}] 2B pull settled cleanly. Continuing to export.",
+                "[{}/{}] 2A pull settled cleanly. Continuing to export.",
                 pan, fy,
             )
         time.sleep(cfg.inter_call_delay_seconds)
@@ -498,9 +459,8 @@ def _run_one(
         # this report's pull step; it comes from Clear's existing 3B cache).
         _warn_if_upstream_3b_stale(manifest, pan, fy)
 
-        # Per-call header overrides for the panG3bvs2bvsBooks export trigger.
-        # Mirrors the panG3bvs1vsBooks bisection from gstr_1_vs_3b_vs_books.py
-        # — same endpoint, same edge-validation behaviour:
+        # Per-call header overrides for the panG3bvs2avsBooks export trigger.
+        # Verified from HAR entries #126 and #149:
         #   - x-ct-source: None  — HAR does not send this; our session adds
         #     "GST_REPORTS" by default. This endpoint may reject it.
         #   - baggage + sentry-trace — Sentry distributed-tracing headers
@@ -522,12 +482,12 @@ def _run_one(
             "priority": "u=1, i",
         }
 
-        # Clear's panG3bvs2bvsBooks endpoint parses `reportType=` from the
+        # Clear's panG3bvs2avsBooks endpoint parses `reportType=` from the
         # Referer header's query string and 500s otherwise — same constraint
-        # as panG3bvs1vsBooks.
+        # as panG3bvs2bvsBooks and panG3bvs1vsBooks.
         report_referer = (
             "https://app.clear.in/gst/reports/v2"
-            f"?reportType=panG3bvs2bvsBooks"
+            f"?reportType=panG3bvs2avsBooks"
             f"&activeBusiness={urllib.parse.quote(pan_cfg.business_name)}"
             f"&pan={pan}"
             f"&panNodeId={pan_node_id}"
@@ -546,7 +506,8 @@ def _run_one(
 
         # Step 4: Preflight — prime Clear's reconciliation cube. Without this
         # the vs-Books export is expected to 500 (by analogy with the
-        # 1-vs-3B-vs-Books preflight). Discard the returned export_id.
+        # 2B-vs-3B-vs-Books and 1-vs-3B-vs-Books preflights). Discard the
+        # returned export_id.
         logger.info(
             "[{}/{}] Step 4/6: preflight (priming Clear's reconciliation cube)",
             pan, fy,
@@ -567,15 +528,7 @@ def _run_one(
             "[{}/{}] preflight export id {} — discarded (cache priming only)",
             pan, fy, preflight_export_id,
         )
-<<<<<<< HEAD
-        # Clear's UI waits ~11s here; the recon cube must materialize on
-        # Clear's side before the real export trigger fires, otherwise the
-        # downloaded XLSX is a valid-shape empty shell (see HAR
-        # discovery/app.clear.in.har_GSTR-2B vs 3B vs Books Report.har).
-        time.sleep(cfg.wait_after_priming_seconds)
-=======
         time.sleep(cfg.inter_call_delay_seconds)
->>>>>>> origin/add-pan-ecrrs-report
 
         # Step 5: Trigger the real vs-Books export
         logger.info(
@@ -611,16 +564,6 @@ def _run_one(
             ready.pre_signed_url, dest,
             gstin_node_ids=gstin_node_ids,
         )
-<<<<<<< HEAD
-        if bytes_written < 50 * 1024:
-            logger.warning(
-                "[{}/{}/{}] Downloaded file is suspiciously small "
-                "({} bytes < 50 KB) — Clear may have served an empty-shell "
-                "XLSX. Open the file to confirm.",
-                pan, fy, REPORT_TYPE, bytes_written,
-            )
-=======
->>>>>>> origin/add-pan-ecrrs-report
 
         manifest.mark_done(
             pan, fy, REPORT_TYPE,

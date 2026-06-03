@@ -1,0 +1,113 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "serial_number",
+        "dataType": "INTEGER",
+        "columnName": "serial_number"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "gstin",
+        "dataType": "STRING",
+        "columnName": "gstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "date",
+        "dataType": "DATE",
+        "columnName": "date"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "description",
+        "dataType": "STRING",
+        "columnName": "description"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "closingBalanceTotalTax",
+        "dataType": "DECIMAL",
+        "columnName": "closingBalanceTotalTax"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "closingBalanceIgst",
+        "dataType": "DECIMAL",
+        "columnName": "closingBalanceIgst"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "closingBalanceCgst",
+        "dataType": "DECIMAL",
+        "columnName": "closingBalanceCgst"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "closingBalanceSgst",
+        "dataType": "DECIMAL",
+        "columnName": "closingBalanceSgst"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "closingBalanceCess",
+        "dataType": "DECIMAL",
+        "columnName": "closingBalanceCess"
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "676e7c58fedefe6d880609ba",
+      "templateType": "QUERY"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 0,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panElectronicReversalLedger",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAGCP5410J",
+      "startRange": "31-08-2023",
+      "endRange": "02-06-2026",
+      "activeBusiness": "PISCES ESERVICES PRIVATE LIMITED",
+      "filename": "ECL Report"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panElectronicReversalLedger",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAGCP5410J",
+      "startRange": "31-08-2023",
+      "endRange": "02-06-2026",
+      "activeBusiness": "PISCES ESERVICES PRIVATE LIMITED",
+      "filename": "ECL Report"
+    }
+  },
+  "staticRowData": {
+    "companyName": "PISCES ESERVICES PRIVATE LIMITED",
+    "gstin": "AAGCP5410J",
+    "reportPeriod": "31-08-2023 - 02-06-2026"
+  },
+  "fileType": "XLSX",
+  "filename": "PANElectronicReversalLedger_AAGCP5410J_31-08-2023-02-06-2026",
+  "exportName": "ELECTRONIC_CASH_LEDGER_TRANSACTION"
+}

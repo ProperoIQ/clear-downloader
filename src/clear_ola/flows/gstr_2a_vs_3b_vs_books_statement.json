@@ -1,0 +1,110 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "description",
+        "dataType": "STRING",
+        "columnName": "description"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "totalTax",
+        "dataType": "DECIMAL",
+        "columnName": "totalTax"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "igstValue",
+        "dataType": "DECIMAL",
+        "columnName": "igstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "cgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "sgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cessValue",
+        "dataType": "DECIMAL",
+        "columnName": "cessValue"
+      },
+      {
+        "type": "$FUNCTION",
+        "alias": "totalTaxSum",
+        "operation": {
+          "type": "$AGGREGATE",
+          "op": "SUM"
+        },
+        "fields": [
+          {
+            "type": "$COLUMN",
+            "dataType": "DECIMAL",
+            "columnName": "totalTax"
+          }
+        ]
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "682c414d96dec0478494048f",
+      "templateType": "QUERY"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 0,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panG3bvs2avsBooks",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAECB1261D",
+      "startRange": "042020",
+      "endRange": "032021",
+      "activeBusiness": "BIRDS EYE SYSTEMS PRIVATE LIMITED",
+      "filename": "GSTR-2A vs 3B vs Books Report (XLSX)"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panG3bvs2avsBooks",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAECB1261D",
+      "startRange": "042020",
+      "endRange": "032021",
+      "activeBusiness": "BIRDS EYE SYSTEMS PRIVATE LIMITED",
+      "filename": "GSTR-2A vs 3B vs Books Report (XLSX)"
+    }
+  },
+  "staticRowData": {
+    "companyName": "BIRDS EYE SYSTEMS PRIVATE LIMITED",
+    "gstin": "AAECB1261D",
+    "reportPeriod": "Apr 2020 - Mar 2021"
+  },
+  "fileType": "XLSX",
+  "filename": "PAN_GSTR2A_vs_3B_vs_Books_Report_AAECB1261D_042020-032021",
+  "exportName": "pan_G2Avs3BvsBook_download_Adv"
+}
