@@ -49,6 +49,13 @@ REPORT_TYPE = "GSTR-1-vs-3B-vs-Books"
 # matching workflow scope, and a GSTR-1-scoped token is rejected for this
 # slug with a generic "Unknown error occurred."
 RLS_WORKFLOW = "G1_VS_3B_VS_BOOKS"
+# Tenant for the data-pull (pull/v2/trigger + pull/v3/status). Verified
+# against the fresh PAN-based HAR (entry 92) — Clear's UI auto-issues this
+# pull BEFORE the RLS fetch to load cached GSTR-1+GSTR-3B data into the
+# reconciliation cube. Skipping it makes the export trigger return a
+# valid-shape-but-empty 17,357-byte XLSX regardless of how correct the
+# template payloads are.
+PULL_TENANT = "GSTRG1_VS_3B_VS_BOOKS_REPORTS"
 MIN_FY = "2017-18"  # GST regime started Jul 2017; GSTR-1 introduced same.
 
 # Earliest valid period for this report. Clear's panG3bvs1vsBooks endpoint
@@ -341,6 +348,57 @@ def _run_one(
 
         # Step 0: freshness check — non-blocking warning if upstream is stale.
         _warn_if_upstream_stale(manifest, pan, fy)
+
+        # Step 0.5: trigger Clear's reconciliation data pull. Verified from
+        # the fresh HAR (entry 92 of
+        # discovery/app.clear.in.har_pan GSTr-1 vs 3B  vs 3B vs Books Report.har)
+        # that Clear's UI calls this BEFORE the RLS fetch. Without it the
+        # export trigger returns a 17,357-byte empty-shell XLSX even when
+        # the template payloads are byte-identical to the HAR. The pull uses
+        # OPTIMIZED_PULL + USE_EXISTING_DATA, so it does NOT pull fresh data
+        # from GSTN — it just primes Clear's recon cube from whatever
+        # GSTR-1 / GSTR-3B data Clear already has cached for this PAN+FY.
+        # If Clear has no cached data for this PAN+FY, the export will
+        # still produce an empty file — the user needs to run
+        # `--report GSTR-1` and `--report GSTR-3B` first (the warnings
+        # above flag that).
+        logger.info(
+            "[{}/{}] Step 0.5/5: priming reconciliation data pull "
+            "(tenant={})",
+            pan, fy, PULL_TENANT,
+        )
+        start_period, end_period = periods[0], periods[-1]
+        api.trigger_pull(
+            gstin_node_ids=gstin_node_ids,
+            start_period=start_period,
+            end_period=end_period,
+            tenant=PULL_TENANT,
+            gis_download_behaviour="USE_EXISTING_DATA",
+            report_level="PAN",
+        )
+        snapshot = api.wait_for_pull(
+            gstin_node_ids=gstin_node_ids,
+            start_period=start_period,
+            end_period=end_period,
+            tenant=PULL_TENANT,
+            poll_seconds=cfg.poll_seconds_pull,
+            timeout_seconds=cfg.poll_timeout_pull_seconds,
+        )
+        not_downloaded = sum(
+            1 for s in snapshot
+            if s.get("downloadStatus") in ("NOT_DOWNLOADED", "DOWNLOADED_PARTIALLY")
+        )
+        if not_downloaded:
+            logger.warning(
+                "[{}/{}] {} of {} GSTIN(s) report NOT_DOWNLOADED / "
+                "DOWNLOADED_PARTIALLY for the recon pull — Clear's cache "
+                "for those is empty or partial. The reconciliation XLSX "
+                "may be missing rows. Run `download --report GSTR-1` and "
+                "`download --report GSTR-3B` for this PAN+FY first if you "
+                "want a complete file.",
+                pan, fy, not_downloaded, len(snapshot),
+            )
+        time.sleep(cfg.inter_call_delay_seconds)
 
         # Clear's panG3bvs1vsBooks endpoint parses `reportType=` from the
         # Referer header's query string and 500s with "Unknown error

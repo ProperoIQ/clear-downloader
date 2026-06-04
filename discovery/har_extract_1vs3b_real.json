@@ -2,18 +2,55 @@
   "statement": {
     "type": "SELECT",
     "fields": [
-      {"type": "$COLUMN", "alias": "description", "dataType": "STRING", "columnName": "description"},
-      {"type": "$COLUMN", "alias": "igstValue", "dataType": "DECIMAL", "columnName": "igstValue"},
-      {"type": "$COLUMN", "alias": "totalTax", "dataType": "DECIMAL", "columnName": "totalTax"},
-      {"type": "$COLUMN", "alias": "cgstValue", "dataType": "DECIMAL", "columnName": "cgstValue"},
-      {"type": "$COLUMN", "alias": "sgstValue", "dataType": "DECIMAL", "columnName": "sgstValue"},
-      {"type": "$COLUMN", "alias": "cessValue", "dataType": "DECIMAL", "columnName": "cessValue"},
+      {
+        "type": "$COLUMN",
+        "alias": "description",
+        "dataType": "STRING",
+        "columnName": "description"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "igstValue",
+        "dataType": "DECIMAL",
+        "columnName": "igstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "totalTax",
+        "dataType": "DECIMAL",
+        "columnName": "totalTax"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "cgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "sgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cessValue",
+        "dataType": "DECIMAL",
+        "columnName": "cessValue"
+      },
       {
         "type": "$FUNCTION",
         "alias": "totalTaxSum",
-        "operation": {"type": "$AGGREGATE", "op": "SUM"},
+        "operation": {
+          "type": "$AGGREGATE",
+          "op": "SUM"
+        },
         "fields": [
-          {"type": "$COLUMN", "dataType": "DECIMAL", "columnName": "totalTax"}
+          {
+            "type": "$COLUMN",
+            "dataType": "DECIMAL",
+            "columnName": "totalTax"
+          }
         ]
       }
     ],

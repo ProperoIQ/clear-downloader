@@ -9,7 +9,6 @@
       {"type": "$COLUMN", "alias": "is_tab", "dataType": "INTEGER", "columnName": "is_tab"},
       {"type": "$COLUMN", "alias": "id", "dataType": "STRING", "columnName": "mapping_id"},
       {"type": "$COLUMN", "alias": "returnPeriod", "dataType": "STRING", "columnName": "returnPeriod"},
-      {"type": "$COLUMN", "alias": "taxablevalue", "dataType": "DECIMAL", "columnName": "taxablevalue"},
       {"type": "$COLUMN", "alias": "igstValue", "dataType": "DECIMAL", "columnName": "igstValue"},
       {"type": "$COLUMN", "alias": "totalTax", "dataType": "DECIMAL", "columnName": "totalTax"},
       {"type": "$COLUMN", "alias": "cgstValue", "dataType": "DECIMAL", "columnName": "cgstValue"},
@@ -26,12 +25,12 @@
     ],
     "from": {
       "source": "$TEMPLATE",
-      "id": "67e0fb448ede5b3eac895935"
+      "id": "67c69b8b915ff640dde9df66"
     },
     "where": null,
     "orderBy": null,
     "groupBy": null,
-    "limit": 30,
+    "limit": 100,
     "offset": 0
   },
   "onStart": {
