@@ -1,0 +1,291 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "myGstin",
+        "dataType": "STRING",
+        "columnName": "myGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "returnPeriod",
+        "dataType": "STRING",
+        "columnName": "returnPeriod"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "myPan",
+        "dataType": "STRING",
+        "columnName": "myPan"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sectionName",
+        "dataType": "STRING",
+        "columnName": "sectionName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "subSectionName",
+        "dataType": "STRING",
+        "columnName": "subSectionName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentType",
+        "dataType": "STRING",
+        "columnName": "documentType"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentNumber",
+        "dataType": "STRING",
+        "columnName": "documentNumber"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentDate",
+        "dataType": "DATE",
+        "columnName": "documentDate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentValue",
+        "dataType": "DECIMAL",
+        "columnName": "documentValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "taxableValue",
+        "dataType": "DECIMAL",
+        "columnName": "taxableValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "totalTaxAmount",
+        "dataType": "DECIMAL",
+        "columnName": "totalTaxAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "igstValue",
+        "dataType": "DECIMAL",
+        "columnName": "igstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "cgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "sgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cessValue",
+        "dataType": "DECIMAL",
+        "columnName": "cessValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "taxRate",
+        "dataType": "DECIMAL",
+        "columnName": "taxRate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sellerGstin",
+        "dataType": "STRING",
+        "columnName": "sellerGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sellerPan",
+        "dataType": "STRING",
+        "columnName": "sellerPan"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "transformed_sellerState",
+        "dataType": "STRING",
+        "columnName": "transformed_sellerState"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "buyerGstin",
+        "dataType": "STRING",
+        "columnName": "buyerGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "buyerPan",
+        "dataType": "STRING",
+        "columnName": "buyerPan"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "tradeName",
+        "dataType": "STRING",
+        "columnName": "tradeName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "legalName",
+        "dataType": "STRING",
+        "columnName": "legalName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "buyerGstinName",
+        "dataType": "STRING",
+        "columnName": "buyerGstinName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "transformed_buyerState",
+        "dataType": "STRING",
+        "columnName": "transformed_buyerState"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "transformed_placeOfSupply",
+        "dataType": "STRING",
+        "columnName": "transformed_placeOfSupply"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "portCode",
+        "dataType": "STRING",
+        "columnName": "portCode"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "shippingBillNumber",
+        "dataType": "STRING",
+        "columnName": "shippingBillNumber"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "shippingBillDate",
+        "dataType": "DATE",
+        "columnName": "shippingBillDate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "reverseChargeApplicable",
+        "dataType": "BOOLEAN",
+        "columnName": "reverseChargeApplicable"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "ecommerceGstin",
+        "dataType": "STRING",
+        "columnName": "ecommerceGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "invoiceType",
+        "dataType": "STRING",
+        "columnName": "invoiceType"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "supplyType",
+        "dataType": "STRING",
+        "columnName": "supplyType"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sourceInvoiceType",
+        "dataType": "STRING",
+        "columnName": "sourceInvoiceType"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "irnNumber",
+        "dataType": "STRING",
+        "columnName": "irnNumber"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "irnGenerationDate",
+        "dataType": "DATE",
+        "columnName": "irnGenerationDate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "transformed_einvStatus",
+        "dataType": "STRING",
+        "columnName": "transformed_einvStatus"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "autoDraftStatus",
+        "dataType": "STRING",
+        "columnName": "autoDraftStatus"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "autoDraftDate",
+        "dataType": "DATE",
+        "columnName": "autoDraftDate"
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "68c1402a71efdd72b5a5ba39",
+      "templateType": "QUERY"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 0,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "gstr1EinvoiceReport",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AACCO4289J",
+      "startRange": "042024",
+      "endRange": "032025",
+      "activeBusiness": "OLA ELECTRIC MOBILITY LIMITED"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "gstr1EinvoiceReport",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AACCO4289J",
+      "startRange": "042024",
+      "endRange": "032025",
+      "activeBusiness": "OLA ELECTRIC MOBILITY LIMITED"
+    }
+  },
+  "staticRowData": {
+    "companyName": "OLA ELECTRIC MOBILITY LIMITED",
+    "gstin": "AACCO4289J",
+    "reportPeriod": "Apr 2024 - Mar 2025"
+  },
+  "fileType": "XLSX",
+  "filename": "PAN_GSTR1_EINVOICE_AACCO4289J_042024-032025",
+  "exportName": "gstr1_einvoice_download"
+}

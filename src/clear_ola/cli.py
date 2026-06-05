@@ -32,11 +32,17 @@ from clear_ola.flows import (
     gstr_2b_vs_3b_vs_books,
     gstr_3b,
     gstr_8,
+    outward_e_invoice_report,
     pan_cash_ledger,
     pan_electronic_reversal_ledger,
     pan_itc_ledger,
 )
-from clear_ola.gst_flows import gstr_6, gstr_6a, gstr_9_8a
+from clear_ola.gst_flows import (
+    electronic_liability_register,
+    gstr_6,
+    gstr_6a,
+    gstr_9_8a,
+)
 from clear_ola.gst_manifest import GstManifest
 from clear_ola.manifest import Manifest
 from clear_ola.partials import build_otp_worklist
@@ -91,7 +97,8 @@ def cli(ctx: click.Context, config_path: Path) -> None:
                                  "GSTR-2B-vs-3B-vs-Books",
                                  "PAN-Cash-Ledger",
                                  "PAN-ITC-Ledger",
-                                 "PAN-Electronic-Reversal-Ledger"],
+                                 "PAN-Electronic-Reversal-Ledger",
+                                 "Outward-E-Invoice-Report"],
                                 case_sensitive=False),
               default="GSTR-2A", show_default=True,
               help="Which report flow to run")
@@ -199,6 +206,8 @@ def download(
             pan_itc_ledger.run(api, cfg, manifest)
         elif report_choice.upper() == "PAN-ELECTRONIC-REVERSAL-LEDGER":
             pan_electronic_reversal_ledger.run(api, cfg, manifest)
+        elif report_choice.upper() == "OUTWARD-E-INVOICE-REPORT":
+            outward_e_invoice_report.run(api, cfg, manifest)
         else:
             click.echo(f"Report {report_choice!r} not implemented yet.", err=True)
             sys.exit(2)
@@ -377,7 +386,8 @@ def _pick_fy_interactive(p: PanConfig) -> PanConfig:
 
 @cli.command("gst-download")
 @click.option("--report", "report_choice",
-              type=click.Choice(["GSTR-6A", "GSTR-9-8A", "GSTR-6"],
+              type=click.Choice(["GSTR-6A", "GSTR-9-8A", "GSTR-6",
+                                 "Electronic-Liability-Register"],
                                 case_sensitive=False),
               default="GSTR-6A", show_default=True,
               help="Which GST-based (per-GSTIN) report flow to run")
@@ -396,7 +406,7 @@ def gst_download(
     process_all: bool,
 ) -> None:
     """Download GST-based (per-GSTIN) reports. Currently: GSTR-6A,
-    GSTR-9-8A, GSTR-6.
+    GSTR-9-8A, GSTR-6, Electronic-Liability-Register.
 
     Parallel to `download` (which is PAN-based). Files land under
     downloads/gst/<GSTIN>/FY-<FY>/<REPORT>/...
@@ -410,6 +420,7 @@ def gst_download(
         python -m clear_ola gst-download --gstin 29AAKCA2311H2ZV --fy 2025-26
         python -m clear_ola gst-download --report GSTR-9-8A --gstin 29AAKCA2311H2ZV --fy 2024-25
         python -m clear_ola gst-download --report GSTR-6 --gstin 29AAKCA2311H2ZV --fy 2024-25
+        python -m clear_ola gst-download --report Electronic-Liability-Register --gstin 29AAKCA2311H2ZV --fy 2024-25
         python -m clear_ola gst-download --all
     """
     logger.info("Loading Chrome cookies from profile {!r}...", cfg.chrome_profile)
@@ -459,6 +470,8 @@ def gst_download(
             gstr_9_8a.run(api, cfg, manifest)
         elif report_choice.upper() == "GSTR-6":
             gstr_6.run(api, cfg, manifest)
+        elif report_choice.upper() == "ELECTRONIC-LIABILITY-REGISTER":
+            electronic_liability_register.run(api, cfg, manifest)
         else:
             click.echo(f"Report {report_choice!r} not implemented yet.", err=True)
             sys.exit(2)

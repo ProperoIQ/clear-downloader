@@ -21,12 +21,15 @@ inter_call_delay_seconds: 1.0    # short pause between sequential calls
 # (see discovery/app.clear.in.har_3b.har and the recon-flow HARs).
 wait_after_priming_seconds: 15.0
 
-# Which reports to download. Supports "GSTR-2A", "GSTR-2B", "GSTR-1",
-# "GSTR-3B", "GSTR-8", "GSTR-1-vs-3B-vs-Books", "GSTR-2A-vs-3B-vs-Books",
-# "GSTR-2B-vs-3B-vs-Books", "PAN-Cash-Ledger", "PAN-ITC-Ledger",
-# "PAN-Electronic-Reversal-Ledger".
+# Which reports to download. PAN-based (driven by `download` command):
+# "GSTR-2A", "GSTR-2B", "GSTR-1", "GSTR-3B", "GSTR-8",
+# "GSTR-1-vs-3B-vs-Books", "GSTR-2A-vs-3B-vs-Books", "GSTR-2B-vs-3B-vs-Books",
+# "PAN-Cash-Ledger", "PAN-ITC-Ledger", "PAN-Electronic-Reversal-Ledger",
+# "Outward-E-Invoice-Report".
+# GST-based (driven by `gst-download` command): "GSTR-6A", "GSTR-9-8A",
+# "GSTR-6", "Electronic-Liability-Register".
 # Informational only — the actual report run is driven by the
-# `--report` flag on `python -m clear_ola download` (one report per run).
+# `--report` flag (one report per run).
 reports:
   - "GSTR-2A"
   - "GSTR-2B"
@@ -39,6 +42,11 @@ reports:
   - "PAN-Cash-Ledger"
   - "PAN-ITC-Ledger"
   - "PAN-Electronic-Reversal-Ledger"
+  - "Outward-E-Invoice-Report"
+  - "GSTR-6A"
+  - "GSTR-9-8A"
+  - "GSTR-6"
+  - "Electronic-Liability-Register"
 
 # ---- Global FYs ----
 # Applied to EVERY PAN below unless that PAN has its own `fys:` override.
@@ -98,7 +106,8 @@ pans:
   #     - "2025-26"
 
 # ---- GSTINs to process (GST-based track) ----
-# Only used by `gst-download` (currently: GSTR-6A, GSTR-9-8A, GSTR-6).
+# Only used by `gst-download` (currently: GSTR-6A, GSTR-9-8A, GSTR-6,
+# Electronic-Liability-Register).
 # The PAN-based commands above ignore this block.
 #
 # Why a separate block: these reports are filed per GSTIN (not per PAN), so
