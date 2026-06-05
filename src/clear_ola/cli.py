@@ -25,6 +25,7 @@ from clear_ola.cookies import (
 )
 from clear_ola.flows import (
     gstr_1,
+    gstr_1_1a_vs_3b_vs_books,
     gstr_1_vs_3b_vs_books,
     gstr_2a,
     gstr_2a_vs_3b_vs_books,
@@ -87,6 +88,7 @@ def cli(ctx: click.Context, config_path: Path) -> None:
               type=click.Choice(["GSTR-2A", "GSTR-2B", "GSTR-1", "GSTR-3B",
                                  "GSTR-8",
                                  "GSTR-1-vs-3B-vs-Books",
+                                 "GSTR-1-1A-vs-3B-vs-Books",
                                  "GSTR-2A-vs-3B-vs-Books",
                                  "GSTR-2B-vs-3B-vs-Books",
                                  "PAN-Cash-Ledger",
@@ -189,6 +191,8 @@ def download(
                 sys.exit(2)
         elif report_choice.upper() == "GSTR-1-VS-3B-VS-BOOKS":
             gstr_1_vs_3b_vs_books.run(api, cfg, manifest)
+        elif report_choice.upper() == "GSTR-1-1A-VS-3B-VS-BOOKS":
+            gstr_1_1a_vs_3b_vs_books.run(api, cfg, manifest)
         elif report_choice.upper() == "GSTR-2A-VS-3B-VS-BOOKS":
             gstr_2a_vs_3b_vs_books.run(api, cfg, manifest)
         elif report_choice.upper() == "GSTR-2B-VS-3B-VS-BOOKS":

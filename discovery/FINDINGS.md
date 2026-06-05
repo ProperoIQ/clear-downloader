@@ -286,3 +286,43 @@ Clear's `export/download` response returns a different `fileName` — `"Electron
 | `onStart.metadata.filename` | `ECL Report` (literal, not substituted per call) | entry 113 body |
 | Statement columns | serial_number, gstin, date, description, closingBalance(TotalTax, Igst, Cgst, Sgst, Cess) | entry 113 body |
 | Earliest valid date | `31-08-2023` (GSTN introduction date) | HAR scope + GSTN public docs |
+
+## Addendum — GSTR-1+1A vs 3B vs Books reconciliation flow
+
+Source HAR: `discovery/app.clear.in.har__GSTR1+1A vs 3B vs Books Report_1.har` (~35 MB, 322 entries). Scope: PAN `AAKCA2311H`, FY 2017-18 (periods 072017..032018). Although GSTR-1A only exists from Aug 2024, Clear's API responds 200 OK for any FY ≥ 2017-18 — the 1A column is simply empty for older months.
+
+### Pattern recap
+
+Same preflight-then-real reconciliation pattern as `panG3bvs1vsBooks` (the parent flow): `pull/v2/trigger` → wait → `rls/fetch-token` → preflight `export/trigger` → wait 15 s → real `export/trigger` → wait/download. One RLS token reused across both `export/trigger` calls. `gisDownloadBehaviour: "USE_EXISTING_DATA"`. `x-ct-source` is absent on `export/trigger` so the flow drops it via `header_overrides`.
+
+### Quirk 1 — `PULL_TENANT == RLS_WORKFLOW`
+
+Both equal `GSTR1_1A_VS_3B_VS_BOOKS_REPORTS`. The parent panG3bvs1vsBooks flow has two separate strings (`GSTRG1_VS_3B_VS_BOOKS_REPORTS` for pull, `G1_VS_3B_VS_BOOKS` for RLS). The new flow collapses them — verbatim from the HAR.
+
+### Quirk 2 — Preflight filename uses single `PAN_` prefix, not double
+
+Parent flow's preflight has `PAN_PAN_GSTR1_vs_3b_Report_…` (double `PAN_PAN_` looks like a typo Clear preserved). This new endpoint's preflight uses `PAN_GSTR1_1A_vs_3b_Report_…` (single `PAN_`). Looks like Clear fixed the typo when introducing the 1A variant. The flow replicates whatever the HAR shows — single prefix here, double for the parent.
+
+### Quirk 3 — Statement adds a `taxablevalue` column
+
+Real-export statement has 8 columns: `description`, `taxablevalue`, `totalTax`, `igstValue`, `cgstValue`, `sgstValue`, `cessValue`, `totalTaxSum`. Parent flow's real-export statement omits `taxablevalue`. Captured verbatim — no runtime substitution.
+
+### Identifier table
+
+| Key | Value | HAR evidence |
+|---|---|---|
+| URL slug (Referer query) | `reportType=G1_1Avs3BvsBooks` | entries 280, 302 (Referer); export bodies' `onStart.metadata.reportType` |
+| `timePeriodType` (Referer) | `FISCAL_YEAR` | same |
+| Pull tenant | `GSTR1_1A_VS_3B_VS_BOOKS_REPORTS` | entry 172 body |
+| RLS workflow | `GSTR1_1A_VS_3B_VS_BOOKS_REPORTS` | entry 259 URL `workFlow=` |
+| Statement template id (both calls) | `68ec86132687ac470c0d769f` | entries 280, 302 bodies |
+| Preflight body `exportName` | `G1_1Avs3B_Export` | entry 280 |
+| Preflight body `filename` (pattern) | `PAN_GSTR1_1A_vs_3b_Report_<PAN>_<startMMYYYY>-<endMMYYYY>` | entry 280 |
+| Preflight `onStart.metadata.filename` | `GSTR1+1A vs 3B Report (XLSX)` | entry 280 |
+| Real-export body `exportName` | `G1_1Avs3BvsBook_Export` | entry 302 |
+| Real-export body `filename` (pattern) | `PAN_GSTR1_1A_vs_3B_vs_Books_Report_<PAN>_<startMMYYYY>-<endMMYYYY>` | entry 302 |
+| Real-export `onStart.metadata.filename` | `GSTR1+1A vs 3B vs Books Report (XLSX)` | entry 302 |
+| `x-ct-source` on export/trigger | absent (flow overrides to None) | entries 280, 302 request headers |
+| Headers also overridden | `baggage`, `sentry-trace`, `accept-language`, `priority` | same |
+| MIN_FY | `2017-18` | HAR captured FY = 2017-18, accepted by Clear |
+| MIN_START_PERIOD | `072017` | HAR start range, mirrors parent flow |

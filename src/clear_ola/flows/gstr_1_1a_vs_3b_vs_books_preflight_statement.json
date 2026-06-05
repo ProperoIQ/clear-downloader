@@ -1,0 +1,150 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "mygstin",
+        "dataType": "STRING",
+        "columnName": "mygstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "description",
+        "dataType": "STRING",
+        "columnName": "description"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "id",
+        "dataType": "STRING",
+        "columnName": "mapping_id"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "is_bold",
+        "dataType": "STRING",
+        "columnName": "is_bold"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "is_tab",
+        "dataType": "INTEGER",
+        "columnName": "is_tab"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "returnPeriod",
+        "dataType": "STRING",
+        "columnName": "returnPeriod"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sort_order",
+        "dataType": "STRING",
+        "columnName": "sort_order"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "taxablevalue",
+        "dataType": "DECIMAL",
+        "columnName": "taxablevalue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "totalTax",
+        "dataType": "DECIMAL",
+        "columnName": "totalTax"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "igstValue",
+        "dataType": "DECIMAL",
+        "columnName": "igstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "cgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "sgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cessValue",
+        "dataType": "DECIMAL",
+        "columnName": "cessValue"
+      },
+      {
+        "type": "$FUNCTION",
+        "alias": "totalTaxSum",
+        "operation": {
+          "type": "$AGGREGATE",
+          "op": "SUM"
+        },
+        "fields": [
+          {
+            "type": "$COLUMN",
+            "dataType": "DECIMAL",
+            "columnName": "totalTax"
+          }
+        ]
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "68ec86132687ac470c0d769f"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 100,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "G1_1Avs3BvsBooks",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAKCA2311H",
+      "startRange": "072017",
+      "endRange": "032018",
+      "activeBusiness": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED",
+      "filename": "GSTR1+1A vs 3B Report (XLSX)"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "G1_1Avs3BvsBooks",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AAKCA2311H",
+      "startRange": "072017",
+      "endRange": "032018",
+      "activeBusiness": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED",
+      "filename": "GSTR1+1A vs 3B Report (XLSX)"
+    }
+  },
+  "staticRowData": {
+    "companyName": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED",
+    "gstin": "AAKCA2311H",
+    "reportPeriod": "Jul 2017 - Mar 2018"
+  },
+  "filename": "PAN_GSTR1_1A_vs_3b_Report_AAKCA2311H_072017-032018",
+  "exportName": "G1_1Avs3B_Export"
+}

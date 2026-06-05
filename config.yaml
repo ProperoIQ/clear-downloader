@@ -22,9 +22,9 @@ inter_call_delay_seconds: 1.0    # short pause between sequential calls
 wait_after_priming_seconds: 15.0
 
 # Which reports to download. Supports "GSTR-2A", "GSTR-2B", "GSTR-1",
-# "GSTR-3B", "GSTR-8", "GSTR-1-vs-3B-vs-Books", "GSTR-2A-vs-3B-vs-Books",
-# "GSTR-2B-vs-3B-vs-Books", "PAN-Cash-Ledger", "PAN-ITC-Ledger",
-# "PAN-Electronic-Reversal-Ledger".
+# "GSTR-3B", "GSTR-8", "GSTR-1-vs-3B-vs-Books", "GSTR-1-1A-vs-3B-vs-Books",
+# "GSTR-2A-vs-3B-vs-Books", "GSTR-2B-vs-3B-vs-Books", "PAN-Cash-Ledger",
+# "PAN-ITC-Ledger", "PAN-Electronic-Reversal-Ledger".
 # Informational only — the actual report run is driven by the
 # `--report` flag on `python -m clear_ola download` (one report per run).
 reports:
@@ -34,6 +34,7 @@ reports:
   - "GSTR-3B"
   - "GSTR-8"
   - "GSTR-1-vs-3B-vs-Books"
+  - "GSTR-1-1A-vs-3B-vs-Books"
   - "GSTR-2A-vs-3B-vs-Books"
   - "GSTR-2B-vs-3B-vs-Books"
   - "PAN-Cash-Ledger"
