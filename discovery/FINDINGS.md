@@ -287,53 +287,42 @@ Clear's `export/download` response returns a different `fileName` — `"Electron
 | Statement columns | serial_number, gstin, date, description, closingBalance(TotalTax, Igst, Cgst, Sgst, Cess) | entry 113 body |
 | Earliest valid date | `31-08-2023` (GSTN introduction date) | HAR scope + GSTN public docs |
 
----
+## Addendum — GSTR-1+1A vs 3B vs Books reconciliation flow
 
-## Addendum — Electronic Liability Register (ELR)
+Source HAR: `discovery/app.clear.in.har__GSTR1+1A vs 3B vs Books Report_1.har` (~35 MB, 322 entries). Scope: PAN `AAKCA2311H`, FY 2017-18 (periods 072017..032018). Although GSTR-1A only exists from Aug 2024, Clear's API responds 200 OK for any FY ≥ 2017-18 — the 1A column is simply empty for older months.
 
-**Source HAR:** `discovery/app.clear.in.har__Electronic Liablity Register.har` (captured 04 Jun 2026)
-**Scope walked through (HAR):** PAN `AAKCA2311H`, ALL GSTINs under the PAN, date range `01-07-2017 .. 30-06-2018`.
+### Pattern recap
 
-### Important: HAR was captured at PAN level; this flow runs per-GSTIN
+Same preflight-then-real reconciliation pattern as `panG3bvs1vsBooks` (the parent flow): `pull/v2/trigger` → wait → `rls/fetch-token` → preflight `export/trigger` → wait 15 s → real `export/trigger` → wait/download. One RLS token reused across both `export/trigger` calls. `gisDownloadBehaviour: "USE_EXISTING_DATA"`. `x-ct-source` is absent on `export/trigger` so the flow drops it via `header_overrides`.
 
-ClearGST's UI exposes the Electronic Liability Register at PAN level (one file aggregating all GSTINs under a PAN). For consistency with the other per-GSTIN GST-based flows (GSTR-6A / GSTR-9-8A / GSTR-6), this toolkit ships ELR as a per-GSTIN report: one file per (GSTIN, FY), output under `downloads/gst/<GSTIN>/FY-<FY>/Electronic-Liability-Register/`. The flow adapts the captured PAN payload by overriding `nodeIds`, `metadata.reportLevel`, `metadata.nodeNameType` / `nodeName`, and `staticRowData.gstin` to single-GSTIN scope (analogous to GSTR-6A, which uses `report_level="GSTIN"` on the same pull endpoint).
+### Quirk 1 — `PULL_TENANT == RLS_WORKFLOW`
+
+Both equal `GSTR1_1A_VS_3B_VS_BOOKS_REPORTS`. The parent panG3bvs1vsBooks flow has two separate strings (`GSTRG1_VS_3B_VS_BOOKS_REPORTS` for pull, `G1_VS_3B_VS_BOOKS` for RLS). The new flow collapses them — verbatim from the HAR.
+
+### Quirk 2 — Preflight filename uses single `PAN_` prefix, not double
+
+Parent flow's preflight has `PAN_PAN_GSTR1_vs_3b_Report_…` (double `PAN_PAN_` looks like a typo Clear preserved). This new endpoint's preflight uses `PAN_GSTR1_1A_vs_3b_Report_…` (single `PAN_`). Looks like Clear fixed the typo when introducing the 1A variant. The flow replicates whatever the HAR shows — single prefix here, double for the parent.
+
+### Quirk 3 — Statement adds a `taxablevalue` column
+
+Real-export statement has 8 columns: `description`, `taxablevalue`, `totalTax`, `igstValue`, `cgstValue`, `sgstValue`, `cessValue`, `totalTaxSum`. Parent flow's real-export statement omits `taxablevalue`. Captured verbatim — no runtime substitution.
 
 ### Identifier table
 
 | Key | Value | HAR evidence |
 |---|---|---|
-| URL slug (Referer query) | `reportType=taxLiabilityLedger` *(implied from `onStart.metadata.reportType`)* | entry 135 body |
-| `timePeriodType` (Referer) | `DATE_RANGE` *(predicted; ELR uses DD-MM-YYYY)* | n/a in HAR — flow uses no referer override |
-| Pull tenant | `TAX_LIABILITY_LEDGER` | data-pull trigger body |
-| RLS workflow (URL param `workFlow=`) | `TAX_LIABILITY_LEDGER_REPORT` | RLS fetch-token URL |
-| Real-export `exportName` (S3 prefix) | `tax_liability_ledger_download` | entry 135 body |
-| Real-export body `filename` (PAN-level capture) | `PAN_Electronic_Liability_Register_<PAN>_<DD-MM-YYYY>-<DD-MM-YYYY>` | entry 135 body |
-| Per-GSTIN filename pattern (this flow sends) | `ELR_<GSTIN>_<DD-MM-YYYY>-<DD-MM-YYYY>` | flow code (analogous to `GSTR6A_<GSTIN>_...`) |
-| `onStart.metadata.reportType` | `taxLiabilityLedger` | entry 135 body |
-| `onStart.metadata.notificationType` | `GST_REPORTS_V2` | entry 135 body |
-| `onStart.metadata.tenant` | `GST_REPORTS` | entry 135 body |
-| Statement template id | `691d56c9dc130959c6e438ce` | entry 135 body |
-| Statement columns | myGstin, mapping_id, date, totalAmount, igst, cgst, sgst, cess | entry 135 body |
-| Earliest valid date | `01-07-2017` (GST inception — no special floor) | HAR scope |
-
-### Flow ordering (same shape as GSTR-6A, but date-range scoped)
-
-1. `POST /api/data-pull/public/pull/v2/trigger` — `tenant: TAX_LIABILITY_LEDGER`, single GSTIN node id, `startRange`/`endRange` in **DD-MM-YYYY**, `metadata.reportLevel: "GSTIN"`.
-2. Poll `POST /api/data-pull/public/pull/v3/status` until DOWNLOADED.
-3. `POST /api/.../rls/fetch-token?workFlow=TAX_LIABILITY_LEDGER_REPORT&tableType=&fromDate=...&toDate=...` — date-range mode of the RLS endpoint (no `returnPeriods=`).
-4. `POST /api/.../export/trigger` with `x-rls-token` and the captured payload, adapted to per-GSTIN scope. No referer override and no header overrides observed necessary (HAR shows the request succeeds with standard headers).
-5. Poll `GET /api/.../export/download/<id>` until SUCCESS, then download the pre-signed S3 URL.
-
-### Where this flow lives in the codebase
-
-| Item | Path |
-|---|---|
-| Flow module | `src/clear_ola/gst_flows/electronic_liability_register.py` |
-| Captured payload | `src/clear_ola/gst_flows/electronic_liability_register_statement.json` |
-| CLI dispatch | `gst-download --report Electronic-Liability-Register` (in `cli.py`) |
-| Manifest | `state/gst-manifest.sqlite`, `report_type = "Electronic-Liability-Register"` |
-| Output | `downloads/gst/<GSTIN>/FY-<FY>/Electronic-Liability-Register/<server-chosen-filename>.xlsx.zip` |
-
-### Caveat / verification needed
-
-The PAN-vs-GSTIN payload adaptation is the only field of this flow that wasn't verified directly against a HAR. If the per-GSTIN smoke test produces a file containing rows from multiple GSTINs (i.e. Clear's backend ignores the `nodeIds`/`reportLevel` overrides), re-capture HAR with a single GSTIN selected in Clear's UI and align this template accordingly.
+| URL slug (Referer query) | `reportType=G1_1Avs3BvsBooks` | entries 280, 302 (Referer); export bodies' `onStart.metadata.reportType` |
+| `timePeriodType` (Referer) | `FISCAL_YEAR` | same |
+| Pull tenant | `GSTR1_1A_VS_3B_VS_BOOKS_REPORTS` | entry 172 body |
+| RLS workflow | `GSTR1_1A_VS_3B_VS_BOOKS_REPORTS` | entry 259 URL `workFlow=` |
+| Statement template id (both calls) | `68ec86132687ac470c0d769f` | entries 280, 302 bodies |
+| Preflight body `exportName` | `G1_1Avs3B_Export` | entry 280 |
+| Preflight body `filename` (pattern) | `PAN_GSTR1_1A_vs_3b_Report_<PAN>_<startMMYYYY>-<endMMYYYY>` | entry 280 |
+| Preflight `onStart.metadata.filename` | `GSTR1+1A vs 3B Report (XLSX)` | entry 280 |
+| Real-export body `exportName` | `G1_1Avs3BvsBook_Export` | entry 302 |
+| Real-export body `filename` (pattern) | `PAN_GSTR1_1A_vs_3B_vs_Books_Report_<PAN>_<startMMYYYY>-<endMMYYYY>` | entry 302 |
+| Real-export `onStart.metadata.filename` | `GSTR1+1A vs 3B vs Books Report (XLSX)` | entry 302 |
+| `x-ct-source` on export/trigger | absent (flow overrides to None) | entries 280, 302 request headers |
+| Headers also overridden | `baggage`, `sentry-trace`, `accept-language`, `priority` | same |
+| MIN_FY | `2017-18` | HAR captured FY = 2017-18, accepted by Clear |
+| MIN_START_PERIOD | `072017` | HAR start range, mirrors parent flow |

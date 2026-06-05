@@ -1,0 +1,122 @@
+[
+  {
+    "name": ":authority",
+    "value": "app.clear.in"
+  },
+  {
+    "name": ":method",
+    "value": "POST"
+  },
+  {
+    "name": ":path",
+    "value": "/api/clear/data-browser/public/export/trigger"
+  },
+  {
+    "name": ":scheme",
+    "value": "https"
+  },
+  {
+    "name": "accept",
+    "value": "application/json, text/plain, */*"
+  },
+  {
+    "name": "accept-encoding",
+    "value": "gzip, deflate, br, zstd"
+  },
+  {
+    "name": "accept-language",
+    "value": "en-US,en;q=0.9,ta;q=0.8"
+  },
+  {
+    "name": "baggage",
+    "value": "sentry-environment=production,sentry-release=eddc64b9522f8a2dae04456c2fd0f2e690cad8b2,sentry-public_key=607fd3b42fc9b74117f75a6900f89b00,sentry-trace_id=8bf725d39b0a48e39a09a18b5532fc86,sentry-sample_rate=1,sentry-sampled=true"
+  },
+  {
+    "name": "content-length",
+    "value": "2121"
+  },
+  {
+    "name": "content-type",
+    "value": "application/json"
+  },
+  {
+    "name": "origin",
+    "value": "https://app.clear.in"
+  },
+  {
+    "name": "priority",
+    "value": "u=1, i"
+  },
+  {
+    "name": "referer",
+    "value": "https://app.clear.in/gst/reports/v2?reportType=G1_1Avs3BvsBooks&activeBusiness=OLA%20FLEET%20TECHNOLOGIES%20PRIVATE%20LIMITED&startDate=2017-07-01&endDate=2018-03-31&pan=AAKCA2311H&panNodeId=e236cac9-f62f-46bf-ac1c-525634c9506a&timePeriodType=FISCAL_YEAR&localStorageKey=ZTIzNmNhYzktZjYyZi00NmJmLWFjMWMtNTI1NjM0Yzk1MDZhXzE3ODA1NzAyODg3OTQ%3D&section=REPORT_VIEW&jobId=6a2158e42a98b93c7ef15755"
+  },
+  {
+    "name": "sec-ch-ua",
+    "value": "\"Chromium\";v=\"148\", \"Google Chrome\";v=\"148\", \"Not/A)Brand\";v=\"99\""
+  },
+  {
+    "name": "sec-ch-ua-mobile",
+    "value": "?0"
+  },
+  {
+    "name": "sec-ch-ua-platform",
+    "value": "\"Windows\""
+  },
+  {
+    "name": "sec-fetch-dest",
+    "value": "empty"
+  },
+  {
+    "name": "sec-fetch-mode",
+    "value": "cors"
+  },
+  {
+    "name": "sec-fetch-site",
+    "value": "same-origin"
+  },
+  {
+    "name": "sentry-trace",
+    "value": "3fdd3aca4430437785d337d2948bc931-b2e9bb5886079cbc-1"
+  },
+  {
+    "name": "user-agent",
+    "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+  },
+  {
+    "name": "x-cleartax-country",
+    "value": "in"
+  },
+  {
+    "name": "x-cleartax-orgunit",
+    "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+  },
+  {
+    "name": "x-cleartax-product",
+    "value": "GST"
+  },
+  {
+    "name": "x-cleartax-source",
+    "value": "APPCLEAR"
+  },
+  {
+    "name": "x-organisation-id",
+    "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+  },
+  {
+    "name": "x-request-id",
+    "value": "ypyp3PW6xbKmM0DZ13ENX"
+  },
+  {
+    "name": "x-rls-token",
+    "value": "ad17dbb3-a04a-4596-af55-85955de60010"
+  },
+  {
+    "name": "x-tenant-name",
+    "value": "GST_REPORTS"
+  },
+  {
+    "name": "x-workspace-id",
+    "value": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+  }
+]

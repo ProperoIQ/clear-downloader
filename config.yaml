@@ -37,6 +37,7 @@ reports:
   - "GSTR-3B"
   - "GSTR-8"
   - "GSTR-1-vs-3B-vs-Books"
+  - "GSTR-1-1A-vs-3B-vs-Books"
   - "GSTR-2A-vs-3B-vs-Books"
   - "GSTR-2B-vs-3B-vs-Books"
   - "PAN-Cash-Ledger"
