@@ -4,6 +4,7 @@ discovered in Phase 0 (see discovery/FINDINGS.md). Auth = Chrome session cookies
 
 from __future__ import annotations
 
+import json
 import secrets
 import time
 from dataclasses import dataclass
@@ -71,6 +72,17 @@ class Gstr3bReportReady:
     """Outcome of `wait_for_3b_report` — what `download_file` needs next."""
     file_name: str       # URL-decoded last path segment of reportUri (for logging)
     report_uri: str      # presigned storage.clear.in URL — pass straight to download_file
+
+
+@dataclass
+class ReconReportReady:
+    """Outcome of `wait_for_recon_report` — what `download_file` needs next.
+
+    Used by the recon/ultimatum matching-task pipeline (e.g. 2B-vs-PR), which
+    is wholly separate from the data-browser export pipeline above.
+    """
+    file_name: str       # fileInfos[].filename (e.g. "GSTR 2B Vs PR_<name>_<uuid>.xlsx")
+    pre_signed_url: str  # fileInfos[].url — presigned app.clear.in/storage URL
 
 
 # ---- the client ----
@@ -918,6 +930,318 @@ class ClearAPI:
             if time.monotonic() > deadline:
                 raise TimeoutError(
                     f"3B report {report_job_id} did not complete within "
+                    f"{timeout_seconds}s (last status: {status!r})"
+                )
+            time.sleep(poll_seconds)
+
+    # ---- recon/ultimatum endpoints (2B-vs-PR reconciliation) -------------
+    #
+    # The 2B-vs-PR report does NOT use the data-browser export pipeline. It
+    # uses Clear's recon "matching task" backend under
+    # /api/recon/ultimatum/public/... Flow (per PAN x FY), all confirmed from
+    # discovery/app.clear.in.har__2B vs PR Reconciliation*.har:
+    #   1. POST matching/v2/trigger  -> requestId (== matching taskId)
+    #   2. GET  matching/current     -> poll until taskStatus == DATAVIEW_READY
+    #   3. POST workbench/report/v1/generate -> reportId (plain UUID text)
+    #   4. GET  workbench/report/v1/{reportId}/download -> presigned XLSX url
+    # Step 1 also fetches the underlying 2B/PR data server-side, so there is no
+    # separate data-pull. matchType is fixed: MAX_ITC_2B_PR.
+
+    _RECON_TENANT = "IDT"
+    _RECON_READY_STATUS = "DATAVIEW_READY"
+    # Per-variant cosmetic bits used in the trigger taskContext. The matchType
+    # itself ("MAX_ITC_2B_PR" / "MAX_ITC_2A_PR") is what actually selects the
+    # report; these strings just mirror what the UI sends. (side_label, ui_path).
+    _RECON_VARIANTS = {
+        "MAX_ITC_2B_PR": ("2B", "/reconciliation/idt/2bVsPr"),
+        "MAX_ITC_2A_PR": ("2A", "/reconciliation/idt/2aVsPr"),
+        "MAX_ITC_6A_PR": ("6A", "/reconciliation/idt/6aVsPr"),
+        "MAX_ITC_8A_PR": ("8A", "/reconciliation/idt/8aVsPr"),
+    }
+
+    def _recon_pan_headers(
+        self, pan_node_id: str, match_type: str = "MAX_ITC_2B_PR"
+    ) -> dict[str, str]:
+        """Node headers for a PAN-scoped recon call (matching/current)."""
+        return {
+            "x-clear-node-id": pan_node_id,
+            "x-clear-node-type": "PAN",
+            "x-cleartax-matching-type": match_type,
+        }
+
+    @staticmethod
+    def _recon_period_filter(label: str, start_rp: str, end_rp: str) -> dict:
+        """A single RETURN_PERIOD_RANGE filter block (PR or 2B side)."""
+        return {
+            "filters": [
+                {
+                    "filterKey": "returnPeriod",
+                    "operatorType": "OR",
+                    "filterType": "RETURN_PERIOD_RANGE",
+                    "customFieldFilter": False,
+                    "label": label,
+                    "required": True,
+                    "commaSeparated": False,
+                    "filterValueStart": start_rp,
+                    "filterValueEnd": end_rp,
+                }
+            ]
+        }
+
+    def recon_matching_trigger(
+        self,
+        *,
+        pan_node_id: str,
+        pan: str,
+        start_rp: str,  # MMYYYY
+        end_rp: str,    # MMYYYY
+        match_type: str = "MAX_ITC_2B_PR",
+    ) -> str:
+        """Trigger a fresh 2B/2A-vs-PR match for one PAN over [start_rp, end_rp].
+
+        `match_type` selects the report variant (MAX_ITC_2B_PR / MAX_ITC_2A_PR);
+        it defaults to 2B so existing callers are unchanged. Both the PR (lhs)
+        and the GSTN (rhs) sides use the same period range — confirmed against
+        both HAR captures. Returns the matching `taskId` (Clear's response field
+        is `payload.requestId`).
+        """
+        side_label, ui_path = self._RECON_VARIANTS[match_type]
+        # Built to match the verbatim taskContext the UI sends on
+        # matching/v2/trigger (json.dumps keeps Clear's exact key order).
+        task_context = json.dumps({
+            "xClearNodeId": pan_node_id,
+            "xClearNodeType": "PAN",
+            "xCleartaxProduct": "GST",
+            "xCleartaxMatchingType": match_type,
+            "xReconMode": None,
+            "xOrganisationId": self.workspace_id,
+            "xWorkspaceId": self.workspace_id,
+            "path": ui_path,
+            "gstin": "",
+            "inception": "framework",
+        }, separators=(",", ":"))
+        body = {
+            "panNodeId": pan_node_id,
+            "matchType": match_type,
+            "nodeName": pan,
+            "lhsDocumentFilter": self._recon_period_filter(
+                "PR Return Period", start_rp, end_rp
+            ),
+            "rhsDocumentFilter": self._recon_period_filter(
+                f"{side_label} Return Period", start_rp, end_rp
+            ),
+            "taskContext": task_context,
+            # The PAN-scope selector. Omitting this 400s with "Invalid request."
+            "commonDocumentFilter": {
+                "filters": [
+                    {
+                        "filterKey": "nodeId",
+                        "operatorType": "OR",
+                        "filterType": "BH_SELECTOR",
+                        "filterValues": [pan_node_id],
+                        "customFieldFilter": False,
+                        "label": "Business (PAN/GSTIN)",
+                        "required": True,
+                        "commaSeparated": False,
+                    }
+                ]
+            },
+        }
+        data = self._request(
+            "POST", "/api/recon/ultimatum/public/matching/v2/trigger",
+            json_body=body,
+            # The trigger identifies the entity via x-node-id/x-node-type (PAN)
+            # plus the matching type; x-clear-node-type stays GSTIN (verbatim
+            # from the HAR). Missing these also yields a 400.
+            extra_headers={
+                "x-node-id": pan_node_id,
+                "x-node-type": "PAN",
+                "x-clear-node-type": "GSTIN",
+                "x-cleartax-matching-type": match_type,
+            },
+        )
+        payload = data.get("payload") or {}
+        task_id = payload.get("requestId")
+        if not task_id:
+            raise ClearAPIError(
+                f"matching/v2/trigger returned no requestId: {data!r}"
+            )
+        logger.info(
+            "Triggered {}-vs-PR match for PAN {} ({}..{}), taskId={} status={}",
+            side_label, pan, start_rp, end_rp, task_id, payload.get("status"),
+        )
+        return task_id
+
+    def recon_matching_current(
+        self, pan_node_id: str, match_type: str = "MAX_ITC_2B_PR"
+    ) -> dict:
+        """One snapshot of the current matching task for this PAN (the recon
+        'current' state). Returns the `payload` dict (taskId, taskStatus,
+        returnPeriodRange, corrupted, errorInfo, ...)."""
+        data = self._request(
+            "GET", "/api/recon/ultimatum/public/matching/current",
+            extra_headers=self._recon_pan_headers(pan_node_id, match_type),
+        )
+        return data.get("payload") or {}
+
+    def wait_for_recon_matching(
+        self,
+        *,
+        pan_node_id: str,
+        task_id: str,
+        match_type: str = "MAX_ITC_2B_PR",
+        poll_seconds: int = 10,
+        timeout_seconds: int = 1800,
+    ) -> dict:
+        """Poll `matching/current` until the task `task_id` reaches
+        DATAVIEW_READY. Raises on a corrupted task, an errorInfo payload, or
+        timeout. Returns the ready payload."""
+        deadline = time.monotonic() + timeout_seconds
+        while True:
+            payload = self.recon_matching_current(pan_node_id, match_type)
+            cur_task = payload.get("taskId")
+            status = (payload.get("taskStatus") or "").upper()
+            logger.info(
+                "Recon task {} status={} (current taskId={})",
+                task_id, status or "<empty>", cur_task,
+            )
+            if payload.get("corrupted"):
+                raise ClearAPIError(
+                    f"Recon task {task_id} reported corrupted=true: {payload!r}"
+                )
+            if payload.get("errorInfo"):
+                raise ClearAPIError(
+                    f"Recon task {task_id} failed: {payload.get('errorInfo')!r}"
+                )
+            if cur_task == task_id and status == self._RECON_READY_STATUS:
+                return payload
+            if time.monotonic() > deadline:
+                raise TimeoutError(
+                    f"Recon match {task_id} did not reach "
+                    f"{self._RECON_READY_STATUS} within {timeout_seconds}s "
+                    f"(last status: {status!r})"
+                )
+            time.sleep(poll_seconds)
+
+    def recon_report_generate(
+        self,
+        *,
+        task_id: str,
+        pan_node_id: str,
+        pan: str,
+        business_name: str,
+        start_rp: str,  # MMYYYY
+        end_rp: str,    # MMYYYY
+        match_type: str = "MAX_ITC_2B_PR",
+    ) -> str:
+        """Request the EXCEL recon report for a ready matching task.
+
+        Returns the `reportId` (Clear returns it as a bare UUID, not JSON).
+        govt* fields are the GSTN (2B/2A) side, purchase* fields the PR side —
+        both equal the same period range here.
+        """
+        side_label, _ = self._RECON_VARIANTS[match_type]
+        callback_metadata = {
+            "notificationType": "REPORT_GENERATION_V2",
+            "product": "GST",
+            "tenant": self._RECON_TENANT,
+            "nodeId": [pan_node_id],
+            "nodeType": "PAN",
+            "xMatchingTaskId": task_id,
+            "orgId": self.workspace_id,
+            "workspaceId": self.workspace_id,
+        }
+        body = {
+            "filter": {"dslFilters": []},
+            "format": "EXCEL",
+            "matchingReportGenerationType": match_type,
+            "metadata": {
+                "businessName": business_name,
+                "govtFromRp": start_rp,
+                "govtToRp": end_rp,
+                "gstinNumber": "",
+                "panNumber": pan,
+                "purchaseFromRp": start_rp,
+                "purchaseToRp": end_rp,
+                "xMatchingTaskId": task_id,
+            },
+            "version": "V2",
+            "reportTypes": ["DOCUMENT"],
+            "onStartCallback": {
+                "callbackType": "KRAMER",
+                "metadata": dict(callback_metadata),
+            },
+            "onFinishCallback": {
+                "callbackType": "KRAMER",
+                "metadata": dict(callback_metadata),
+            },
+        }
+        text = self._request(
+            "POST", "/api/recon/ultimatum/public/workbench/report/v1/generate",
+            json_body=body,
+            extra_headers={
+                "x-matching-task-id": task_id,
+                "x-clear-node-type": "GSTIN",
+            },
+            expect_text=True,
+        )
+        report_id = text.strip().strip('"')
+        if len(report_id) < 12:
+            raise ClearAPIError(
+                f"Unexpected report/v1/generate response: {text!r}"
+            )
+        logger.info(
+            "Triggered {}-vs-PR report generation, reportId={}",
+            side_label, report_id,
+        )
+        return report_id
+
+    def recon_report_download(self, report_id: str, *, task_id: str) -> dict:
+        """One snapshot of the recon report's generation status. Returns the
+        raw dict ({status, fileInfos:[...]})."""
+        return self._request(
+            "GET",
+            f"/api/recon/ultimatum/public/workbench/report/v1/{report_id}/download",
+            extra_headers={
+                "x-matching-task-id": task_id,
+                "x-clear-node-type": "GSTIN",
+            },
+        )
+
+    def wait_for_recon_report(
+        self,
+        report_id: str,
+        *,
+        task_id: str,
+        poll_seconds: int = 5,
+        timeout_seconds: int = 900,
+    ) -> ReconReportReady:
+        """Poll the recon report endpoint until `status == "SUCCESS"` with a
+        non-empty `fileInfos`. Tolerates intermediate IN_PROGRESS/PENDING.
+        Raises on FAILED-style states or timeout."""
+        deadline = time.monotonic() + timeout_seconds
+        while True:
+            data = self.recon_report_download(report_id, task_id=task_id)
+            status = (data.get("status") or "").upper()
+            file_infos = data.get("fileInfos") or []
+            logger.info(
+                "Recon report {} status={} files={}",
+                report_id, status or "<empty>", len(file_infos),
+            )
+            if status == "SUCCESS" and file_infos:
+                fi = file_infos[0]
+                url = fi.get("url")
+                fn = fi.get("filename")
+                if not url or not fn:
+                    raise ClearAPIError(
+                        f"Recon report {report_id} SUCCESS but no url/filename: {data!r}"
+                    )
+                return ReconReportReady(file_name=fn, pre_signed_url=url)
+            if status in ("FAILED", "FAILURE", "ERROR", "CANCELLED"):
+                raise ClearAPIError(f"Recon report {report_id} failed: {data!r}")
+            if time.monotonic() > deadline:
+                raise TimeoutError(
+                    f"Recon report {report_id} did not complete within "
                     f"{timeout_seconds}s (last status: {status!r})"
                 )
             time.sleep(poll_seconds)

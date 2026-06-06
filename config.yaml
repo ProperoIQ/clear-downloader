@@ -24,6 +24,8 @@ wait_after_priming_seconds: 15.0
 # Which reports to download. PAN-based (driven by `download` command):
 # "GSTR-2A", "GSTR-2B", "GSTR-1", "GSTR-3B", "GSTR-8",
 # "GSTR-1-vs-3B-vs-Books", "GSTR-2A-vs-3B-vs-Books", "GSTR-2B-vs-3B-vs-Books",
+# "2A-vs-PR-Reconciliation", "2B-vs-PR-Reconciliation",
+# "6A-vs-PR-Reconciliation", "8A-vs-PR-Reconciliation",
 # "PAN-Cash-Ledger", "PAN-ITC-Ledger", "PAN-Electronic-Reversal-Ledger",
 # "Outward-E-Invoice-Report".
 # GST-based (driven by `gst-download` command): "GSTR-6A", "GSTR-9-8A",
@@ -40,6 +42,10 @@ reports:
   - "GSTR-1-1A-vs-3B-vs-Books"
   - "GSTR-2A-vs-3B-vs-Books"
   - "GSTR-2B-vs-3B-vs-Books"
+  - "2A-vs-PR-Reconciliation"
+  - "2B-vs-PR-Reconciliation"
+  - "6A-vs-PR-Reconciliation"
+  - "8A-vs-PR-Reconciliation"
   - "PAN-Cash-Ledger"
   - "PAN-ITC-Ledger"
   - "PAN-Electronic-Reversal-Ledger"

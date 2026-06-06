@@ -29,9 +29,13 @@ from clear_ola.flows import (
     gstr_1_vs_3b_vs_books,
     gstr_2a,
     gstr_2a_vs_3b_vs_books,
+    gstr_2a_vs_pr_reconciliation,
     gstr_2b,
     gstr_2b_vs_3b_vs_books,
+    gstr_2b_vs_pr_reconciliation,
     gstr_3b,
+    gstr_6a_vs_pr_reconciliation,
+    gstr_8a_vs_pr_reconciliation,
     gstr_8,
     outward_e_invoice_report,
     pan_cash_ledger,
@@ -97,6 +101,10 @@ def cli(ctx: click.Context, config_path: Path) -> None:
                                  "GSTR-1-1A-vs-3B-vs-Books",
                                  "GSTR-2A-vs-3B-vs-Books",
                                  "GSTR-2B-vs-3B-vs-Books",
+                                 "2A-vs-PR-Reconciliation",
+                                 "2B-vs-PR-Reconciliation",
+                                 "6A-vs-PR-Reconciliation",
+                                 "8A-vs-PR-Reconciliation",
                                  "PAN-Cash-Ledger",
                                  "PAN-ITC-Ledger",
                                  "PAN-Electronic-Reversal-Ledger",
@@ -204,6 +212,14 @@ def download(
             gstr_2a_vs_3b_vs_books.run(api, cfg, manifest)
         elif report_choice.upper() == "GSTR-2B-VS-3B-VS-BOOKS":
             gstr_2b_vs_3b_vs_books.run(api, cfg, manifest)
+        elif report_choice.upper() == "2A-VS-PR-RECONCILIATION":
+            gstr_2a_vs_pr_reconciliation.run(api, cfg, manifest)
+        elif report_choice.upper() == "2B-VS-PR-RECONCILIATION":
+            gstr_2b_vs_pr_reconciliation.run(api, cfg, manifest)
+        elif report_choice.upper() == "6A-VS-PR-RECONCILIATION":
+            gstr_6a_vs_pr_reconciliation.run(api, cfg, manifest)
+        elif report_choice.upper() == "8A-VS-PR-RECONCILIATION":
+            gstr_8a_vs_pr_reconciliation.run(api, cfg, manifest)
         elif report_choice.upper() == "PAN-CASH-LEDGER":
             pan_cash_ledger.run(api, cfg, manifest)
         elif report_choice.upper() == "PAN-ITC-LEDGER":
