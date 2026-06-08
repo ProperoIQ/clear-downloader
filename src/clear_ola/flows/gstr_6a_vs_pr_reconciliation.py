@@ -31,7 +31,7 @@ from datetime import date
 
 from loguru import logger
 
-from clear_ola.api import ClearAPI, ClearSessionExpired
+from clear_ola.api import ClearAPI, ClearAPIError, ClearSessionExpired
 from clear_ola.config import AppConfig, PanConfig, fy_periods
 from clear_ola.manifest import Manifest
 
@@ -219,6 +219,24 @@ def _run_one(
 
     except ClearSessionExpired:
         raise
+    except ClearAPIError as e:
+        # 6A is the ISD (Input Service Distributor) return — it only exists for
+        # PANs that hold an ISD registration. For any other PAN, Clear rejects
+        # the trigger with VALID_GSTIN_NODE_IDS_NOT_FOUND ("no GSTIN eligible for
+        # 6A recon"). That's the recon-side equivalent of the NOT_APPLICABLE that
+        # the GST-based GSTR-6A flow already settles as no_data — so we do the
+        # same here, keeping bulk/--all runs clean instead of raising a traceback
+        # per non-ISD PAN.
+        if "VALID_GSTIN_NODE_IDS_NOT_FOUND" in str(e):
+            logger.info(
+                "[{}/{}/{}] No ISD registration / no GSTR-6A data for this PAN "
+                "(Clear: VALID_GSTIN_NODE_IDS_NOT_FOUND). Marking as no_data.",
+                pan, fy, REPORT_TYPE,
+            )
+            manifest.mark_no_data(pan, fy, REPORT_TYPE, gstins_seen=len(gstins))
+            return
+        logger.exception("[{}/{}/{}] FAILED: {}", pan, fy, REPORT_TYPE, e)
+        manifest.mark_failed(pan, fy, REPORT_TYPE, error=f"{type(e).__name__}: {e}")
     except Exception as e:  # noqa: BLE001
         logger.exception("[{}/{}/{}] FAILED: {}", pan, fy, REPORT_TYPE, e)
         manifest.mark_failed(pan, fy, REPORT_TYPE, error=f"{type(e).__name__}: {e}")
