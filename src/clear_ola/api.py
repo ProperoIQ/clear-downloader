@@ -417,6 +417,36 @@ class ClearAPI:
         logger.info("Got RLS token (expires {}) ", data.get("expiry"))
         return token
 
+    def fetch_recon_rls_token(
+        self,
+        *,
+        table_type: str,
+        task_id: str,
+        tenant: str = "IDT",
+    ) -> str:
+        """Get a short-lived RLS token for a recon matching task's data view.
+
+        This is a SEPARATE endpoint from `fetch_rls_token` above — the recon
+        (ultimatum) pipeline issues its tokens via
+        `/api/recon/ultimatum/public/rls/fetch-token` keyed by the matching
+        `taskId` (header `x-matching-task-id`) and the `tableType` query param,
+        under tenant IDT. Used by the E-Invoice-vs-SR flow, which finishes via
+        the data-browser export pipeline rather than workbench/report. Confirmed
+        from discovery/app.clear.in.har__GSTR1 vs SR.har.
+        """
+        data = self._request(
+            "POST", "/api/recon/ultimatum/public/rls/fetch-token",
+            params=[("tableType", table_type)],
+            extra_headers={
+                "x-matching-task-id": task_id,
+                "x-cleartax-tenant": tenant,
+                "x-clear-node-type": "GSTIN",
+            },
+        )
+        token = data["token"]
+        logger.info("Got recon RLS token (expires {}) ", data.get("expiry"))
+        return token
+
     def trigger_export(
         self, payload: dict, *, rls_token: str,
         referer_override: str | None = None,
@@ -488,28 +518,37 @@ class ClearAPI:
         )
         logger.info("Primed data-browser cube via /v2/query")
 
-    def get_export_status(self, export_id: str) -> dict:
-        """One snapshot of the export job status."""
+    def get_export_status(
+        self, export_id: str, *, tenant_name: str = "GST_REPORTS"
+    ) -> dict:
+        """One snapshot of the export job status.
+
+        `tenant_name` sets the `x-tenant-name` header. Defaults to GST_REPORTS
+        (every existing data-browser report); the E-Invoice-vs-SR recon export
+        runs under IDT.
+        """
         return self._request(
             "GET", f"/api/clear/data-browser/public/export/download/{export_id}",
-            extra_headers={"x-tenant-name": "GST_REPORTS"},
+            extra_headers={"x-tenant-name": tenant_name},
         )
 
     def wait_for_export(
         self,
         export_id: str,
         *,
+        tenant_name: str = "GST_REPORTS",
         poll_seconds: int = 5,
         timeout_seconds: int = 900,
     ) -> ExportReady:
         """Poll `get_export_status` until `taskStatus == "SUCCESS"`.
 
         Tolerates intermediate states like PENDING/IN_PROGRESS/PROCESSING.
-        Raises on FAILED-style states or on timeout.
+        Raises on FAILED-style states or on timeout. `tenant_name` is forwarded
+        to `get_export_status` (default GST_REPORTS; IDT for the recon export).
         """
         deadline = time.monotonic() + timeout_seconds
         while True:
-            data = self.get_export_status(export_id)
+            data = self.get_export_status(export_id, tenant_name=tenant_name)
             status = (data.get("taskStatus") or "").upper()
             logger.info("Export {} status={}", export_id, status or "<empty>")
             if status == "SUCCESS":
@@ -957,6 +996,13 @@ class ClearAPI:
         "MAX_ITC_2A_PR": ("2A", "/reconciliation/idt/2aVsPr"),
         "MAX_ITC_6A_PR": ("6A", "/reconciliation/idt/6aVsPr"),
         "MAX_ITC_8A_PR": ("8A", "/reconciliation/idt/8aVsPr"),
+        # E-Invoice (GSTR-1) vs Sales Register. Unlike the *-vs-PR variants
+        # above (which finish via workbench/report/v1/generate), this one is a
+        # hybrid: the match runs here but the report is downloaded via the
+        # data-browser export pipeline under tenant IDT. See
+        # flows/gstr_1_einvoice_vs_sr.py. Confirmed from
+        # discovery/app.clear.in.har__GSTR1 vs SR.har.
+        "MAX_ITC_G1EInv_SR": ("G1", "/reconciliation/idt/G1EInvVsSr"),
     }
 
     def _recon_pan_headers(
@@ -996,16 +1042,46 @@ class ClearAPI:
         start_rp: str,  # MMYYYY
         end_rp: str,    # MMYYYY
         match_type: str = "MAX_ITC_2B_PR",
+        lhs_label: str = "PR Return Period",
+        rhs_label: str | None = None,
+        wait_if_busy: bool = False,
+        busy_poll_seconds: int = 10,
+        busy_timeout_seconds: int = 1800,
     ) -> str:
-        """Trigger a fresh 2B/2A-vs-PR match for one PAN over [start_rp, end_rp].
+        """Trigger a fresh recon match for one PAN over [start_rp, end_rp].
 
-        `match_type` selects the report variant (MAX_ITC_2B_PR / MAX_ITC_2A_PR);
-        it defaults to 2B so existing callers are unchanged. Both the PR (lhs)
-        and the GSTN (rhs) sides use the same period range — confirmed against
-        both HAR captures. Returns the matching `taskId` (Clear's response field
-        is `payload.requestId`).
+        `match_type` selects the report variant (MAX_ITC_2B_PR / MAX_ITC_2A_PR /
+        ... / MAX_ITC_G1EInv_SR); it defaults to 2B so existing callers are
+        unchanged. Both the lhs and rhs sides use the same period range —
+        confirmed against every HAR capture.
+
+        `lhs_label` / `rhs_label` are the (cosmetic) filter labels the UI sends.
+        They default to the *-vs-PR shape ("PR Return Period" / "<side> Return
+        Period") so the PR flows are byte-identical; the E-Invoice-vs-SR flow
+        overrides them to "SR Return Period" / "G1 Return Period".
+
+        Returns the trigger's `requestId` (Clear's response field is
+        `payload.requestId`). NOTE: for some variants (e.g. G1EInv_SR) this
+        requestId differs from the `taskId` later reported by matching/current —
+        callers that need the matching-task id should read it from
+        `wait_for_recon_matching`'s returned payload, not from this value.
+
+        `wait_if_busy` (default False, so the PR flows are byte-identical):
+        Clear's recon backend allows only ONE matching task in progress per PAN
+        (per matchType) at a time. While one is running, a fresh trigger is
+        rejected with HTTP 400 `payload="Duplicate Request"` — it is a
+        concurrency lock, NOT a content-level dedup (verified live: the same
+        trigger that 400s while a match is DATA_FETCH_INITIATED succeeds once
+        the prior match reaches DATAVIEW_READY). When `wait_if_busy=True` we
+        treat that 400 as "lock held" and retry the trigger every
+        `busy_poll_seconds` until it is accepted or `busy_timeout_seconds`
+        elapses. This makes batch runs (many FYs, or a stale match left by an
+        interrupted prior run / the Clear UI open on the recon page) self-heal
+        instead of cascading into per-FY failures.
         """
         side_label, ui_path = self._RECON_VARIANTS[match_type]
+        if rhs_label is None:
+            rhs_label = f"{side_label} Return Period"
         # Built to match the verbatim taskContext the UI sends on
         # matching/v2/trigger (json.dumps keeps Clear's exact key order).
         task_context = json.dumps({
@@ -1025,10 +1101,10 @@ class ClearAPI:
             "matchType": match_type,
             "nodeName": pan,
             "lhsDocumentFilter": self._recon_period_filter(
-                "PR Return Period", start_rp, end_rp
+                lhs_label, start_rp, end_rp
             ),
             "rhsDocumentFilter": self._recon_period_filter(
-                f"{side_label} Return Period", start_rp, end_rp
+                rhs_label, start_rp, end_rp
             ),
             "taskContext": task_context,
             # The PAN-scope selector. Omitting this 400s with "Invalid request."
@@ -1047,19 +1123,41 @@ class ClearAPI:
                 ]
             },
         }
-        data = self._request(
-            "POST", "/api/recon/ultimatum/public/matching/v2/trigger",
-            json_body=body,
+        trigger_headers = {
             # The trigger identifies the entity via x-node-id/x-node-type (PAN)
             # plus the matching type; x-clear-node-type stays GSTIN (verbatim
             # from the HAR). Missing these also yields a 400.
-            extra_headers={
-                "x-node-id": pan_node_id,
-                "x-node-type": "PAN",
-                "x-clear-node-type": "GSTIN",
-                "x-cleartax-matching-type": match_type,
-            },
-        )
+            "x-node-id": pan_node_id,
+            "x-node-type": "PAN",
+            "x-clear-node-type": "GSTIN",
+            "x-cleartax-matching-type": match_type,
+        }
+        busy_deadline = time.monotonic() + busy_timeout_seconds
+        while True:
+            try:
+                data = self._request(
+                    "POST", "/api/recon/ultimatum/public/matching/v2/trigger",
+                    json_body=body,
+                    extra_headers=trigger_headers,
+                )
+                break
+            except ClearAPIError as e:
+                # "Duplicate Request" == another match is already in progress for
+                # this PAN. With wait_if_busy, wait for that lock to free and
+                # retry rather than failing this (PAN, FY).
+                if not (wait_if_busy and "Duplicate Request" in str(e)):
+                    raise
+                if time.monotonic() > busy_deadline:
+                    raise TimeoutError(
+                        f"Recon trigger for PAN {pan} ({start_rp}..{end_rp}) "
+                        f"kept getting 'Duplicate Request' (another match in "
+                        f"progress for this PAN) for {busy_timeout_seconds}s"
+                    ) from e
+                logger.info(
+                    "Recon busy for PAN {} (another match in progress); "
+                    "retrying trigger in {}s...", pan, busy_poll_seconds,
+                )
+                time.sleep(busy_poll_seconds)
         payload = data.get("payload") or {}
         task_id = payload.get("requestId")
         if not task_id:
@@ -1088,14 +1186,29 @@ class ClearAPI:
         self,
         *,
         pan_node_id: str,
-        task_id: str,
+        task_id: str | None = None,
         match_type: str = "MAX_ITC_2B_PR",
+        expected_range: tuple[str, str] | None = None,
         poll_seconds: int = 10,
         timeout_seconds: int = 1800,
     ) -> dict:
-        """Poll `matching/current` until the task `task_id` reaches
-        DATAVIEW_READY. Raises on a corrupted task, an errorInfo payload, or
-        timeout. Returns the ready payload."""
+        """Poll `matching/current` until the match reaches DATAVIEW_READY.
+
+        Two acceptance modes:
+          - **By task id** (default; the *-vs-PR flows): pass `task_id`. The
+            ready payload is accepted only when `payload.taskId == task_id`.
+            This is correct for those variants because their trigger's
+            `requestId` *equals* the matching/current `taskId`.
+          - **By period range** (the E-Invoice-vs-SR flow): pass `task_id=None`
+            and `expected_range=(start_rp, end_rp)`. There, the trigger's
+            `requestId` differs from the matching/current `taskId`, so we can't
+            match on id; instead we accept the first DATAVIEW_READY whose
+            `returnPeriodRange` matches the requested range. The caller reads
+            the real matching-task id from the returned payload's `taskId`.
+
+        Raises on a corrupted task, an errorInfo payload, or timeout. Returns
+        the ready payload.
+        """
         deadline = time.monotonic() + timeout_seconds
         while True:
             payload = self.recon_matching_current(pan_node_id, match_type)
@@ -1103,7 +1216,7 @@ class ClearAPI:
             status = (payload.get("taskStatus") or "").upper()
             logger.info(
                 "Recon task {} status={} (current taskId={})",
-                task_id, status or "<empty>", cur_task,
+                task_id or "<by-range>", status or "<empty>", cur_task,
             )
             if payload.get("corrupted"):
                 raise ClearAPIError(
@@ -1113,15 +1226,44 @@ class ClearAPI:
                 raise ClearAPIError(
                     f"Recon task {task_id} failed: {payload.get('errorInfo')!r}"
                 )
-            if cur_task == task_id and status == self._RECON_READY_STATUS:
+            if status == self._RECON_READY_STATUS and self._recon_match_accepted(
+                payload, task_id=task_id, expected_range=expected_range,
+            ):
                 return payload
             if time.monotonic() > deadline:
                 raise TimeoutError(
-                    f"Recon match {task_id} did not reach "
+                    f"Recon match {task_id or expected_range} did not reach "
                     f"{self._RECON_READY_STATUS} within {timeout_seconds}s "
                     f"(last status: {status!r})"
                 )
             time.sleep(poll_seconds)
+
+    @staticmethod
+    def _recon_match_accepted(
+        payload: dict,
+        *,
+        task_id: str | None,
+        expected_range: tuple[str, str] | None,
+    ) -> bool:
+        """Decide whether a DATAVIEW_READY payload is the one we're waiting for.
+
+        If `task_id` is set, require an exact taskId match. Otherwise require the
+        payload's `returnPeriodRange` to match `expected_range` on both sides —
+        a staleness guard so a leftover prior-period match isn't accepted.
+        """
+        if task_id is not None:
+            return payload.get("taskId") == task_id
+        if expected_range is None:
+            # No id and no range to verify against — accept any ready match.
+            return True
+        start_rp, end_rp = expected_range
+        rng = payload.get("returnPeriodRange") or {}
+        return (
+            rng.get("fromLhsRp") == start_rp
+            and rng.get("toLhsRp") == end_rp
+            and rng.get("fromRhsRp") == start_rp
+            and rng.get("toRhsRp") == end_rp
+        )
 
     def recon_report_generate(
         self,

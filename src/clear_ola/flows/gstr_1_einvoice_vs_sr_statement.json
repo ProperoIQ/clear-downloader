@@ -1,0 +1,55 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {"type": "$COLUMN", "alias": "match_type", "columnName": "MATCH_TYPE"},
+      {"type": "$COLUMN", "alias": "rhs_count", "columnName": "RHS_COUNT"},
+      {"type": "$COLUMN", "alias": "lhs_count", "columnName": "LHS_COUNT"},
+      {"type": "$COLUMN", "alias": "rhs_tax_value", "columnName": "RHS_TAX_VALUE"},
+      {"type": "$COLUMN", "alias": "lhs_tax_value", "columnName": "LHS_TAX_VALUE"},
+      {"type": "$COLUMN", "alias": "tax_diff", "columnName": "TAX_DIFF"},
+      {"type": "$COLUMN", "alias": "action_percentage_str", "columnName": "ACTION_PERCENTAGE_STR"},
+      {"type": "$CUSTOM", "alias": "view", "dataType": "STRING", "sql": "'View'"}
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "69161168a800c836e2dcd41c",
+      "templateType": "QUERY"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 0,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "G1_VS_SR_RECON_SUMMARY",
+      "product": "MaxItc",
+      "tenant": "IDT",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "G1_VS_SR_RECON_SUMMARY",
+      "product": "MaxItc",
+      "tenant": "IDT",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89"
+    }
+  },
+  "staticRowData": {
+    "business_name": "OLA FLEET TECHNOLOGIES PRIVATE LIMITED",
+    "pan_number": "AAKCA2311H",
+    "rp_range_lhs": "072017-032018",
+    "rp_range_rhs": "072017-032018",
+    "date_range_lhs": "",
+    "date_range_rhs": ""
+  },
+  "fileType": "XLSX",
+  "exportName": "G1 vs SR excel Action Report"
+}

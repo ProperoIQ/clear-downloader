@@ -33,6 +33,7 @@ from clear_ola.flows import (
     gstr_2b,
     gstr_2b_vs_3b_vs_books,
     gstr_2b_vs_pr_reconciliation,
+    gstr_1_einvoice_vs_sr,
     gstr_3b,
     gstr_6a_vs_pr_reconciliation,
     gstr_8a_vs_pr_reconciliation,
@@ -105,6 +106,7 @@ def cli(ctx: click.Context, config_path: Path) -> None:
                                  "2B-vs-PR-Reconciliation",
                                  "6A-vs-PR-Reconciliation",
                                  "8A-vs-PR-Reconciliation",
+                                 "EInvoice-vs-SR",
                                  "PAN-Cash-Ledger",
                                  "PAN-ITC-Ledger",
                                  "PAN-Electronic-Reversal-Ledger",
@@ -220,6 +222,8 @@ def download(
             gstr_6a_vs_pr_reconciliation.run(api, cfg, manifest)
         elif report_choice.upper() == "8A-VS-PR-RECONCILIATION":
             gstr_8a_vs_pr_reconciliation.run(api, cfg, manifest)
+        elif report_choice.upper() == "EINVOICE-VS-SR":
+            gstr_1_einvoice_vs_sr.run(api, cfg, manifest)
         elif report_choice.upper() == "PAN-CASH-LEDGER":
             pan_cash_ledger.run(api, cfg, manifest)
         elif report_choice.upper() == "PAN-ITC-LEDGER":
