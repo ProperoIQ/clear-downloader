@@ -1,0 +1,287 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "myGstin",
+        "dataType": "STRING",
+        "columnName": "myGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "formatted_return_period",
+        "dataType": "STRING",
+        "columnName": "formatted_return_period"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "filingStatus",
+        "dataType": "STRING",
+        "columnName": "filingStatus"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentType",
+        "dataType": "STRING",
+        "columnName": "documentType"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sectionName",
+        "dataType": "STRING",
+        "columnName": "sectionName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "subSectionName",
+        "dataType": "STRING",
+        "columnName": "subSectionName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "tradeName",
+        "dataType": "STRING",
+        "columnName": "tradeName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "buyerGstin",
+        "dataType": "STRING",
+        "columnName": "buyerGstin"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "buyerGstinName",
+        "dataType": "STRING",
+        "columnName": "buyerGstinName"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentNumber",
+        "dataType": "STRING",
+        "columnName": "documentNumber"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentDate",
+        "dataType": "DATE",
+        "columnName": "documentDate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "reverseChargeApplicable",
+        "dataType": "BOOLEAN",
+        "columnName": "reverseChargeApplicable"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "rc",
+        "dataType": "STRING",
+        "columnName": "rc"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "buyerState",
+        "dataType": "STRING",
+        "columnName": "buyerState"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "docLeveldocumentValue",
+        "dataType": "DECIMAL",
+        "columnName": "docLeveldocumentValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "taxRate",
+        "dataType": "DECIMAL",
+        "columnName": "taxRate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "taxableValue",
+        "dataType": "DECIMAL",
+        "columnName": "taxableValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "totalTaxAmount",
+        "dataType": "DECIMAL",
+        "columnName": "totalTaxAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "igstValue",
+        "dataType": "DECIMAL",
+        "columnName": "igstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "cgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "sgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cessValue",
+        "dataType": "DECIMAL",
+        "columnName": "cessValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "importExportNumber",
+        "dataType": "STRING",
+        "columnName": "importExportNumber"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "importExportDate",
+        "dataType": "STRING",
+        "columnName": "importExportDate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "portCode",
+        "dataType": "STRING",
+        "columnName": "portCode"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "originalInvoiceNumber",
+        "dataType": "STRING",
+        "columnName": "originalInvoiceNumber"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "transformed_originalInvoiceDate",
+        "dataType": "DATE",
+        "columnName": "transformed_originalInvoiceDate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "originalTaxableValue",
+        "dataType": "DECIMAL",
+        "columnName": "originalTaxableValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "originalTotalTaxAmount",
+        "dataType": "DECIMAL",
+        "columnName": "originalTotalTaxAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "originalIgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "originalIgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "originalCgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "originalCgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "originalSgstValue",
+        "dataType": "DECIMAL",
+        "columnName": "originalSgstValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "originalCessValue",
+        "dataType": "DECIMAL",
+        "columnName": "originalCessValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "irnNumber",
+        "dataType": "STRING",
+        "columnName": "irnNumber"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "transformed_irnGenerationDate",
+        "dataType": "DATE",
+        "columnName": "transformed_irnGenerationDate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "source",
+        "dataType": "STRING",
+        "columnName": "source"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "differentialTaxRate",
+        "dataType": "DECIMAL",
+        "columnName": "differentialTaxRate"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "ecommerceGstin",
+        "dataType": "STRING",
+        "columnName": "ecommerceGstin"
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "673733c8f420f310e89dee52",
+      "templateType": "QUERY"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 0,
+    "offset": 0
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panGstr1",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AALCK3552H",
+      "startRange": "042024",
+      "endRange": "032025",
+      "activeBusiness": "Krutrim Data Centre Private Limited",
+      "filename": "GSTR-1 Document Level Report"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panGstr1",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AALCK3552H",
+      "startRange": "042024",
+      "endRange": "032025",
+      "activeBusiness": "Krutrim Data Centre Private Limited",
+      "filename": "GSTR-1 Document Level Report"
+    }
+  },
+  "staticRowData": {
+    "companyName": "Krutrim Data Centre Private Limited",
+    "gstin": "AALCK3552H",
+    "reportPeriod": "Apr 2024 - Mar 2025"
+  },
+  "fileType": "XLSX",
+  "filename": "PAN_GSTR1_Section Level Summary_AALCK3552H_042024-032025",
+  "exportName": "G1_report_section_level_summary"
+}

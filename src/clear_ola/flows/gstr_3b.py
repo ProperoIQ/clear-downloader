@@ -23,7 +23,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from clear_ola.api import ClearAPI, ClearSessionExpired
+from clear_ola.api import ClearAPI, ClearAPIError, ClearSessionExpired
 from clear_ola.config import (
     AppConfig,
     PanConfig,
@@ -427,6 +427,19 @@ def _run_one(
             except ClearSessionExpired:
                 # Bail the whole flow; CLI prints a one-line message + exits.
                 raise
+            except ClearAPIError as e:   # noqa: PERF203 — record + continue
+                # Expected, actionable API rejections (e.g. Clear refusing to
+                # build this variant because the underlying pull is incomplete).
+                # The variant is recorded as failed and we move on — no need to
+                # dump a full stack trace, which only buries the real cause
+                # (the FAILED rows in the Step 2 pull-settled warning above).
+                logger.error(
+                    "[{}/{}/{}] FAILED: {}", pan, fy, rt, e,
+                )
+                manifest.mark_failed(
+                    pan, fy, rt, error=f"{type(e).__name__}: {e}",
+                )
+                # Continue with the next variant — others can still succeed.
             except Exception as e:   # noqa: BLE001 — record + continue
                 logger.exception(
                     "[{}/{}/{}] FAILED: {}", pan, fy, rt, e,

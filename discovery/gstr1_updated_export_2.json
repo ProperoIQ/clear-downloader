@@ -1,0 +1,118 @@
+{
+  "statement": {
+    "type": "SELECT",
+    "fields": [
+      {
+        "type": "$COLUMN",
+        "alias": "formated_documentType",
+        "dataType": "STRING",
+        "columnName": "formated_documentType"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentCount",
+        "dataType": "STRING",
+        "columnName": "documentCount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "lineCount",
+        "dataType": "STRING",
+        "columnName": "lineCount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "taxableValue",
+        "dataType": "DECIMAL",
+        "columnName": "taxableValue"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "taxAmount",
+        "dataType": "DECIMAL",
+        "columnName": "taxAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "igstAmount",
+        "dataType": "DECIMAL",
+        "columnName": "igstAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cgstAmount",
+        "dataType": "STRING",
+        "columnName": "cgstAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "sgstAmount",
+        "dataType": "STRING",
+        "columnName": "sgstAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "cessAmount",
+        "dataType": "DECIMAL",
+        "columnName": "cessAmount"
+      },
+      {
+        "type": "$COLUMN",
+        "alias": "documentValue",
+        "dataType": "DECIMAL",
+        "columnName": "documentValue"
+      }
+    ],
+    "from": {
+      "source": "$TEMPLATE",
+      "id": "673733e2f420f310e89dee53",
+      "templateType": "QUERY"
+    },
+    "where": null,
+    "orderBy": null,
+    "groupBy": null,
+    "limit": 10
+  },
+  "onStart": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panGstr1",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AALCK3552H",
+      "startRange": "042024",
+      "endRange": "032025",
+      "activeBusiness": "Krutrim Data Centre Private Limited",
+      "filename": "GSTR-1 Document Level Report"
+    }
+  },
+  "onFinish": {
+    "callbackType": "KRAMER",
+    "metadata": {
+      "notificationType": "GST_REPORTS_V2",
+      "product": "GST",
+      "reportType": "panGstr1",
+      "orgId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "workspaceId": "a8a3363c-b12b-4e7d-bd00-f81aafd07a89",
+      "tenant": "GST_REPORTS",
+      "nodeNameType": "PAN",
+      "nodeName": "AALCK3552H",
+      "startRange": "042024",
+      "endRange": "032025",
+      "activeBusiness": "Krutrim Data Centre Private Limited",
+      "filename": "GSTR-1 Document Level Report"
+    }
+  },
+  "staticRowData": {
+    "companyName": "Krutrim Data Centre Private Limited",
+    "gstin": "AALCK3552H",
+    "reportPeriod": "Apr 2024 - Mar 2025"
+  },
+  "fileType": "XLSX",
+  "filename": "PAN_GSTR1_Section Level Summary_AALCK3552H_042024-032025",
+  "exportName": "G1_report_section_level_summary_aggregate"
+}
